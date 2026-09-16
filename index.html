@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-  <meta name="theme-color" content="#071827">
+  <meta name="theme-color" content="#07131f">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="Auto Electric">
@@ -13,47 +13,140 @@
   <title>Auto Electric Pro</title>
 </head>
 <body>
-<header>
-  <div>
-    <h1>Auto Electric <b>Pro</b></h1>
-    <p>كهرباء وتشخيص السيارة</p>
+  <div class="app-shell">
+    <header class="topbar">
+      <div>
+        <p class="eyebrow">Auto Electric Pro</p>
+        <h1>لوحة كهرباء وتشخيص السيارة</h1>
+        <p class="sub">واجهة مطورة لعرض البطارية والدينمو والحرارة والأعطال في مكان واحد</p>
+      </div>
+      <div class="status-chip">نسخة تجريبية</div>
+    </header>
+
+    <main class="content">
+      <section class="hero-card glass">
+        <div class="hero-copy">
+          <div class="vehicle-row">
+            <div>
+              <p class="label">السيارة الحالية</p>
+              <h2>Nissan / Lexus / Toyota</h2>
+            </div>
+            <button class="connect-btn" onclick="showPage('connect')">اتصال OBD-II</button>
+          </div>
+          <div class="hero-stats">
+            <div class="mini-card"><span>الحالة</span><strong class="ok-text">جاهز</strong></div>
+            <div class="mini-card"><span>آخر فحص</span><strong>اليوم</strong></div>
+            <div class="mini-card"><span>الأعطال</span><strong>2</strong></div>
+          </div>
+        </div>
+        <div class="hero-car">
+          <div class="car-glow"></div>
+          <div class="car-emoji">🚗⚡</div>
+        </div>
+      </section>
+
+      <section class="gauges-grid">
+        <div class="gauge-card glass large" onclick="showPage('live')">
+          <div class="gauge-ring">
+            <div class="gauge-core">
+              <span class="gauge-label">RPM</span>
+              <strong>750</strong>
+              <small>Idle</small>
+            </div>
+          </div>
+          <div class="gauge-side">
+            <div><span>السرعة</span><b>0 km/h</b></div>
+            <div><span>الوقود</span><b>68%</b></div>
+            <div><span>زيت المحرك</span><b>Good</b></div>
+          </div>
+        </div>
+
+        <div class="metric-stack">
+          <button class="small-status glass" onclick="showPage('battery')">
+            <span>البطارية</span>
+            <strong>12.6 V</strong>
+            <small>شحن جيد</small>
+          </button>
+          <button class="small-status glass" onclick="showPage('alternator')">
+            <span>الدينمو</span>
+            <strong>14.2 V</strong>
+            <small>خارج طبيعي</small>
+          </button>
+        </div>
+      </section>
+
+      <section class="section-head">
+        <h3>حالة الأنظمة</h3>
+        <p>اضغط على أي بطاقة لعرض تفاصيل أكثر</p>
+      </section>
+
+      <section class="status-grid">
+        <button class="status-card glass" onclick="showPage('temp')">
+          <div class="icon-wrap">🌡️</div>
+          <div>
+            <strong>حرارة المحرك</strong>
+            <p>92 °C</p>
+            <small>ضمن النطاق</small>
+          </div>
+        </button>
+        <button class="status-card glass" onclick="showPage('gearbox')">
+          <div class="icon-wrap">⚙️</div>
+          <div>
+            <strong>حرارة القير</strong>
+            <p>84 °C</p>
+            <small>مراقبة جيدة</small>
+          </div>
+        </button>
+        <button class="status-card glass" onclick="showPage('obd')">
+          <div class="icon-wrap">🧰</div>
+          <div>
+            <strong>أعطال OBD-II</strong>
+            <p>2 أكواد</p>
+            <small>اضغط للعرض</small>
+          </div>
+        </button>
+        <button class="status-card glass" onclick="showPage('fuel')">
+          <div class="icon-wrap">⛽</div>
+          <div>
+            <strong>نظام الوقود</strong>
+            <p>Stable</p>
+            <small>Fuel Trim طبيعي</small>
+          </div>
+        </button>
+      </section>
+
+      <section class="section-head">
+        <h3>الأدوات السريعة</h3>
+        <p>مهام مفيدة داخل البرنامج</p>
+      </section>
+
+      <section class="tools-grid">
+        <button class="tool-card glass" onclick="showPage('scan')">فحص شامل</button>
+        <button class="tool-card glass" onclick="showPage('live')">البيانات الحية</button>
+        <button class="tool-card glass" onclick="showPage('reports')">التقارير</button>
+        <button class="tool-card glass" onclick="showPage('service')">التذكير بالصيانة</button>
+        <button class="tool-card glass" onclick="showPage('sensors')">الحساسات</button>
+        <button class="tool-card glass" onclick="showPage('history')">سجل الفحوصات</button>
+      </section>
+
+      <section class="notice glass">
+        <strong>ملاحظة</strong>
+        <p>هذه النسخة محسنة في الشكل والواجهة. القراءات الحالية تجريبية، وعند وصول قطعة OBD-II يمكن ربط البيانات الحقيقية لاحقًا.</p>
+      </section>
+    </main>
+
+    <section id="panel" class="panel hidden">
+      <button class="back" onclick="closePage()">✕</button>
+      <div id="panelContent"></div>
+    </section>
+
+    <nav class="bottom-nav">
+      <button onclick="closePage()"><span>⌂</span><small>الرئيسية</small></button>
+      <button onclick="showPage('live')"><span>📈</span><small>Live</small></button>
+      <button onclick="showPage('obd')"><span>⚠️</span><small>الأعطال</small></button>
+      <button onclick="showPage('reports')"><span>🗂️</span><small>التقارير</small></button>
+    </nav>
   </div>
-  <span class="badge">Demo</span>
-</header>
-
-<main>
-  <section class="hero">
-    <div class="car">🚙⚡</div>
-    <h2>لوحة فحص السيارة</h2>
-    <p>راقب الأنظمة الكهربائية والبيانات الأساسية من مكان واحد.</p>
-  </section>
-
-  <section class="grid">
-    <button class="card" onclick="showPage('battery')"><span>🔋</span><strong>البطارية</strong><small>12.6 V</small></button>
-    <button class="card" onclick="showPage('alternator')"><span>⚡</span><strong>الدينمو</strong><small>14.2 V</small></button>
-    <button class="card" onclick="showPage('temp')"><span>🌡️</span><strong>حرارة المحرك</strong><small>92 °C</small></button>
-    <button class="card" onclick="showPage('obd')"><span>🛠️</span><strong>أعطال OBD-II</strong><small>قراءة الأكواد</small></button>
-    <button class="card" onclick="showPage('live')"><span>📊</span><strong>البيانات الحية</strong><small>Live Data</small></button>
-    <button class="card" onclick="showPage('reports')"><span>📄</span><strong>التقارير</strong><small>سجل الفحوصات</small></button>
-  </section>
-
-  <section id="panel" class="panel hidden">
-    <button class="back" onclick="closePage()">✕</button>
-    <div id="panelContent"></div>
-  </section>
-
-  <section class="notice">
-    <strong>نسخة تجريبية</strong>
-    <p>القراءات الحالية محاكاة للواجهة وليست بيانات حقيقية من السيارة. اتصال OBD-II المباشر عبر متصفح iPhone محدود.</p>
-  </section>
-</main>
-
-<nav>
-  <button onclick="closePage()">⌂<small>الرئيسية</small></button>
-  <button onclick="showPage('live')">▥<small>البيانات</small></button>
-  <button onclick="showPage('obd')">⚠<small>الأعطال</small></button>
-  <button onclick="showPage('reports')">▤<small>التقارير</small></button>
-</nav>
-<script src="app.js"></script>
+  <script src="app.js"></script>
 </body>
 </html>
