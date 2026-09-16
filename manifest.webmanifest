@@ -1,0 +1,16 @@
+{
+  "name": "Auto Electric Pro - كهرباء السيارة",
+  "short_name": "Auto Electric",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#06131f",
+  "theme_color": "#071827",
+  "icons": [
+    {
+      "src": "icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

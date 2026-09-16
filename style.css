@@ -1,0 +1,12 @@
+:root{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Tahoma,sans-serif;color:#f5fbff;background:#06131f}
+*{box-sizing:border-box}body{margin:0;min-height:100vh;background:radial-gradient(circle at 50% 0,#103652 0,#06131f 42%);padding-bottom:90px}
+header{padding:calc(18px + env(safe-area-inset-top)) 22px 14px;display:flex;justify-content:space-between;align-items:center}
+h1{margin:0;font-size:24px;direction:ltr}h1 b{color:#1d91ff}header p{margin:4px 0;color:#a8c5d8}.badge{background:#0b6cff;padding:7px 12px;border-radius:20px;font-size:12px}
+main{max-width:700px;margin:auto;padding:0 18px}.hero{text-align:center;padding:20px 10px}.car{font-size:72px;filter:drop-shadow(0 0 18px #168cff)}h2{margin:8px}.hero p,.notice p{color:#a8c5d8;line-height:1.7}
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}.card{min-height:145px;border:1px solid #1e4966;background:linear-gradient(145deg,#0d2638,#091a28);border-radius:18px;color:white;padding:16px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;box-shadow:0 10px 30px #0005}.card span{font-size:35px}.card strong{font-size:17px}.card small{color:#62baff;font-size:14px}
+.notice{margin-top:18px;background:#0c2333;border:1px solid #1d4965;border-radius:16px;padding:16px}.notice strong{color:#5cc6ff}
+nav{position:fixed;bottom:0;left:0;right:0;padding:10px 12px calc(10px + env(safe-area-inset-bottom));background:#071827ee;backdrop-filter:blur(18px);display:flex;justify-content:space-around;border-top:1px solid #1b4058}
+nav button{background:none;border:0;color:#65baff;font-size:22px;display:flex;flex-direction:column;gap:3px;align-items:center}nav small{font-size:11px;color:#cde7f7}
+.panel{position:fixed;z-index:5;inset:0;background:#071827;padding:calc(60px + env(safe-area-inset-top)) 20px 100px;overflow:auto}.hidden{display:none}.back{position:absolute;top:calc(18px + env(safe-area-inset-top));left:18px;border:0;border-radius:50%;width:38px;height:38px;background:#15344a;color:white;font-size:18px}
+.metric{background:#0c2333;border:1px solid #1e4966;border-radius:18px;padding:24px;margin:14px 0;text-align:center}.metric .value{font-size:48px;font-weight:800;color:#53e887;direction:ltr}.rows{background:#0c2333;border-radius:16px;overflow:hidden;border:1px solid #1e4966}.row{display:flex;justify-content:space-between;padding:15px;border-bottom:1px solid #183c55}.row:last-child{border:0}.ok{color:#53e887}.warn{color:#ffbd4a}
+@media(min-width:650px){.grid{grid-template-columns:repeat(3,1fr)}}
