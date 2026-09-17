@@ -2,62 +2,26 @@
 <html lang="ar" dir="rtl">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-  <meta name="theme-color" content="#07131f">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="apple-mobile-web-app-title" content="alketbi">
-  <link rel="manifest" href="manifest.webmanifest">
-  <link rel="apple-touch-icon" href="icon.svg">
-  <link rel="stylesheet" href="style.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>alketbi</title>
+  <style>
+    html, body {
+      margin: 0;
+      width: 100%;
+      height: 100%;
+      background: #02070c;
+      overflow: hidden;
+    }
+
+    img {
+      width: 100vw;
+      height: 100vh;
+      object-fit: contain;
+      display: block;
+    }
+  </style>
 </head>
 <body>
-  <main id="viewport">
-    <div id="stage" aria-label="alketbi car dashboard">
-      <img class="dashboard-bg" src="dashboard.jpg" alt="alketbi dashboard">
-
-      <!-- Brand selection -->
-      <button class="hotspot brand" style="left:273px;top:116px;width:121px;height:65px" data-msg="Toyota"></button>
-      <button class="hotspot brand" style="left:407px;top:116px;width:128px;height:65px" data-msg="Lexus"></button>
-      <button class="hotspot brand" style="left:545px;top:116px;width:113px;height:65px" data-msg="Nissan"></button>
-      <button class="hotspot brand" style="left:666px;top:116px;width:118px;height:65px" data-msg="Honda"></button>
-      <button class="hotspot brand" style="left:812px;top:116px;width:142px;height:65px" data-msg="Mercedes"></button>
-      <button class="hotspot brand" style="left:966px;top:116px;width:114px;height:65px" data-msg="GMC"></button>
-      <button class="hotspot brand" style="left:1092px;top:116px;width:116px;height:65px" data-msg="Ford"></button>
-      <button class="hotspot brand" style="left:1217px;top:116px;width:145px;height:65px" data-msg="جميع المركبات"></button>
-
-      <!-- Left navigation -->
-      <button class="hotspot" style="left:9px;top:102px;width:242px;height:80px" data-msg="الرئيسية"></button>
-      <button class="hotspot" style="left:9px;top:187px;width:242px;height:80px" data-msg="البيانات الحية"></button>
-      <button class="hotspot" style="left:9px;top:272px;width:242px;height:80px" data-msg="تشخيص الأعطال"></button>
-      <button class="hotspot" style="left:9px;top:357px;width:242px;height:80px" data-msg="معلومات المركبة"></button>
-      <button class="hotspot" style="left:9px;top:442px;width:242px;height:80px" data-msg="الرحلات والوقود"></button>
-      <button class="hotspot" style="left:9px;top:527px;width:242px;height:80px" data-msg="تذكير الصيانة"></button>
-      <button class="hotspot" style="left:9px;top:612px;width:242px;height:69px" data-msg="التنبيهات"></button>
-      <button class="hotspot" style="left:9px;top:682px;width:242px;height:69px" data-msg="الإعدادات"></button>
-
-      <!-- Main action buttons -->
-      <button class="hotspot" style="left:272px;top:660px;width:113px;height:122px" data-msg="البيانات الحية"></button>
-      <button class="hotspot" style="left:392px;top:660px;width:112px;height:122px" data-msg="صحة المركبة"></button>
-      <button class="hotspot" style="left:512px;top:660px;width:112px;height:122px" data-msg="سجل البيانات"></button>
-      <button class="hotspot" style="left:633px;top:660px;width:112px;height:122px" data-msg="مراقبة الرحلات"></button>
-
-      <!-- Remote functions are demo-only -->
-      <button class="hotspot remote" style="left:756px;top:660px;width:112px;height:122px" data-msg="التشغيل عن بُعد — تجريبي حتى ربط وحدة معتمدة"></button>
-      <button class="hotspot remote" style="left:878px;top:660px;width:112px;height:122px" data-msg="القفل — تجريبي حتى ربط وحدة معتمدة"></button>
-      <button class="hotspot remote" style="left:998px;top:660px;width:112px;height:122px" data-msg="الفتح — تجريبي حتى ربط وحدة معتمدة"></button>
-      <button class="hotspot" style="left:1117px;top:660px;width:177px;height:122px" data-msg="الصيانة"></button>
-
-      <!-- Battery threshold controls -->
-      <button class="hotspot tiny" id="minus" style="left:1329px;top:480px;width:36px;height:36px" aria-label="خفض حد البطارية"></button>
-      <button class="hotspot tiny" id="plus" style="left:1512px;top:480px;width:24px;height:36px" aria-label="رفع حد البطارية"></button>
-      <div id="batteryOverlay" class="battery-value">11.0 V</div>
-
-      <div id="toast" class="toast" role="status" aria-live="polite"></div>
-    </div>
-  </main>
-
-  <script src="app.js"></script>
+  <img src="./dashboard.jpg?v=301" alt="alketbi dashboard">
 </body>
 </html>
