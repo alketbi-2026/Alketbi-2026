@@ -18,7 +18,6 @@ alketbi — Exact Dashboard Prototype
 
 طريقة الرفع:
 ارفع الملفات نفسها إلى جذر مستودع GitHub:
-index.html
 style.css
 app.js
 manifest.webmanifest
