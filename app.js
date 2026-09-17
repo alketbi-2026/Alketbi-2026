@@ -259,9 +259,6 @@ function renderPage(key) {
 
 function showPage(key){ renderPage(key); }
 function closePage(){ document.getElementById('panel').classList.add('hidden'); }
-if ('serviceWorker' in navigator) { navigator.serviceWorker.register('sw.js'); }
-
-
 /* ===== alketbi additions ===== */
 pages.streetSpeed = {
   title: 'سرعة الشارع',
