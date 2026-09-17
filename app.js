@@ -1,1 +1,24 @@
-const sheet=document.getElementById('sheet'),content=document.getElementById('sheetContent'),closeBtn=document.getElementById('closeBtn');const panels={home:{title:'الرئيسية',desc:'لوحة Auto Electric Pro بنفس التصميم الذي اخترته.',items:[['السيارة','Lexus LX470 2002'],['الحالة','جاهز'],['الاتصال','تجريبي'],['آخر فحص','اليوم']]},live:{title:'البيانات الحية',desc:'قراءات مباشرة للحساسات عند ربط قطعة OBD-II المتوافقة.',items:[['RPM','1.5 ×1000'],['السرعة','70 km/h'],['حرارة المحرك','88 °C'],['حرارة القير','72 °C'],['البطارية','14.1 V'],['الدينمو','14.2 V']]},diagnostics:{title:'التشخيص والأعطال',desc:'قراءة أكواد الأعطال DTC وعرض وصف مبسط لها.',items:[['أكواد حالية','2'],['Check Engine','غير نشط'],['الحالة','جاهز للفحص'],['OBD-II','بانتظار القطعة']]},vehicle:{title:'معلومات السيارة',desc:'بيانات السيارة المختارة داخل البرنامج.',items:[['الموديل','Lexus LX470'],['السنة','2002'],['المحرك','بنزين'],['النظام','OBD-II']]},trip:{title:'الرحلة والوقود',desc:'ملخص المسافة والوقود والظروف الحالية.',items:[['Trip A','152.4 km'],['الوقود','60%'],['المدى','420 km'],['الحرارة الخارجية','28 °C']]},service:{title:'تذكير الصيانة',desc:'تنظيم مواعيد الزيت والفلاتر والبطارية والخدمة الدورية.',items:[['زيت المحرك','طبيعي'],['البطارية','جيدة'],['الخدمة القادمة','يمكن ضبطها'],['التذكير','متاح']]},settings:{title:'الإعدادات',desc:'خيارات البرنامج والسيارة والاتصال.',items:[['الوحدة','km/h'],['الحرارة','°C'],['السيارة','Lexus'],['اللغة','العربية']]},connect:{title:'اتصال OBD-II',desc:'عند وصول القطعة سنربطها بالبرنامج. القراءات الحالية تجريبية فقط.',items:[['Bluetooth','جاهز للإعداد'],['المحول','OBD-II'],['السيارة','12V'],['الحالة','غير متصل']]},scan:{title:'فحص أكواد الأعطال',desc:'بدء فحص لأنظمة السيارة وقراءة أكواد الأعطال.',items:[['المحرك','جاهز'],['القير','جاهز'],['الحساسات','جاهز'],['النتيجة','بانتظار الاتصال']]},health:{title:'صحة السيارة',desc:'ملخص سريع لأهم الأنظمة.',items:[['المحرك','طبيعي'],['القير','طبيعي'],['الشحن','جيد'],['الوقود','جيد']]},log:{title:'سجل البيانات',desc:'يمكن حفظ القراءات والفحوصات لاحقًا عند ربط البيانات الحقيقية.',items:[['آخر سجل','اليوم'],['عدد الفحوصات','1 تجريبي'],['التصدير','لاحقًا'],['الحفظ','محلي']]}};function openPanel(key){const p=panels[key]||panels.home;content.innerHTML=`<h2>${p.title}</h2><p>${p.desc}</p><div class="grid">${p.items.map(([a,b])=>`<div class="card"><span>${a}</span><strong>${b}</strong></div>`).join('')}</div>${key==='connect'?'<button class="action" id="demoConnect">تجربة الاتصال</button>':''}<div class="note">ملاحظة: القراءات الحالية تجريبية وليست بيانات حقيقية من السيارة حتى يتم ربط قطعة OBD-II.</div>`;sheet.hidden=false;document.body.style.overflow='hidden';const btn=document.getElementById('demoConnect');if(btn)btn.onclick=()=>{btn.textContent='بانتظار قطعة OBD-II';btn.style.opacity='.8'}}function closePanel(){sheet.hidden=true;document.body.style.overflow=''}document.querySelectorAll('[data-panel]').forEach(b=>b.addEventListener('click',()=>openPanel(b.dataset.panel)));document.querySelectorAll('[data-car]').forEach(b=>b.addEventListener('click',()=>{const car=b.dataset.car;content.innerHTML=`<h2>اختيار السيارة</h2><p>تم اختيار <strong>${car}</strong> داخل النسخة التجريبية.</p><div class="grid"><div class="card"><span>السيارة</span><strong>${car}</strong></div><div class="card"><span>الحالة</span><strong class="ok">جاهز</strong></div></div><div class="note">يمكن لاحقًا حفظ ملفات تعريف مختلفة لكل سيارة.</div>`;sheet.hidden=false;document.body.style.overflow='hidden'}));closeBtn.addEventListener('click',closePanel);sheet.addEventListener('click',e=>{if(e.target===sheet)closePanel()});if('serviceWorker'in navigator){window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js?v=6').catch(()=>{}))}
+
+const rpmEl = document.getElementById('rpm');
+const speedEl = document.getElementById('speed');
+
+let rpm = 1750, speed = 70;
+setInterval(() => {
+  rpm += Math.round((Math.random() - 0.5) * 80);
+  speed += Math.round((Math.random() - 0.5) * 2);
+  rpm = Math.max(700, Math.min(4500, rpm));
+  speed = Math.max(0, Math.min(140, speed));
+  rpmEl.textContent = rpm;
+  speedEl.textContent = speed;
+}, 1200);
+
+document.getElementById('resetOil').addEventListener('click', () => {
+  alert('تم تسجيل تغيير الزيت — نموذج تجريبي');
+});
+document.getElementById('resetTires').addEventListener('click', () => {
+  alert('تم تسجيل فحص الكفرات — نموذج تجريبي');
+});
+
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('./sw.js').catch(()=>{});
+}

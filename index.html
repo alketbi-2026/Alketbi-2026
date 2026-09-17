@@ -1,1 +1,106 @@
-<!doctype html><html lang="ar" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no"><meta name="theme-color" content="#050d15"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><meta name="apple-mobile-web-app-title" content="Auto Electric"><link rel="manifest" href="manifest.webmanifest"><link rel="apple-touch-icon" href="icon.svg"><link rel="stylesheet" href="style.css?v=6"><title>Auto Electric Pro</title></head><body><main class="app"><section class="stage" id="stage" aria-label="Auto Electric Pro dashboard"><img class="dashboard" src="dashboard.png?v=6" alt="Auto Electric Pro dashboard"><button class="hot h-home" data-panel="home"></button><button class="hot h-live" data-panel="live"></button><button class="hot h-diag" data-panel="diagnostics"></button><button class="hot h-info" data-panel="vehicle"></button><button class="hot h-trip" data-panel="trip"></button><button class="hot h-service" data-panel="service"></button><button class="hot h-settings" data-panel="settings"></button><button class="hot h-toyota" data-car="Toyota"></button><button class="hot h-lexus" data-car="Lexus LX470 2002"></button><button class="hot h-nissan" data-car="Nissan"></button><button class="hot h-other" data-car="Other"></button><button class="hot h-obd" data-panel="connect"></button><button class="hot h-scan" data-panel="scan"></button><button class="hot h-bottom-live" data-panel="live"></button><button class="hot h-health" data-panel="health"></button><button class="hot h-log" data-panel="log"></button><button class="hot h-monitor" data-panel="trip"></button><button class="hot h-reminders" data-panel="service"></button></section><div class="rotate-tip">لأفضل عرض، أدر الهاتف للوضع الأفقي ↻</div><section class="sheet" id="sheet" hidden><button class="close" id="closeBtn">×</button><div class="sheet-inner" id="sheetContent"></div></section></main><script src="app.js?v=6"></script></body></html>
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <meta name="theme-color" content="#061524" />
+  <title>alketbi</title>
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="app">
+    <header class="topbar">
+      <div class="brand">
+        <div class="logo-mark">⚡</div>
+        <div>
+          <h1>alketbi</h1>
+          <p>تشخيص وكهرباء السيارة</p>
+        </div>
+      </div>
+      <div class="status">
+        <span>Bluetooth</span>
+        <strong>متصل</strong>
+      </div>
+    </header>
+
+    <section class="vehicle-picker">
+      <button class="active">Lexus</button>
+      <button>Toyota</button>
+      <button>Nissan</button>
+      <button>Mercedes</button>
+      <button>GMC</button>
+      <button>Ford</button>
+      <button>Honda</button>
+      <button>Other</button>
+    </section>
+
+    <main class="dashboard">
+      <section class="hero">
+        <div class="big-readout">
+          <span>RPM</span>
+          <strong id="rpm">1750</strong>
+        </div>
+
+        <div class="vehicle-card">
+          <h2>Lexus LX470 2002</h2>
+          <div class="car-art">🚙</div>
+          <small>يمكن تغيير الخلفية حسب نوع السيارة</small>
+        </div>
+
+        <div class="big-readout">
+          <span>السرعة</span>
+          <strong id="speed">70</strong>
+          <small>km/h</small>
+        </div>
+
+        <div class="street-speed">
+          <span>سرعة الشارع</span>
+          <div class="limit">80</div>
+          <small>km/h</small>
+        </div>
+      </section>
+
+      <section class="metrics">
+        <article><span>حرارة المحرك</span><strong>92°C</strong><em>طبيعي</em></article>
+        <article><span>جهد البطارية</span><strong>12.6 V</strong><em>طبيعي</em></article>
+        <article><span>الدينمو</span><strong>14.2 V</strong><em>Charging</em></article>
+        <article><span>مستوى الوقود</span><strong>60%</strong><em>420 km</em></article>
+        <article><span>ضغط الزيت</span><strong>Normal</strong><em>طبيعي</em></article>
+        <article><span>أعطال OBD-II</span><strong>2</strong><em class="warn">يوجد أعطال</em></article>
+      </section>
+
+      <section class="side-panels">
+        <article class="panel">
+          <h3>الإنذارات</h3>
+          <label>حد إنذار البطارية
+            <input id="batteryLimit" type="number" step="0.1" value="11.0">
+          </label>
+          <p>يمكن تعديل المستوى من داخل البرنامج.</p>
+        </article>
+
+        <article class="panel">
+          <h3>الصيانة</h3>
+          <p>زيت المحرك: متبقي <strong>1200 كم</strong></p>
+          <p>الكفرات: متبقي <strong>5000 كم</strong></p>
+          <button id="resetOil">تم تغيير الزيت</button>
+          <button id="resetTires">تم فحص الكفرات</button>
+        </article>
+      </section>
+
+      <section class="actions">
+        <button>البيانات الحية</button>
+        <button>صحة المركبة</button>
+        <button>سجل البيانات</button>
+        <button>مراقبة الرحلات</button>
+        <button class="disabled" disabled>تشغيل عن بُعد — تجريبي فقط</button>
+        <button class="disabled" disabled>قفل — يحتاج تكامل معتمد</button>
+        <button class="disabled" disabled>فتح — يحتاج تكامل معتمد</button>
+        <button>الصيانة</button>
+      </section>
+    </main>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
