@@ -4,20 +4,103 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
   <meta name="theme-color" content="#02070c">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="apple-mobile-web-app-title" content="alketbi">
-  <link rel="manifest" href="manifest.webmanifest">
-  <link rel="apple-touch-icon" href="icon.svg">
-  <link rel="stylesheet" href="style.css">
   <title>alketbi</title>
+  <style>
+    html,body{
+      margin:0;
+      width:100%;
+      height:100%;
+      background:#02070c;
+      overflow:hidden;
+      font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Tahoma,Arial,sans-serif
+    }
+    #viewport{
+      width:100vw;
+      height:100vh;
+      overflow:hidden;
+      background:#02070c
+    }
+    #stage{
+      position:relative;
+      width:1536px;
+      height:864px;
+      transform-origin:top left
+    }
+    .dashboard-bg{
+      position:absolute;
+      inset:0;
+      width:1536px;
+      height:864px;
+      display:block;
+      user-select:none;
+      -webkit-user-drag:none
+    }
+    .hotspot{
+      position:absolute;
+      border:0;
+      background:transparent;
+      border-radius:12px;
+      cursor:pointer
+    }
+    .hotspot:active{
+      background:rgba(52,168,255,.12);
+      box-shadow:0 0 24px rgba(0,150,255,.45) inset
+    }
+    .cover{
+      position:absolute;
+      background:linear-gradient(180deg,rgba(8,22,38,.98),rgba(5,16,28,.98));
+      border-radius:20px;
+      box-shadow:inset 0 0 18px rgba(16,111,179,.22)
+    }
+    .rpm-cover{left:305px;top:324px;width:238px;height:105px}
+    .speed-cover{left:1030px;top:323px;width:173px;height:104px}
+    .live-number{
+      position:absolute;
+      color:#fff;
+      font-weight:900;
+      line-height:1;
+      text-shadow:0 0 18px rgba(45,167,255,.95);
+      text-align:center
+    }
+    .rpm-number{left:305px;top:326px;width:238px;font-size:82px}
+    .speed-number{left:1030px;top:326px;width:173px;font-size:82px}
+    .live-unit{
+      position:absolute;
+      color:#c8e8ff;
+      font-weight:800;
+      text-align:center
+    }
+    .rpm-unit{left:355px;top:406px;width:140px;font-size:20px}
+    .speed-unit{left:1045px;top:406px;width:140px;font-size:20px}
+    .toast{
+      position:absolute;
+      left:50%;
+      bottom:18px;
+      transform:translateX(-50%) translateY(12px);
+      padding:11px 16px;
+      border-radius:14px;
+      background:rgba(4,16,26,.95);
+      border:1px solid #168dd1;
+      color:#fff;
+      font-size:17px;
+      opacity:0;
+      transition:.2s;
+      white-space:nowrap;
+      pointer-events:none
+    }
+    .toast.show{
+      opacity:1;
+      transform:translateX(-50%) translateY(0)
+    }
+  </style>
 </head>
 <body>
   <main id="viewport">
     <div id="stage">
-      <img class="dashboard-bg" src="dashboard.jpg?v=401" alt="alketbi dashboard">
+      <img class="dashboard-bg"
+           src="https://alketbi-2026.github.io/Alketbi-2026/dashboard.jpg?v=500"
+           alt="alketbi dashboard">
 
-      <!-- Live demo overlays: same design, but numbers are now dynamic -->
       <div class="cover rpm-cover"></div>
       <div class="live-number rpm-number" id="rpmValue">1750</div>
       <div class="live-unit rpm-unit">RPM</div>
@@ -26,48 +109,53 @@
       <div class="live-number speed-number" id="speedValue">70</div>
       <div class="live-unit speed-unit">km/h</div>
 
-      <div class="battery-cover"></div>
-      <div class="battery-limit" id="batteryLimit">11.0 V</div>
-
-      <!-- Clickable areas -->
-      <button class="hotspot" style="left:273px;top:116px;width:121px;height:65px" data-msg="Toyota"></button>
-      <button class="hotspot" style="left:407px;top:116px;width:128px;height:65px" data-msg="Lexus"></button>
-      <button class="hotspot" style="left:545px;top:116px;width:113px;height:65px" data-msg="Nissan"></button>
-      <button class="hotspot" style="left:666px;top:116px;width:118px;height:65px" data-msg="Honda"></button>
-      <button class="hotspot" style="left:812px;top:116px;width:142px;height:65px" data-msg="Mercedes"></button>
-      <button class="hotspot" style="left:966px;top:116px;width:114px;height:65px" data-msg="GMC"></button>
-      <button class="hotspot" style="left:1092px;top:116px;width:116px;height:65px" data-msg="Ford"></button>
-      <button class="hotspot" style="left:1217px;top:116px;width:145px;height:65px" data-msg="جميع المركبات"></button>
-
-      <!-- main menu -->
       <button class="hotspot" style="left:9px;top:102px;width:242px;height:80px" data-msg="الرئيسية"></button>
       <button class="hotspot" style="left:9px;top:187px;width:242px;height:80px" data-msg="البيانات الحية"></button>
       <button class="hotspot" style="left:9px;top:272px;width:242px;height:80px" data-msg="تشخيص الأعطال"></button>
-      <button class="hotspot" style="left:9px;top:357px;width:242px;height:80px" data-msg="معلومات المركبة"></button>
-      <button class="hotspot" style="left:9px;top:442px;width:242px;height:80px" data-msg="الرحلات والوقود"></button>
-      <button class="hotspot" style="left:9px;top:527px;width:242px;height:80px" data-msg="تذكير الصيانة"></button>
-      <button class="hotspot" style="left:9px;top:612px;width:242px;height:69px" data-msg="التنبيهات"></button>
-      <button class="hotspot" style="left:9px;top:682px;width:242px;height:69px" data-msg="الإعدادات"></button>
 
-      <!-- bottom action row -->
-      <button class="hotspot" style="left:272px;top:660px;width:113px;height:122px" data-msg="البيانات الحية"></button>
-      <button class="hotspot" style="left:392px;top:660px;width:112px;height:122px" data-msg="صحة المركبة"></button>
-      <button class="hotspot" style="left:512px;top:660px;width:112px;height:122px" data-msg="سجل البيانات"></button>
-      <button class="hotspot" style="left:633px;top:660px;width:112px;height:122px" data-msg="مراقبة الرحلات"></button>
-      <button class="hotspot remote" style="left:756px;top:660px;width:112px;height:122px" data-msg="التشغيل عن بُعد: تجريبي حتى ربط وحدة معتمدة"></button>
-      <button class="hotspot remote" style="left:878px;top:660px;width:112px;height:122px" data-msg="القفل: تجريبي حتى ربط وحدة معتمدة"></button>
-      <button class="hotspot remote" style="left:998px;top:660px;width:112px;height:122px" data-msg="الفتح: تجريبي حتى ربط وحدة معتمدة"></button>
-      <button class="hotspot" style="left:1117px;top:660px;width:177px;height:122px" data-msg="الصيانة"></button>
-
-      <!-- battery threshold -->
-      <button class="hotspot tiny" id="batteryMinus" style="left:1329px;top:480px;width:36px;height:36px" aria-label="خفض حد البطارية"></button>
-      <button class="hotspot tiny" id="batteryPlus" style="left:1512px;top:480px;width:24px;height:36px" aria-label="رفع حد البطارية"></button>
+      <button class="hotspot" style="left:756px;top:660px;width:112px;height:122px" data-msg="التشغيل عن بُعد: تجريبي حتى ربط وحدة معتمدة"></button>
+      <button class="hotspot" style="left:878px;top:660px;width:112px;height:122px" data-msg="القفل: تجريبي"></button>
+      <button class="hotspot" style="left:998px;top:660px;width:112px;height:122px" data-msg="الفتح: تجريبي"></button>
 
       <div id="toast" class="toast"></div>
-      <div class="demo-badge">DEMO LIVE</div>
     </div>
   </main>
 
-  <script src="app.js"></script>
+  <script>
+    const DESIGN_W=1536, DESIGN_H=864;
+    const stage=document.getElementById('stage');
+    function fitStage(){
+      const s=Math.min(innerWidth/DESIGN_W,innerHeight/DESIGN_H);
+      const sw=DESIGN_W*s, sh=DESIGN_H*s;
+      stage.style.transform=`scale(${s})`;
+      stage.style.marginLeft=Math.max(0,(innerWidth-sw)/2)+'px';
+      stage.style.marginTop=Math.max(0,(innerHeight-sh)/2)+'px';
+    }
+    addEventListener('resize',fitStage);
+    addEventListener('orientationchange',()=>setTimeout(fitStage,150));
+    fitStage();
+
+    const toast=document.getElementById('toast');
+    let tt;
+    function showToast(msg){
+      clearTimeout(tt);
+      toast.textContent=msg;
+      toast.classList.add('show');
+      tt=setTimeout(()=>toast.classList.remove('show'),1600);
+    }
+    document.querySelectorAll('.hotspot[data-msg]').forEach(b=>{
+      b.addEventListener('click',()=>showToast(b.dataset.msg));
+    });
+
+    let rpm=1750, speed=70;
+    const rpmEl=document.getElementById('rpmValue');
+    const speedEl=document.getElementById('speedValue');
+    setInterval(()=>{
+      rpm=Math.max(700,Math.min(4200,rpm+Math.round((Math.random()-.5)*90)));
+      speed=Math.max(0,Math.min(140,speed+Math.round((Math.random()-.5)*3)));
+      rpmEl.textContent=rpm;
+      speedEl.textContent=speed;
+    },1200);
+  </script>
 </body>
 </html>
