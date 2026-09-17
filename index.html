@@ -1,106 +1,227 @@
 <!doctype html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
-  <meta name="theme-color" content="#061524" />
-  <title>alketbi</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#07131f">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="alketbi">
   <link rel="manifest" href="manifest.webmanifest">
+  <link rel="apple-touch-icon" href="icon.svg">
   <link rel="stylesheet" href="style.css">
+  <title>alketbi</title>
 </head>
 <body>
-  <div class="app">
+  <div class="app-shell">
     <header class="topbar">
-      <div class="brand">
-        <div class="logo-mark">⚡</div>
+      <div class="brand-old">
+        <div class="brand-bolt">⚡</div>
         <div>
-          <h1>alketbi</h1>
-          <p>تشخيص وكهرباء السيارة</p>
+          <p class="eyebrow brand-name">alketbi</p>
+          <h1>لوحة كهرباء وتشخيص السيارة</h1>
+          <p class="sub">واجهة مطورة لعرض البطارية والدينمو والحرارة والأعطال في مكان واحد</p>
         </div>
       </div>
-      <div class="status">
-        <span>Bluetooth</span>
-        <strong>متصل</strong>
-      </div>
+      <div class="status-chip">نسخة تجريبية</div>
     </header>
 
-    <section class="vehicle-picker">
-      <button class="active">Lexus</button>
-      <button>Toyota</button>
-      <button>Nissan</button>
-      <button>Mercedes</button>
-      <button>GMC</button>
-      <button>Ford</button>
-      <button>Honda</button>
-      <button>Other</button>
-    </section>
+    <main class="content">
+      <!-- اختيار المركبة -->
+      <section class="vehicle-selector glass">
+        <div class="selector-head">
+          <div>
+            <strong>اختيار المركبة</strong>
+            <small>اختر الشركة أو اضغط المزيد</small>
+          </div>
+          <button class="more-brands" onclick="showPage('vehicles')">جميع المركبات</button>
+        </div>
+        <div class="brand-grid">
+          <button class="brand-btn active-brand">Lexus</button>
+          <button class="brand-btn">Toyota</button>
+          <button class="brand-btn">Nissan</button>
+          <button class="brand-btn">Mercedes</button>
+          <button class="brand-btn">GMC</button>
+          <button class="brand-btn">Ford</button>
+          <button class="brand-btn">Honda</button>
+          <button class="brand-btn" onclick="showPage('vehicles')">أخرى</button>
+        </div>
+      </section>
 
-    <main class="dashboard">
-      <section class="hero">
-        <div class="big-readout">
+      <section class="hero-card glass">
+        <div class="hero-copy">
+          <div class="vehicle-row">
+            <div>
+              <p class="label">السيارة الحالية</p>
+              <h2>Lexus LX470 2002</h2>
+            </div>
+            <button class="connect-btn" onclick="showPage('connect')">اتصال OBD-II</button>
+          </div>
+          <div class="hero-stats">
+            <div class="mini-card"><span>الحالة</span><strong class="ok-text">جاهز</strong></div>
+            <div class="mini-card"><span>آخر فحص</span><strong>اليوم</strong></div>
+            <div class="mini-card"><span>الأعطال</span><strong>2</strong></div>
+          </div>
+        </div>
+        <div class="hero-car">
+          <div class="car-glow"></div>
+          <div class="car-emoji">🚙⚡</div>
+          <small class="car-bg-note">الخلفية تتغير حسب نوع السيارة</small>
+        </div>
+      </section>
+
+      <!-- RPM / السرعة أرقام فقط -->
+      <section class="digital-grid">
+        <button class="digital-card glass" onclick="showPage('live')">
           <span>RPM</span>
-          <strong id="rpm">1750</strong>
-        </div>
+          <strong id="rpmValue">1750</strong>
+          <small>دورة/دقيقة</small>
+        </button>
 
-        <div class="vehicle-card">
-          <h2>Lexus LX470 2002</h2>
-          <div class="car-art">🚙</div>
-          <small>يمكن تغيير الخلفية حسب نوع السيارة</small>
-        </div>
-
-        <div class="big-readout">
+        <button class="digital-card glass" onclick="showPage('live')">
           <span>السرعة</span>
-          <strong id="speed">70</strong>
+          <strong id="speedValue">70</strong>
           <small>km/h</small>
-        </div>
+        </button>
 
-        <div class="street-speed">
+        <button class="street-card glass" onclick="showPage('streetSpeed')">
           <span>سرعة الشارع</span>
-          <div class="limit">80</div>
+          <strong>80</strong>
           <small>km/h</small>
+        </button>
+      </section>
+
+      <section class="metric-row">
+        <button class="small-status glass" onclick="showPage('battery')">
+          <span>البطارية</span>
+          <strong>12.6 V</strong>
+          <small>طبيعي</small>
+        </button>
+        <button class="small-status glass" onclick="showPage('alternator')">
+          <span>الدينمو</span>
+          <strong>14.2 V</strong>
+          <small>Charging</small>
+        </button>
+        <button class="small-status glass" onclick="showPage('temp')">
+          <span>حرارة المحرك</span>
+          <strong>92 °C</strong>
+          <small>ضمن النطاق</small>
+        </button>
+        <button class="small-status glass" onclick="showPage('fuel')">
+          <span>الوقود</span>
+          <strong>60%</strong>
+          <small>420 km</small>
+        </button>
+      </section>
+
+      <!-- التحكم بالمركبة: واجهة فقط إلى أن تتوفر وحدة معتمدة -->
+      <section class="section-head">
+        <h3>التحكم بالمركبة</h3>
+        <p>الأزرار التالية تجريبية حتى ربط وحدة معتمدة وآمنة</p>
+      </section>
+
+      <section class="remote-grid">
+        <button class="remote-card glass demo-disabled" onclick="demoControl('تشغيل عن بُعد')">
+          <span>⏻</span><strong>تشغيل عن بُعد</strong><small>Remote Start</small>
+        </button>
+        <button class="remote-card glass demo-disabled" onclick="demoControl('إيقاف المحرك')">
+          <span>⏹</span><strong>إيقاف المحرك</strong><small>Stop Engine</small>
+        </button>
+        <button class="remote-card glass demo-disabled" onclick="demoControl('قفل')">
+          <span>🔒</span><strong>قفل</strong><small>Lock</small>
+        </button>
+        <button class="remote-card glass demo-disabled" onclick="demoControl('فتح')">
+          <span>🔓</span><strong>فتح</strong><small>Unlock</small>
+        </button>
+      </section>
+
+      <section class="section-head">
+        <h3>حالة الأنظمة</h3>
+        <p>اضغط على أي بطاقة لعرض تفاصيل أكثر</p>
+      </section>
+
+      <section class="status-grid">
+        <button class="status-card glass" onclick="showPage('temp')">
+          <div class="icon-wrap">🌡️</div>
+          <div><strong>حرارة المحرك</strong><p>92 °C</p><small>ضمن النطاق</small></div>
+        </button>
+        <button class="status-card glass" onclick="showPage('gearbox')">
+          <div class="icon-wrap">⚙️</div>
+          <div><strong>حرارة القير</strong><p>84 °C</p><small>مراقبة جيدة</small></div>
+        </button>
+        <button class="status-card glass" onclick="showPage('obd')">
+          <div class="icon-wrap">🧰</div>
+          <div><strong>أعطال OBD-II</strong><p>2 أكواد</p><small>اضغط للعرض</small></div>
+        </button>
+        <button class="status-card glass" onclick="showPage('fuel')">
+          <div class="icon-wrap">⛽</div>
+          <div><strong>نظام الوقود</strong><p>Stable</p><small>Fuel Trim طبيعي</small></div>
+        </button>
+      </section>
+
+      <!-- التنبيهات القابلة للتعديل -->
+      <section class="section-head">
+        <h3>التنبيهات والصيانة</h3>
+        <p>يمكنك ضبط المستويات والمسافات من داخل البرنامج</p>
+      </section>
+
+      <section class="settings-grid">
+        <div class="setting-card glass">
+          <strong>إنذار انخفاض البطارية</strong>
+          <div class="stepper">
+            <button onclick="adjustBattery(-0.1)">−</button>
+            <b id="batteryLimit">11.0 V</b>
+            <button onclick="adjustBattery(0.1)">+</button>
+          </div>
+          <small>عند وصول البطارية لهذا المستوى يظهر تنبيه</small>
+        </div>
+
+        <div class="setting-card glass">
+          <strong>تغيير زيت المحرك</strong>
+          <p><b id="oilKm">10,000 كم</b> أو 6 أشهر</p>
+          <button class="mini-action" onclick="resetOil()">تم تغيير الزيت</button>
+        </div>
+
+        <div class="setting-card glass">
+          <strong>الكفرات</strong>
+          <p>فحص كل <b id="tireCheck">10,000 كم</b></p>
+          <p>تغيير حسب النوع والاستخدام</p>
+          <button class="mini-action" onclick="resetTires()">تم فحص الكفرات</button>
         </div>
       </section>
 
-      <section class="metrics">
-        <article><span>حرارة المحرك</span><strong>92°C</strong><em>طبيعي</em></article>
-        <article><span>جهد البطارية</span><strong>12.6 V</strong><em>طبيعي</em></article>
-        <article><span>الدينمو</span><strong>14.2 V</strong><em>Charging</em></article>
-        <article><span>مستوى الوقود</span><strong>60%</strong><em>420 km</em></article>
-        <article><span>ضغط الزيت</span><strong>Normal</strong><em>طبيعي</em></article>
-        <article><span>أعطال OBD-II</span><strong>2</strong><em class="warn">يوجد أعطال</em></article>
+      <section class="section-head">
+        <h3>الأدوات السريعة</h3>
+        <p>مهام مفيدة داخل البرنامج</p>
       </section>
 
-      <section class="side-panels">
-        <article class="panel">
-          <h3>الإنذارات</h3>
-          <label>حد إنذار البطارية
-            <input id="batteryLimit" type="number" step="0.1" value="11.0">
-          </label>
-          <p>يمكن تعديل المستوى من داخل البرنامج.</p>
-        </article>
-
-        <article class="panel">
-          <h3>الصيانة</h3>
-          <p>زيت المحرك: متبقي <strong>1200 كم</strong></p>
-          <p>الكفرات: متبقي <strong>5000 كم</strong></p>
-          <button id="resetOil">تم تغيير الزيت</button>
-          <button id="resetTires">تم فحص الكفرات</button>
-        </article>
+      <section class="tools-grid">
+        <button class="tool-card glass" onclick="showPage('scan')">فحص شامل</button>
+        <button class="tool-card glass" onclick="showPage('live')">البيانات الحية</button>
+        <button class="tool-card glass" onclick="showPage('reports')">التقارير</button>
+        <button class="tool-card glass" onclick="showPage('service')">التذكير بالصيانة</button>
+        <button class="tool-card glass" onclick="showPage('sensors')">الحساسات</button>
+        <button class="tool-card glass" onclick="showPage('history')">سجل الفحوصات</button>
       </section>
 
-      <section class="actions">
-        <button>البيانات الحية</button>
-        <button>صحة المركبة</button>
-        <button>سجل البيانات</button>
-        <button>مراقبة الرحلات</button>
-        <button class="disabled" disabled>تشغيل عن بُعد — تجريبي فقط</button>
-        <button class="disabled" disabled>قفل — يحتاج تكامل معتمد</button>
-        <button class="disabled" disabled>فتح — يحتاج تكامل معتمد</button>
-        <button>الصيانة</button>
+      <section class="notice glass">
+        <strong>ملاحظة</strong>
+        <p>هذه النسخة تحافظ على التصميم القديم وتضيف التعديلات المطلوبة. القراءات الحالية تجريبية. التشغيل عن بُعد والقفل والفتح لن تعمل فعليًا إلا بعد ربط نظام معتمد وآمن.</p>
       </section>
     </main>
-  </div>
 
+    <section id="panel" class="panel hidden">
+      <button class="back" onclick="closePage()">✕</button>
+      <div id="panelContent"></div>
+    </section>
+
+    <nav class="bottom-nav">
+      <button onclick="closePage()"><span>⌂</span><small>الرئيسية</small></button>
+      <button onclick="showPage('live')"><span>📈</span><small>Live</small></button>
+      <button onclick="showPage('obd')"><span>⚠️</span><small>الأعطال</small></button>
+      <button onclick="showPage('reports')"><span>🗂️</span><small>التقارير</small></button>
+    </nav>
+  </div>
   <script src="app.js"></script>
 </body>
 </html>
