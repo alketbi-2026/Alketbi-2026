@@ -1,10 +1,10 @@
 {
-  "name": "alketbi - تشخيص وكهرباء السيارة",
+  "name": "alketbi",
   "short_name": "alketbi",
   "start_url": "./",
   "display": "standalone",
-  "background_color": "#06131f",
-  "theme_color": "#071827",
+  "background_color": "#02070c",
+  "theme_color": "#07131f",
   "icons": [
     {
       "src": "icon.svg",
