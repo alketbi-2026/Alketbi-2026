@@ -147,3 +147,83 @@ button{font:inherit}
   .street-card{grid-column:auto}
   .digital-card strong{font-size:56px}
 }
+
+
+/* ===== Fixed dashboard layout for iPhone landscape / car screen ===== */
+html, body {
+  min-width: 1180px;
+  overflow-x: auto;
+}
+
+.app-shell {
+  min-width: 1180px;
+  max-width: 1600px;
+  margin: 0 auto;
+}
+
+.content {
+  padding-bottom: 100px;
+}
+
+.vehicle-selector {
+  overflow: visible;
+}
+
+.brand-grid {
+  grid-template-columns: repeat(8, minmax(110px, 1fr)) !important;
+}
+
+.hero-card {
+  display: grid !important;
+  grid-template-columns: 1.15fr .85fr !important;
+  align-items: center !important;
+  gap: 18px !important;
+}
+
+.digital-grid {
+  grid-template-columns: 1fr 1fr .62fr !important;
+}
+
+.metric-row {
+  grid-template-columns: repeat(4, 1fr) !important;
+}
+
+.remote-grid {
+  grid-template-columns: repeat(4, 1fr) !important;
+}
+
+.status-grid {
+  grid-template-columns: repeat(4, 1fr) !important;
+}
+
+.settings-grid {
+  grid-template-columns: repeat(3, 1fr) !important;
+}
+
+.tools-grid {
+  grid-template-columns: repeat(6, 1fr) !important;
+}
+
+.bottom-nav {
+  min-width: 1180px;
+}
+
+/* cancel previous narrow responsive stacking */
+@media (max-width: 760px) {
+  html, body { min-width: 1180px !important; }
+  .app-shell { min-width: 1180px !important; }
+  .brand-grid { grid-template-columns: repeat(8, minmax(110px, 1fr)) !important; }
+  .digital-grid { grid-template-columns: 1fr 1fr .62fr !important; }
+  .street-card { grid-column: auto !important; }
+  .metric-row { grid-template-columns: repeat(4, 1fr) !important; }
+  .remote-grid { grid-template-columns: repeat(4, 1fr) !important; }
+  .settings-grid { grid-template-columns: repeat(3, 1fr) !important; }
+}
+@media (max-width: 560px) {
+  html, body { min-width: 1180px !important; }
+  .app-shell { min-width: 1180px !important; }
+  .brand-grid { grid-template-columns: repeat(8, minmax(110px, 1fr)) !important; }
+  .digital-grid { grid-template-columns: 1fr 1fr .62fr !important; }
+  .street-card { grid-column: auto !important; }
+  .digital-card strong { font-size: 64px !important; }
+}
