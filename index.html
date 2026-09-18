@@ -147,6 +147,7 @@ button{font:inherit}
 .remote{left:49.0%;top:82.2%;width:7.2%;height:13%}
 .profileHot{left:57.0%;top:82.2%;width:7.0%;height:13%;cursor:pointer}
 .supportHot{left:64.3%;top:82.2%;width:7.0%;height:13%;cursor:pointer}
+.exitHot{left:71.6%;top:82.2%;width:7.0%;height:13%;cursor:pointer}
 
 .battery-controls{
   position:absolute;z-index:9;right:3.0%;top:58.1%;width:13.0%;height:5.3%;
@@ -1634,6 +1635,7 @@ button{font:inherit}
         <button id="remoteBtn" class="hot remote" aria-label="Remote Start"></button>
         <button id="profileBtn" class="hot profileHot" aria-label="Profile"></button>
         <button id="supportBtn" class="hot supportHot" aria-label="Support"></button>
+        <button id="exitBtn" class="hot exitHot" aria-label="Exit to Dashboard"></button>
       </div>
 
       <div class="battery-controls">
@@ -3127,6 +3129,37 @@ document.getElementById('supportCheckBtn').addEventListener('click',()=>{
 document.getElementById('supportGuideBtn').addEventListener('click',()=>{
   document.getElementById('supportNote').textContent =
     'دليل المساعدة: استخدم Settings لضبط التنبيهات، Live Data للقراءات، DTC Codes للأعطال، وMap للخريطة. جهاز OBD الحقيقي سيتم ربطه لاحقًا.';
+});
+
+
+// Exit button: close any open panel and return to the main dashboard view.
+function closeAllPanels(){
+  [
+    'vehicleInfoModal',
+    'diagnosticsModal',
+    'tripFuelModal',
+    'serviceModal',
+    'alertsModal',
+    'settingsModal',
+    'liveDataModal',
+    'vehicleHealthModal',
+    'dtcModal',
+    'mapModal',
+    'profileModal',
+    'supportModal'
+  ].forEach((id)=>{
+    const el = document.getElementById(id);
+    if(el){
+      el.classList.remove('open');
+      el.setAttribute('aria-hidden','true');
+    }
+  });
+}
+
+document.getElementById('exitBtn').addEventListener('click',()=>{
+  closeAllPanels();
+  window.scrollTo({top:0,left:0,behavior:'smooth'});
+  toast('Dashboard / لوحة المعلومات الرئيسية');
 });
 
 render();
