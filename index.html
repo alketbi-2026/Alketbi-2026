@@ -146,7 +146,7 @@ button{font:inherit}
 .mapHot{left:40.0%;top:82.2%;width:7.0%;height:13%;cursor:pointer}
 .remote{left:49.0%;top:82.2%;width:7.2%;height:13%}
 .profileHot{left:57.0%;top:82.2%;width:7.0%;height:13%;cursor:pointer}
-.unlock{left:64.3%;top:82.2%;width:7.0%;height:13%}
+.supportHot{left:64.3%;top:82.2%;width:7.0%;height:13%;cursor:pointer}
 
 .battery-controls{
   position:absolute;z-index:9;right:3.0%;top:58.1%;width:13.0%;height:5.3%;
@@ -1438,6 +1438,109 @@ button{font:inherit}
   display:inline-block;
 }
 
+
+/* Support modal */
+#supportModal{
+  position:fixed;
+  z-index:10008;
+  inset:0;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  padding:20px;
+  background:rgba(1,8,14,.80);
+  backdrop-filter:blur(4px);
+}
+#supportModal.open{display:flex}
+
+.support-card{
+  width:62%;
+  max-width:960px;
+  min-width:540px;
+  background:linear-gradient(180deg,rgba(7,26,40,.99),rgba(3,14,23,.99));
+  border:1px solid #1ca9ef;
+  border-radius:1.2vw;
+  box-shadow:0 0 30px rgba(0,153,255,.25), inset 0 0 25px rgba(0,100,170,.10);
+  color:#eef8ff;
+  padding:1.3vw 1.5vw 1.4vw;
+  direction:rtl;
+}
+.support-head{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:1vw;
+  padding-bottom:.9vw;
+  border-bottom:1px solid rgba(100,190,240,.25);
+}
+.support-title{font-size:1.6vw;font-weight:900}
+.support-sub{font-size:.9vw;color:#7fdcff;margin-top:.2vw}
+#supportClose{
+  width:2.5vw;height:2.5vw;border-radius:50%;
+  border:1px solid #35baff;background:#061a28;color:#fff;
+  font-size:1.4vw;font-weight:900;
+}
+.support-grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:.8vw;
+  margin-top:1vw;
+}
+.support-box{
+  background:rgba(6,25,39,.88);
+  border:1px solid rgba(61,160,218,.28);
+  border-radius:.75vw;
+  padding:.9vw 1vw;
+  min-height:5vw;
+}
+.support-label{color:#8fdfff;font-size:.8vw;margin-bottom:.25vw}
+.support-value{color:#fff;font-size:1.15vw;font-weight:900}
+.support-state{color:#35f2a1;font-size:.75vw;margin-top:.3vw}
+.support-actions{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:.7vw;
+  margin-top:1vw;
+}
+.support-actions button{
+  border:1px solid #25b6ff;
+  border-radius:.65vw;
+  background:linear-gradient(180deg,#0b4b72,#07314e);
+  color:#fff;
+  padding:.65vw;
+  font-size:.95vw;
+  font-weight:900;
+}
+#supportNote{
+  margin-top:.8vw;
+  padding:.7vw .9vw;
+  border:1px solid rgba(61,160,218,.22);
+  border-radius:.6vw;
+  color:#9edfff;
+  text-align:center;
+  font-size:.75vw;
+  line-height:1.45;
+}
+
+@media (orientation:portrait){
+  #supportModal{padding:18px}
+  .support-card{
+    width:92vw;max-width:none;min-width:0;max-height:82vh;overflow:auto;
+    border-radius:18px;padding:18px 16px 16px;
+  }
+  .support-title{font-size:24px}
+  .support-sub{font-size:13px}
+  #supportClose{width:42px;height:42px;font-size:24px;flex:0 0 auto}
+  .support-grid{grid-template-columns:1fr;gap:10px;margin-top:14px}
+  .support-box{min-height:82px;padding:11px 13px;border-radius:11px}
+  .support-label{font-size:13px}
+  .support-value{font-size:19px}
+  .support-state{font-size:12px}
+  .support-actions{grid-template-columns:1fr;gap:9px;margin-top:12px}
+  .support-actions button{padding:12px;font-size:15px;border-radius:10px}
+  #supportNote{font-size:12px;margin-top:9px;padding:10px 12px}
+}
+
 </style>
 </head>
 <body>
@@ -1530,7 +1633,7 @@ button{font:inherit}
         <button id="mapBtn" class="hot mapHot" aria-label="Map"></button>
         <button id="remoteBtn" class="hot remote" aria-label="Remote Start"></button>
         <button id="profileBtn" class="hot profileHot" aria-label="Profile"></button>
-        <button id="unlockBtn" class="hot unlock" aria-label="Unlock"></button>
+        <button id="supportBtn" class="hot supportHot" aria-label="Support"></button>
       </div>
 
       <div class="battery-controls">
@@ -2125,6 +2228,54 @@ button{font:inherit}
         </div>
       </div>
 
+      
+      <div id="supportModal" aria-hidden="true">
+        <div class="support-card">
+          <div class="support-head">
+            <div>
+              <div class="support-title">الدعم / Support</div>
+              <div class="support-sub">alketbi — System Help</div>
+            </div>
+            <button id="supportClose" aria-label="إغلاق">×</button>
+          </div>
+
+          <div class="support-grid">
+            <div class="support-box">
+              <div class="support-label">المركبة / Vehicle</div>
+              <div class="support-value">Nissan Patrol 2014</div>
+              <div class="support-state">Profile active</div>
+            </div>
+
+            <div class="support-box">
+              <div class="support-label">إصدار البرنامج / App Version</div>
+              <div class="support-value">Version 2.0</div>
+              <div class="support-state">UAE Edition</div>
+            </div>
+
+            <div class="support-box">
+              <div class="support-label">حالة البيانات / Data Mode</div>
+              <div class="support-value">LIVE TEST</div>
+              <div class="support-state">Demo data active</div>
+            </div>
+
+            <div class="support-box">
+              <div class="support-label">جهاز OBD / OBD Device</div>
+              <div id="supportObdState" class="support-value">NOT CONNECTED</div>
+              <div class="support-state">Waiting for approved adapter</div>
+            </div>
+          </div>
+
+          <div class="support-actions">
+            <button id="supportCheckBtn">فحص النظام / System Check</button>
+            <button id="supportGuideBtn">دليل المساعدة / Help Guide</button>
+          </div>
+
+          <div id="supportNote">
+            البرنامج يعمل حاليًا في الوضع التجريبي. عند توصيل جهاز OBD المعتمد سنحوّل البيانات إلى قراءات حقيقية.
+          </div>
+        </div>
+      </div>
+
       <div id="toast" role="status" aria-live="polite"></div>
     </div>
   </div>
@@ -2256,7 +2407,6 @@ $('liveBtn').addEventListener('click',()=>{
 
 // These three remain demo-only. Do not connect them to vehicle security systems here.
 $('remoteBtn').addEventListener('click',()=>toast('Remote Start: DEMO ONLY'));
-$('unlockBtn').addEventListener('click',()=>toast('Unlock: DEMO ONLY'));
 
 // Battery alert threshold
 function showLimit(){
@@ -2945,6 +3095,38 @@ profileRefreshBtn.addEventListener('click',()=>{
   syncProfile();
   document.getElementById('profileNote').textContent =
     'تم تحديث بيانات الملف / Profile data refreshed';
+});
+
+
+// Support panel
+const supportModal = document.getElementById('supportModal');
+const supportClose = document.getElementById('supportClose');
+
+document.getElementById('supportBtn').addEventListener('click',()=>{
+  supportModal.classList.add('open');
+  supportModal.setAttribute('aria-hidden','false');
+});
+
+supportClose.addEventListener('click',()=>{
+  supportModal.classList.remove('open');
+  supportModal.setAttribute('aria-hidden','true');
+});
+
+supportModal.addEventListener('click',(e)=>{
+  if(e.target === supportModal){
+    supportModal.classList.remove('open');
+    supportModal.setAttribute('aria-hidden','true');
+  }
+});
+
+document.getElementById('supportCheckBtn').addEventListener('click',()=>{
+  document.getElementById('supportNote').textContent =
+    'فحص النظام: الواجهة، التنبيهات، البيانات الحية، رموز الأعطال، الخريطة والملف الشخصي تعمل في وضع LIVE TEST.';
+});
+
+document.getElementById('supportGuideBtn').addEventListener('click',()=>{
+  document.getElementById('supportNote').textContent =
+    'دليل المساعدة: استخدم Settings لضبط التنبيهات، Live Data للقراءات، DTC Codes للأعطال، وMap للخريطة. جهاز OBD الحقيقي سيتم ربطه لاحقًا.';
 });
 
 render();
