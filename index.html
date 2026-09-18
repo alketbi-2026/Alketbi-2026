@@ -1542,6 +1542,46 @@ button{font:inherit}
   #supportNote{font-size:12px;margin-top:9px;padding:10px 12px}
 }
 
+
+/* Exit confirmation */
+#exitModal{
+  position:fixed;
+  z-index:10020;
+  inset:0;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  padding:20px;
+  background:rgba(1,8,14,.86);
+  backdrop-filter:blur(5px);
+}
+#exitModal.open{display:flex}
+.exit-card{
+  width:min(88vw,560px);
+  background:linear-gradient(180deg,rgba(7,26,40,.99),rgba(3,14,23,.99));
+  border:1px solid #1ca9ef;
+  border-radius:18px;
+  box-shadow:0 0 30px rgba(0,153,255,.25);
+  color:#eef8ff;
+  padding:28px 22px 22px;
+  text-align:center;
+  direction:rtl;
+}
+.exit-icon{font-size:54px;line-height:1;margin-bottom:10px}
+.exit-title{font-size:28px;font-weight:900}
+.exit-sub{font-size:15px;color:#8fdfff;margin-top:8px;line-height:1.5}
+#returnDashboardBtn{
+  width:100%;
+  margin-top:20px;
+  border:1px solid #25b6ff;
+  border-radius:12px;
+  background:linear-gradient(180deg,#0b4b72,#07314e);
+  color:#fff;
+  padding:13px;
+  font-size:17px;
+  font-weight:900;
+}
+
 </style>
 </head>
 <body>
@@ -2275,6 +2315,19 @@ button{font:inherit}
           <div id="supportNote">
             البرنامج يعمل حاليًا في الوضع التجريبي. عند توصيل جهاز OBD المعتمد سنحوّل البيانات إلى قراءات حقيقية.
           </div>
+        </div>
+      </div>
+
+      
+      <div id="exitModal" aria-hidden="true">
+        <div class="exit-card">
+          <div class="exit-icon">↩</div>
+          <div class="exit-title">تم الخروج / Exit</div>
+          <div class="exit-sub">
+            تم إغلاق نوافذ البرنامج والعودة من جلسة العرض الحالية.<br>
+            المتصفح نفسه سيبقى مفتوحًا.
+          </div>
+          <button id="returnDashboardBtn">العودة إلى Dashboard / Return</button>
         </div>
       </div>
 
@@ -3156,10 +3209,19 @@ function closeAllPanels(){
   });
 }
 
+const exitModal = document.getElementById('exitModal');
+const returnDashboardBtn = document.getElementById('returnDashboardBtn');
+
 document.getElementById('exitBtn').addEventListener('click',()=>{
   closeAllPanels();
+  exitModal.classList.add('open');
+  exitModal.setAttribute('aria-hidden','false');
+});
+
+returnDashboardBtn.addEventListener('click',()=>{
+  exitModal.classList.remove('open');
+  exitModal.setAttribute('aria-hidden','true');
   window.scrollTo({top:0,left:0,behavior:'smooth'});
-  toast('Dashboard / لوحة المعلومات الرئيسية');
 });
 
 render();
