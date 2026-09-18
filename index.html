@@ -1582,6 +1582,139 @@ button{font:inherit}
   font-weight:900;
 }
 
+
+/* Active vehicle selector */
+.allVehiclesHot{
+  position:absolute;z-index:8;
+  left:76.2%;top:14.9%;width:9.7%;height:8.0%;
+  border:0;background:transparent;border-radius:.6vw;cursor:pointer;
+}
+
+.selected-vehicle-badge{
+  position:absolute;
+  z-index:7;
+  left:40.9%;
+  top:31.7%;
+  width:22.6%;
+  min-height:5.8%;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  background:linear-gradient(180deg,rgba(5,19,31,.96),rgba(4,15,25,.96));
+  border:1px solid rgba(58,170,232,.22);
+  border-radius:.55vw;
+  color:#fff;
+  text-align:center;
+  pointer-events:none;
+  box-shadow:0 0 12px rgba(0,120,210,.12);
+}
+.selected-vehicle-name{
+  font-size:1.15vw;
+  line-height:1.05;
+  font-weight:900;
+  letter-spacing:.02em;
+}
+.selected-vehicle-engine{
+  margin-top:.2vw;
+  color:#9edfff;
+  font-size:.66vw;
+  font-weight:800;
+}
+.selected-demo-note{
+  color:#35f2a1;
+  font-size:.48vw;
+  margin-top:.12vw;
+  font-weight:800;
+}
+
+#vehicleSelectModal{
+  position:fixed;
+  z-index:10030;
+  inset:0;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  padding:20px;
+  background:rgba(1,8,14,.84);
+  backdrop-filter:blur(5px);
+}
+#vehicleSelectModal.open{display:flex}
+.vehicle-select-card{
+  width:64%;
+  max-width:980px;
+  min-width:560px;
+  background:linear-gradient(180deg,rgba(7,26,40,.99),rgba(3,14,23,.99));
+  border:1px solid #1ca9ef;
+  border-radius:1.2vw;
+  box-shadow:0 0 30px rgba(0,153,255,.25);
+  color:#eef8ff;
+  padding:1.25vw 1.4vw 1.35vw;
+  direction:rtl;
+}
+.vehicle-select-head{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:1vw;
+  padding-bottom:.8vw;
+  border-bottom:1px solid rgba(100,190,240,.25);
+}
+.vehicle-select-title{font-size:1.6vw;font-weight:900}
+.vehicle-select-sub{font-size:.85vw;color:#7fdcff;margin-top:.2vw}
+#vehicleSelectClose{
+  width:2.5vw;height:2.5vw;border-radius:50%;
+  border:1px solid #35baff;background:#061a28;color:#fff;
+  font-size:1.4vw;font-weight:900;
+}
+.vehicle-options{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:.7vw;
+  margin-top:1vw;
+}
+.vehicle-option{
+  border:1px solid rgba(61,160,218,.35);
+  border-radius:.7vw;
+  background:rgba(6,25,39,.92);
+  color:#fff;
+  padding:.85vw 1vw;
+  text-align:right;
+}
+.vehicle-option strong{display:block;font-size:1.05vw}
+.vehicle-option span{display:block;color:#8fdfff;font-size:.72vw;margin-top:.18vw}
+.vehicle-option.active{
+  border-color:#20baff;
+  box-shadow:0 0 14px rgba(0,174,255,.28);
+  background:linear-gradient(180deg,rgba(8,70,108,.95),rgba(5,36,58,.98));
+}
+#vehicleSelectNote{
+  margin-top:.8vw;
+  color:#9edfff;
+  text-align:center;
+  font-size:.72vw;
+  line-height:1.45;
+}
+
+@media (orientation:portrait){
+  .selected-vehicle-name{font-size:1.28vw}
+  .selected-vehicle-engine{font-size:.74vw}
+  .selected-demo-note{font-size:.54vw}
+  #vehicleSelectModal{padding:16px}
+  .vehicle-select-card{
+    width:92vw;max-width:none;min-width:0;max-height:82vh;overflow:auto;
+    border-radius:18px;padding:17px 15px 15px;
+  }
+  .vehicle-select-title{font-size:24px}
+  .vehicle-select-sub{font-size:13px}
+  #vehicleSelectClose{width:42px;height:42px;font-size:24px;flex:0 0 auto}
+  .vehicle-options{grid-template-columns:1fr;gap:9px;margin-top:13px}
+  .vehicle-option{padding:11px 13px;border-radius:11px}
+  .vehicle-option strong{font-size:17px}
+  .vehicle-option span{font-size:12px}
+  #vehicleSelectNote{font-size:12px;margin-top:9px}
+}
+
 </style>
 </head>
 <body>
@@ -1662,6 +1795,13 @@ button{font:inherit}
         <button data-brand="Mercedes" style="--x:4"></button>
         <button data-brand="GMC" style="--x:5"></button>
         <button data-brand="Ford" style="--x:6"></button>
+      </div>
+      <button id="allVehiclesBtn" class="allVehiclesHot" aria-label="All Vehicles"></button>
+
+      <div id="selectedVehicleBadge" class="selected-vehicle-badge">
+        <div id="selectedVehicleName" class="selected-vehicle-name">Nissan Patrol 2014</div>
+        <div id="selectedVehicleEngine" class="selected-vehicle-engine">5.6L V8</div>
+        <div id="selectedVehicleDemoNote" class="selected-demo-note">LIVE TEST</div>
       </div>
 
       <div class="control-hotspots">
@@ -2331,6 +2471,47 @@ button{font:inherit}
         </div>
       </div>
 
+      
+      <div id="vehicleSelectModal" aria-hidden="true">
+        <div class="vehicle-select-card">
+          <div class="vehicle-select-head">
+            <div>
+              <div class="vehicle-select-title">اختيار المركبة / Select Vehicle</div>
+              <div class="vehicle-select-sub">اختر ملف المركبة التجريبي</div>
+            </div>
+            <button id="vehicleSelectClose" aria-label="إغلاق">×</button>
+          </div>
+
+          <div class="vehicle-options">
+            <button class="vehicle-option" data-select-brand="Toyota">
+              <strong>Toyota</strong><span>Land Cruiser 2014 — 5.7L V8</span>
+            </button>
+            <button class="vehicle-option" data-select-brand="Lexus">
+              <strong>Lexus</strong><span>LX 570 2014 — 5.7L V8</span>
+            </button>
+            <button class="vehicle-option active" data-select-brand="Nissan">
+              <strong>Nissan</strong><span>Patrol 2014 — 5.6L V8</span>
+            </button>
+            <button class="vehicle-option" data-select-brand="Honda">
+              <strong>Honda</strong><span>Pilot 2014 — 3.5L V6</span>
+            </button>
+            <button class="vehicle-option" data-select-brand="Mercedes">
+              <strong>Mercedes-Benz</strong><span>G 500 2014 — 5.5L V8</span>
+            </button>
+            <button class="vehicle-option" data-select-brand="GMC">
+              <strong>GMC</strong><span>Yukon 2014 — 5.3L V8</span>
+            </button>
+            <button class="vehicle-option" data-select-brand="Ford">
+              <strong>Ford</strong><span>Expedition 2014 — 5.4L V8</span>
+            </button>
+          </div>
+
+          <div id="vehicleSelectNote">
+            هذه المرحلة تغيّر بيانات ملف المركبة داخل البرنامج. صورة السيارة الرئيسية الحالية ستبقى تجريبية مؤقتًا.
+          </div>
+        </div>
+      </div>
+
       <div id="toast" role="status" aria-live="polite"></div>
     </div>
   </div>
@@ -2433,26 +2614,122 @@ function toast(message){
   window.__toastTimer=setTimeout(()=>t.classList.remove('show'),1800);
 }
 
-// Vehicle-brand selector demo
-document.querySelectorAll('.brand-hotspots button').forEach(btn=>{
-  btn.addEventListener('click',()=>{
-    document.querySelectorAll('.brand-hotspots button').forEach(b=>b.classList.remove('active'));
-    btn.classList.add('active');
+// Vehicle selector
+const vehicleProfiles = {
+  Toyota:   { brand:'Toyota', model:'Toyota Land Cruiser 2014', engine:'5.7L V8' },
+  Lexus:    { brand:'Lexus', model:'Lexus LX 570 2014', engine:'5.7L V8' },
+  Nissan:   { brand:'Nissan', model:'Nissan Patrol 2014', engine:'5.6L V8' },
+  Honda:    { brand:'Honda', model:'Honda Pilot 2014', engine:'3.5L V6' },
+  Mercedes: { brand:'Mercedes', model:'Mercedes-Benz G 500 2014', engine:'5.5L V8' },
+  GMC:      { brand:'GMC', model:'GMC Yukon 2014', engine:'5.3L V8' },
+  Ford:     { brand:'Ford', model:'Ford Expedition 2014', engine:'5.4L V8' }
+};
 
-    if(btn.dataset.brand === 'Nissan'){
-      state.rpm = 750;
-      state.speed = 0;
-      state.temp = 88;
-      state.batt = 12.8;
-      state.alt = 14.2;
-      state.fuel = 58;
-      render();
-      toast('Nissan Patrol 2014');
-    } else {
-      toast('سيتم إضافة ' + btn.dataset.brand + ' لاحقًا');
-    }
+let selectedVehicle = vehicleProfiles.Nissan;
+
+function updateVehicleText(){
+  document.getElementById('selectedVehicleName').textContent = selectedVehicle.model;
+  document.getElementById('selectedVehicleEngine').textContent = selectedVehicle.engine;
+  document.getElementById('selectedVehicleDemoNote').textContent =
+    selectedVehicle.brand === 'Nissan' ? 'LIVE TEST' : 'DEMO PROFILE';
+
+  const infoValues = document.querySelectorAll('#vehicleInfoModal .info-value');
+  if(infoValues[0]) infoValues[0].textContent = selectedVehicle.model;
+  if(infoValues[1]) infoValues[1].textContent = selectedVehicle.engine;
+
+  const vehicleInfoSub = document.querySelector('#vehicleInfoModal .vehicle-info-sub');
+  if(vehicleInfoSub) vehicleInfoSub.textContent = selectedVehicle.model;
+
+  const subs = [
+    ['#diagnosticsModal .diagnostics-sub',' — LIVE TEST'],
+    ['#tripFuelModal .trip-sub',' — LIVE TEST'],
+    ['#serviceModal .service-sub',' — LIVE TEST'],
+    ['#alertsModal .alerts-sub',' — LIVE TEST'],
+    ['#settingsModal .settings-sub',' — LIVE TEST'],
+    ['#liveDataModal .live-sub',' — LIVE TEST'],
+    ['#vehicleHealthModal .health-sub',' — LIVE TEST'],
+    ['#dtcModal .dtc-sub',' — LIVE TEST'],
+    ['#mapModal .map-sub',' — UAE MAP']
+  ];
+  subs.forEach(([selector,suffix])=>{
+    const el = document.querySelector(selector);
+    if(el) el.textContent = selectedVehicle.model + suffix;
+  });
+
+  const profileValues = document.querySelectorAll('#profileModal .profile-value');
+  if(profileValues[0]) profileValues[0].textContent = selectedVehicle.model;
+  if(profileValues[1]) profileValues[1].textContent = selectedVehicle.engine;
+
+  const supportVehicle = document.querySelector('#supportModal .support-value');
+  if(supportVehicle) supportVehicle.textContent = selectedVehicle.model;
+
+  document.querySelectorAll('.brand-hotspots button').forEach(b=>{
+    b.classList.toggle('active', b.dataset.brand === selectedVehicle.brand);
+  });
+  document.querySelectorAll('.vehicle-option').forEach(b=>{
+    b.classList.toggle('active', b.dataset.selectBrand === selectedVehicle.brand);
+  });
+}
+
+function selectVehicle(brand){
+  if(!vehicleProfiles[brand]) return;
+  selectedVehicle = vehicleProfiles[brand];
+
+  // Reset only demo live readings; saved settings/service values remain unchanged.
+  state.rpm = 750;
+  state.speed = 0;
+  state.temp = 88;
+  state.batt = 12.8;
+  state.alt = 14.2;
+  state.fuel = 58;
+
+  updateVehicleText();
+  render();
+  syncVehicleInfo();
+  syncDiagnostics();
+  syncTripFuel();
+  syncAlerts();
+  syncLiveData();
+  syncVehicleHealth();
+  syncDtcCodes();
+  syncMapPanel();
+  syncProfile();
+
+  toast(selectedVehicle.model);
+}
+
+document.querySelectorAll('.brand-hotspots button').forEach(btn=>{
+  btn.addEventListener('click',()=>selectVehicle(btn.dataset.brand));
+});
+
+const vehicleSelectModal = document.getElementById('vehicleSelectModal');
+document.getElementById('allVehiclesBtn').addEventListener('click',()=>{
+  updateVehicleText();
+  vehicleSelectModal.classList.add('open');
+  vehicleSelectModal.setAttribute('aria-hidden','false');
+});
+
+document.getElementById('vehicleSelectClose').addEventListener('click',()=>{
+  vehicleSelectModal.classList.remove('open');
+  vehicleSelectModal.setAttribute('aria-hidden','true');
+});
+
+vehicleSelectModal.addEventListener('click',(e)=>{
+  if(e.target === vehicleSelectModal){
+    vehicleSelectModal.classList.remove('open');
+    vehicleSelectModal.setAttribute('aria-hidden','true');
+  }
+});
+
+document.querySelectorAll('.vehicle-option').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    selectVehicle(btn.dataset.selectBrand);
+    vehicleSelectModal.classList.remove('open');
+    vehicleSelectModal.setAttribute('aria-hidden','true');
   });
 });
+
+updateVehicleText();
 
 // Live simulation start/pause
 $('liveBtn').addEventListener('click',()=>{
@@ -3199,7 +3476,8 @@ function closeAllPanels(){
     'dtcModal',
     'mapModal',
     'profileModal',
-    'supportModal'
+    'supportModal',
+    'vehicleSelectModal'
   ].forEach((id)=>{
     const el = document.getElementById(id);
     if(el){
