@@ -18,41 +18,44 @@ html,body{margin:0;width:100%;height:100%;background:#02070c;overflow:hidden;fon
 #speedUnit{left:71.7%;top:46.2%;width:9.5%}
 
 .gaugeLive{
-  position:absolute;z-index:3;
+  position:absolute;z-index:5;
   color:#fff;font-weight:900;text-align:center;line-height:1;
-  font-size:2.15vw;
-  background:rgba(3,16,27,.98);
-  border-radius:.45vw;
-  padding:.28vw .25vw .18vw;
+  font-size:1.72vw;
+  background:rgba(2,17,28,.96);
+  border-radius:.35vw;
+  padding:.22vw .18vw .14vw;
   text-shadow:0 0 8px rgba(41,168,255,.55);
+  white-space:nowrap;
 }
-#engineTemp{left:20.0%;top:63.0%;width:6.3%}
-#battery{left:29.7%;top:63.0%;width:7.3%}
-#alternator{left:40.3%;top:63.0%;width:6.9%}
-#fuel{left:50.8%;top:63.0%;width:6.6%}
+#engineTemp{left:20.2%;top:64.1%;width:6.1%}
+#battery{left:29.7%;top:64.1%;width:7.1%}
+#alternator{left:40.2%;top:64.1%;width:7.0%}
+#fuel{left:50.7%;top:64.1%;width:6.7%}
 
 
 .gaugeArc{
-  position:absolute;z-index:4;width:8.4%;height:7.4%;
+  position:absolute;z-index:4;height:7.6%;
   pointer-events:none;
 }
 .gaugeArc svg{width:100%;height:100%;overflow:visible}
+.gaugeArc .erase{
+  fill:none;stroke:#071925;stroke-width:20;stroke-linecap:round;
+}
 .gaugeArc .track{
-  fill:none;stroke:rgba(40,90,130,.18);stroke-width:8;stroke-linecap:round;
+  fill:none;stroke:#173956;stroke-width:11;stroke-linecap:round;
 }
 .gaugeArc .fill{
-  fill:none;stroke-width:8;stroke-linecap:round;
-  stroke-dasharray:126;stroke-dashoffset:40;
-  transition:stroke-dashoffset .8s ease;
-  filter:drop-shadow(0 0 5px currentColor);
+  fill:none;stroke-width:11;stroke-linecap:round;
+  stroke-dasharray:132;stroke-dashoffset:45;
+  transition:stroke-dashoffset .75s ease;
 }
-#arcTemp{left:20.35%;top:55.2%}
-#arcBatt{left:29.85%;top:55.2%}
-#arcAlt{left:40.35%;top:55.2%}
-#arcFuel{left:50.9%;top:55.2%}
-#arcTemp .fill,#arcAlt .fill{stroke:#20f0a0;color:#20f0a0}
-#arcBatt .fill{stroke:#3fe1ff;color:#3fe1ff}
-#arcFuel .fill{stroke:#43bfff;color:#43bfff}
+#arcTemp{left:18.25%;top:56.9%;width:8.55%}
+#arcBatt{left:28.75%;top:56.9%;width:8.15%}
+#arcAlt{left:39.20%;top:56.9%;width:8.15%}
+#arcFuel{left:49.72%;top:56.9%;width:8.15%}
+#arcTemp .fill,#arcAlt .fill{stroke:#19efa0;filter:drop-shadow(0 0 4px #19efa0)}
+#arcBatt .fill{stroke:#20efb0;filter:drop-shadow(0 0 4px #20efb0)}
+#arcFuel .fill{stroke:#42bfff;filter:drop-shadow(0 0 4px #42bfff)}
 
 .badge{position:absolute;right:1.4%;top:1.4%;z-index:4;padding:.35vw .65vw;border:1px solid #1da7ff;border-radius:.55vw;background:rgba(4,16,26,.78);color:#7fd0ff;font-size:.75vw;font-weight:800}
 </style>
@@ -74,27 +77,31 @@ html,body{margin:0;width:100%;height:100%;background:#02070c;overflow:hidden;fon
 
 
     <div id="arcTemp" class="gaugeArc">
-      <svg viewBox="0 0 100 55" aria-hidden="true">
-        <path class="track" d="M10 50 A40 40 0 0 1 90 50"/>
-        <path id="tempFill" class="fill" d="M10 50 A40 40 0 0 1 90 50"/>
+      <svg viewBox="0 0 100 60" aria-hidden="true">
+        <path class="erase" d="M8 52 A42 42 0 0 1 92 52"/>
+        <path class="track" d="M8 52 A42 42 0 0 1 92 52"/>
+        <path id="tempFill" class="fill" d="M8 52 A42 42 0 0 1 92 52"/>
       </svg>
     </div>
     <div id="arcBatt" class="gaugeArc">
-      <svg viewBox="0 0 100 55" aria-hidden="true">
-        <path class="track" d="M10 50 A40 40 0 0 1 90 50"/>
-        <path id="battFill" class="fill" d="M10 50 A40 40 0 0 1 90 50"/>
+      <svg viewBox="0 0 100 60" aria-hidden="true">
+        <path class="erase" d="M8 52 A42 42 0 0 1 92 52"/>
+        <path class="track" d="M8 52 A42 42 0 0 1 92 52"/>
+        <path id="battFill" class="fill" d="M8 52 A42 42 0 0 1 92 52"/>
       </svg>
     </div>
     <div id="arcAlt" class="gaugeArc">
-      <svg viewBox="0 0 100 55" aria-hidden="true">
-        <path class="track" d="M10 50 A40 40 0 0 1 90 50"/>
-        <path id="altFill" class="fill" d="M10 50 A40 40 0 0 1 90 50"/>
+      <svg viewBox="0 0 100 60" aria-hidden="true">
+        <path class="erase" d="M8 52 A42 42 0 0 1 92 52"/>
+        <path class="track" d="M8 52 A42 42 0 0 1 92 52"/>
+        <path id="altFill" class="fill" d="M8 52 A42 42 0 0 1 92 52"/>
       </svg>
     </div>
     <div id="arcFuel" class="gaugeArc">
-      <svg viewBox="0 0 100 55" aria-hidden="true">
-        <path class="track" d="M10 50 A40 40 0 0 1 90 50"/>
-        <path id="fuelFill" class="fill" d="M10 50 A40 40 0 0 1 90 50"/>
+      <svg viewBox="0 0 100 60" aria-hidden="true">
+        <path class="erase" d="M8 52 A42 42 0 0 1 92 52"/>
+        <path class="track" d="M8 52 A42 42 0 0 1 92 52"/>
+        <path id="fuelFill" class="fill" d="M8 52 A42 42 0 0 1 92 52"/>
       </svg>
     </div>
 
@@ -108,7 +115,7 @@ let r=1750, s=70, temp=91, batt=12.5, alt=14.1, fuel=61;
 
 function setArc(id, fraction){
   fraction=Math.max(0,Math.min(1,fraction));
-  document.getElementById(id).style.strokeDashoffset=(126*(1-fraction)).toFixed(1);
+  document.getElementById(id).style.strokeDashoffset=(132*(1-fraction)).toFixed(1);
 }
 
 setInterval(()=>{
