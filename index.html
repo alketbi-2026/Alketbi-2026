@@ -1734,6 +1734,50 @@ button{font:inherit}
   #vehicleSelectNote{font-size:12px;margin-top:9px}
 }
 
+
+/* Dynamic vehicle artwork shown for non-Nissan profiles */
+#vehicleStage{
+  position:absolute;
+  z-index:6;
+  left:36.8%;
+  top:33.9%;
+  width:31.5%;
+  height:34.0%;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  overflow:hidden;
+  border-radius:1vw;
+  background:
+    radial-gradient(circle at 50% 78%, rgba(19,96,145,.24), transparent 38%),
+    linear-gradient(180deg,rgba(4,18,31,.995),rgba(2,13,23,.995));
+  box-shadow:inset 0 0 24px rgba(0,115,190,.18);
+  pointer-events:none;
+}
+#vehicleStage::before{
+  content:"";
+  position:absolute;
+  inset:auto 0 0 0;
+  height:22%;
+  background:linear-gradient(180deg,rgba(5,31,49,.2),rgba(4,43,69,.58));
+  border-top:1px solid rgba(53,165,225,.15);
+}
+#vehicleArt{
+  position:relative;
+  z-index:2;
+  width:95%;
+  height:92%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+#vehicleArt svg{
+  width:100%;
+  height:100%;
+  overflow:visible;
+  filter:drop-shadow(0 10px 12px rgba(0,0,0,.55));
+}
+
 </style>
 </head>
 <body>
@@ -1817,6 +1861,10 @@ button{font:inherit}
       </div>
       <div id="nissanStaticMask" aria-hidden="true"></div>
       <button id="allVehiclesBtn" class="allVehiclesHot" aria-label="All Vehicles"></button>
+
+      <div id="vehicleStage" aria-hidden="true">
+        <div id="vehicleArt"></div>
+      </div>
 
       <div id="selectedVehicleBadge" class="selected-vehicle-badge">
         <div id="selectedVehicleName" class="selected-vehicle-name">Nissan Patrol 2014</div>
@@ -2647,11 +2695,106 @@ const vehicleProfiles = {
 
 let selectedVehicle = vehicleProfiles.Nissan;
 
+
+function vehicleSvg(brand){
+  const base = {
+    Toyota:   { body:'#e8eef3', trim:'#23384a', glass:'#7db4d2', label:'TOYOTA', roof:'round', grille:'wide' },
+    Lexus:    { body:'#f3f4f5', trim:'#1e2d39', glass:'#78a9c4', label:'LEXUS', roof:'round', grille:'spindle' },
+    Honda:    { body:'#cfd6db', trim:'#273744', glass:'#7aa9c2', label:'HONDA', roof:'slope', grille:'slim' },
+    Mercedes: { body:'#4f5962', trim:'#111a22', glass:'#6d9db7', label:'G 500', roof:'box', grille:'round' },
+    GMC:      { body:'#8a2027', trim:'#202d38', glass:'#719db5', label:'GMC', roof:'large', grille:'wide' },
+    Ford:     { body:'#315c87', trim:'#1b2b38', glass:'#77a8c2', label:'FORD', roof:'large', grille:'wide' }
+  }[brand] || { body:'#dfe5e9', trim:'#243642', glass:'#78a8c0', label:brand, roof:'large', grille:'wide' };
+
+  let roofPath = 'M135 92 L175 54 Q188 42 212 42 H352 Q377 42 394 57 L433 92';
+  if(base.roof === 'box') roofPath = 'M140 92 L163 48 Q168 40 181 40 H373 Q387 40 392 50 L423 92';
+  if(base.roof === 'slope') roofPath = 'M138 92 L180 61 Q191 51 211 50 H341 Q365 50 383 64 L425 92';
+  if(base.roof === 'large') roofPath = 'M128 92 L167 51 Q177 41 198 41 H360 Q382 41 398 55 L440 92';
+
+  let grille = `<rect x="391" y="105" width="62" height="48" rx="10" fill="${base.trim}" stroke="#9ec9dc" stroke-width="2"/>
+                 <rect x="401" y="113" width="42" height="6" rx="3" fill="#d6e8f0"/>
+                 <rect x="401" y="125" width="42" height="6" rx="3" fill="#d6e8f0"/>
+                 <rect x="401" y="137" width="42" height="6" rx="3" fill="#d6e8f0"/>`;
+  if(base.grille === 'spindle'){
+    grille = `<path d="M397 103 L451 103 L438 129 L451 156 L397 156 L410 129 Z" fill="${base.trim}" stroke="#dbeef6" stroke-width="2"/>
+              <text x="424" y="134" text-anchor="middle" font-size="10" fill="#fff" font-weight="800">L</text>`;
+  } else if(base.grille === 'round'){
+    grille = `<rect x="391" y="105" width="62" height="48" rx="8" fill="${base.trim}" stroke="#9ec9dc" stroke-width="2"/>
+              <circle cx="422" cy="129" r="17" fill="none" stroke="#dbeef6" stroke-width="2"/>
+              <path d="M405 129 H439 M422 112 V146" stroke="#dbeef6" stroke-width="1.5"/>`;
+  } else if(base.grille === 'slim'){
+    grille = `<rect x="390" y="112" width="65" height="34" rx="9" fill="${base.trim}" stroke="#a7cedf" stroke-width="2"/>
+              <rect x="400" y="121" width="45" height="5" rx="2.5" fill="#e6f1f6"/>
+              <rect x="400" y="132" width="45" height="5" rx="2.5" fill="#e6f1f6"/>`;
+  }
+
+  return `
+  <svg viewBox="0 0 560 250" role="img" aria-label="${brand} vehicle illustration">
+    <defs>
+      <linearGradient id="bodyGrad-${brand}" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="${base.body}"/>
+        <stop offset="1" stop-color="#87939d"/>
+      </linearGradient>
+      <linearGradient id="glassGrad-${brand}" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="${base.glass}"/>
+        <stop offset="1" stop-color="#253c4b"/>
+      </linearGradient>
+    </defs>
+
+    <ellipse cx="285" cy="204" rx="220" ry="20" fill="rgba(0,0,0,.45)"/>
+
+    <path d="${roofPath}" fill="none" stroke="#82929e" stroke-width="3"/>
+    <path d="M86 93 Q102 87 132 87 H439 Q468 87 486 102 L508 122 Q518 132 516 153
+             L510 177 Q506 190 490 190 H75 Q58 190 55 174 L51 145 Q49 126 63 112 Z"
+          fill="url(#bodyGrad-${brand})" stroke="#8ea0ac" stroke-width="3"/>
+
+    <path d="M144 91 L181 58 Q190 50 207 50 H356 Q372 50 386 61 L423 91 Z"
+          fill="url(#glassGrad-${brand})" stroke="#6f8796" stroke-width="2"/>
+    <path d="M222 54 V90 M309 52 V90 M378 63 L360 91" stroke="#b5c9d4" stroke-width="3"/>
+
+    <path d="M77 105 H124 Q137 105 137 118 V145 H66 V125 Q66 112 77 105 Z"
+          fill="#d9edf7" opacity=".85"/>
+    <path d="M462 105 H489 Q499 110 506 121 L512 132 H462 Z"
+          fill="#d9edf7" opacity=".85"/>
+
+    ${grille}
+
+    <path d="M97 157 H382" stroke="${base.trim}" stroke-width="4" opacity=".65"/>
+    <path d="M163 96 V167 M273 96 V167 M365 96 V167" stroke="#596e7b" stroke-width="2.5"/>
+
+    <circle cx="146" cy="187" r="35" fill="#111820" stroke="#344650" stroke-width="7"/>
+    <circle cx="146" cy="187" r="18" fill="#9aa6ad" stroke="#dce6ea" stroke-width="4"/>
+    <circle cx="433" cy="187" r="35" fill="#111820" stroke="#344650" stroke-width="7"/>
+    <circle cx="433" cy="187" r="18" fill="#9aa6ad" stroke="#dce6ea" stroke-width="4"/>
+
+    <rect x="230" y="153" width="104" height="25" rx="7" fill="rgba(3,18,30,.86)" stroke="#6ab8dd" stroke-width="1.5"/>
+    <text x="282" y="170" text-anchor="middle" font-size="16" fill="#f5fbff" font-weight="900">${base.label}</text>
+
+    <text x="282" y="224" text-anchor="middle" font-size="14" fill="#82dafd" font-weight="800">${brand} • DEMO VEHICLE</text>
+  </svg>`;
+}
+
+function updateVehicleArt(){
+  const stage = document.getElementById('vehicleStage');
+  const art = document.getElementById('vehicleArt');
+  if(!stage || !art) return;
+
+  if(selectedVehicle.brand === 'Nissan'){
+    stage.style.display = 'none';
+    art.innerHTML = '';
+  }else{
+    stage.style.display = 'flex';
+    art.innerHTML = vehicleSvg(selectedVehicle.brand);
+  }
+}
+
 function updateVehicleText(){
   document.getElementById('selectedVehicleName').textContent = selectedVehicle.model;
   document.getElementById('selectedVehicleEngine').textContent = selectedVehicle.engine;
   document.getElementById('selectedVehicleDemoNote').textContent =
     selectedVehicle.brand === 'Nissan' ? 'LIVE TEST' : 'DEMO PROFILE';
+
+  updateVehicleArt();
 
   const infoValues = document.querySelectorAll('#vehicleInfoModal .info-value');
   if(infoValues[0]) infoValues[0].textContent = selectedVehicle.model;
