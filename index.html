@@ -702,6 +702,142 @@ button{font:inherit}
   #alertsNote{font-size:12px;margin-top:10px}
 }
 
+
+/* Settings clickable area */
+#settingsHotspot{
+  position:absolute;
+  z-index:40;
+  left:2.0%;
+  top:87.8%;
+  width:14.8%;
+  height:8.8%;
+  border:0;
+  background:transparent;
+  cursor:pointer;
+  touch-action:manipulation;
+  -webkit-tap-highlight-color:transparent;
+}
+
+/* Settings modal */
+#settingsModal{
+  position:fixed;
+  z-index:10002;
+  inset:0;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  padding:20px;
+  background:rgba(1,8,14,.78);
+  backdrop-filter:blur(4px);
+}
+#settingsModal.open{display:flex}
+
+.settings-card{
+  width:60%;
+  max-width:920px;
+  min-width:520px;
+  background:linear-gradient(180deg,rgba(7,26,40,.99),rgba(3,14,23,.99));
+  border:1px solid #1ca9ef;
+  border-radius:1.2vw;
+  box-shadow:0 0 30px rgba(0,153,255,.25), inset 0 0 25px rgba(0,100,170,.10);
+  color:#eef8ff;
+  padding:1.3vw 1.5vw 1.4vw;
+  direction:rtl;
+}
+.settings-head{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:1vw;
+  padding-bottom:.9vw;
+  border-bottom:1px solid rgba(100,190,240,.25);
+}
+.settings-title{font-size:1.6vw;font-weight:900}
+.settings-sub{font-size:.9vw;color:#7fdcff;margin-top:.2vw}
+#settingsClose{
+  width:2.5vw;height:2.5vw;border-radius:50%;
+  border:1px solid #35baff;background:#061a28;color:#fff;
+  font-size:1.4vw;font-weight:900;
+}
+.settings-grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:.8vw;
+  margin-top:1vw;
+}
+.setting-box{
+  background:rgba(6,25,39,.88);
+  border:1px solid rgba(61,160,218,.28);
+  border-radius:.75vw;
+  padding:.9vw 1vw;
+  min-height:5.4vw;
+}
+.setting-label{color:#8fdfff;font-size:.8vw;margin-bottom:.4vw}
+.setting-row{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:.6vw;
+}
+.setting-value{
+  color:#fff;font-size:1.2vw;font-weight:900;
+  direction:ltr;unicode-bidi:isolate;
+}
+.setting-controls{
+  display:flex;
+  align-items:center;
+  gap:.35vw;
+}
+.setting-controls button,
+.setting-action{
+  border:1px solid #25b6ff;
+  background:#07263a;
+  color:#fff;
+  border-radius:.5vw;
+  min-width:2.2vw;
+  padding:.42vw .65vw;
+  font-size:.9vw;
+  font-weight:900;
+}
+.setting-state{
+  color:#35f2a1;
+  font-size:.75vw;
+  margin-top:.35vw;
+}
+#settingsSaveBtn{
+  margin-top:1vw;
+  width:100%;
+  border:1px solid #25b6ff;
+  border-radius:.65vw;
+  background:linear-gradient(180deg,#0b4b72,#07314e);
+  color:#fff;
+  padding:.65vw;
+  font-size:1vw;
+  font-weight:900;
+}
+#settingsNote{
+  margin-top:.75vw;color:#8edfff;text-align:center;font-size:.75vw;
+}
+
+@media (orientation:portrait){
+  #settingsModal{padding:18px}
+  .settings-card{
+    width:92vw;max-width:none;min-width:0;max-height:82vh;overflow:auto;
+    border-radius:18px;padding:18px 16px 16px;
+  }
+  .settings-title{font-size:24px}
+  .settings-sub{font-size:13px}
+  #settingsClose{width:42px;height:42px;font-size:24px;flex:0 0 auto}
+  .settings-grid{grid-template-columns:1fr;gap:10px;margin-top:14px}
+  .setting-box{min-height:94px;padding:12px 14px;border-radius:12px}
+  .setting-label{font-size:13px}
+  .setting-value{font-size:20px}
+  .setting-controls button,.setting-action{font-size:14px;padding:9px 12px;border-radius:9px}
+  .setting-state{font-size:12px}
+  #settingsSaveBtn{padding:12px;font-size:15px;border-radius:10px}
+  #settingsNote{font-size:12px;margin-top:10px}
+}
+
 </style>
 </head>
 <body>
@@ -1042,6 +1178,71 @@ button{font:inherit}
         </div>
       </div>
 
+      
+      <button id="settingsHotspot" aria-label="الإعدادات"></button>
+
+      <div id="settingsModal" aria-hidden="true">
+        <div class="settings-card">
+          <div class="settings-head">
+            <div>
+              <div class="settings-title">الإعدادات / Settings</div>
+              <div class="settings-sub">Nissan Patrol 2014 — LIVE TEST</div>
+            </div>
+            <button id="settingsClose" aria-label="إغلاق">×</button>
+          </div>
+
+          <div class="settings-grid">
+            <div class="setting-box">
+              <div class="setting-label">حد تنبيه البطارية / Low Battery Alert</div>
+              <div class="setting-row">
+                <div id="settingsBatteryLimit" class="setting-value">11.0 V</div>
+                <div class="setting-controls">
+                  <button id="settingsBatteryMinus">−</button>
+                  <button id="settingsBatteryPlus">+</button>
+                </div>
+              </div>
+              <div class="setting-state">Adjustable 9.0–13.0 V</div>
+            </div>
+
+            <div class="setting-box">
+              <div class="setting-label">حد حرارة المحرك / High Temp Alert</div>
+              <div class="setting-row">
+                <div id="settingsTempLimit" class="setting-value">105°C</div>
+                <div class="setting-controls">
+                  <button id="settingsTempMinus">−</button>
+                  <button id="settingsTempPlus">+</button>
+                </div>
+              </div>
+              <div class="setting-state">Adjustable 95–115°C</div>
+            </div>
+
+            <div class="setting-box">
+              <div class="setting-label">التنبيهات / Alerts</div>
+              <div class="setting-row">
+                <div id="settingsAlertsState" class="setting-value">ON</div>
+                <button id="settingsAlertsToggle" class="setting-action">تشغيل / إيقاف</button>
+              </div>
+              <div class="setting-state">Enable or disable visual alert status</div>
+            </div>
+
+            <div class="setting-box">
+              <div class="setting-label">سطوع الواجهة / Display Brightness</div>
+              <div class="setting-row">
+                <div id="settingsBrightnessValue" class="setting-value">100%</div>
+                <div class="setting-controls">
+                  <button id="settingsBrightnessMinus">−</button>
+                  <button id="settingsBrightnessPlus">+</button>
+                </div>
+              </div>
+              <div class="setting-state">70–120%</div>
+            </div>
+          </div>
+
+          <button id="settingsSaveBtn">حفظ الإعدادات / Save Settings</button>
+          <div id="settingsNote">الإعدادات تخص النسخة التجريبية الحالية.</div>
+        </div>
+      </div>
+
       <div id="toast" role="status" aria-live="polite"></div>
     </div>
   </div>
@@ -1071,6 +1272,12 @@ let serviceState = {
   oilKm: 5000,
   tireKm: 10000,
   generalKm: 8000
+};
+
+let settingsState = {
+  tempLimit: 105,
+  alertsEnabled: true,
+  brightness: 100
 };
 
 const $ = id => document.getElementById(id);
@@ -1122,6 +1329,7 @@ function tick(){
   syncTripFuel();
   syncServiceReminder();
   syncAlerts();
+  syncSettings();
 }
 
 function toast(message){
@@ -1390,10 +1598,12 @@ function syncAlerts(){
     setAlertState('alertBatteryState','Normal','ok');
   }
 
-  if(temp >= 105){
+  if(!settingsState.alertsEnabled){
+    setAlertState('alertTempState','Alerts Off','ok');
+  }else if(temp >= settingsState.tempLimit){
     setAlertState('alertTempState','High Temperature','danger');
     problems++;
-  }else if(temp >= 100){
+  }else if(temp >= settingsState.tempLimit - 5){
     setAlertState('alertTempState','Watch','warn');
     problems++;
   }else{
@@ -1427,12 +1637,17 @@ function syncAlerts(){
     setAlertState('alertDtcState','No Faults','ok');
   }
 
-  document.getElementById('alertOverallValue').textContent = problems ? 'CHECK' : 'OK';
-  setAlertState(
-    'alertOverallState',
-    problems ? (problems + ' alert(s) need attention') : 'All systems normal',
-    problems ? 'warn' : 'ok'
-  );
+  if(!settingsState.alertsEnabled){
+    document.getElementById('alertOverallValue').textContent = 'OFF';
+    setAlertState('alertOverallState','Alerts disabled','ok');
+  }else{
+    document.getElementById('alertOverallValue').textContent = problems ? 'CHECK' : 'OK';
+    setAlertState(
+      'alertOverallState',
+      problems ? (problems + ' alert(s) need attention') : 'All systems normal',
+      problems ? 'warn' : 'ok'
+    );
+  }
 }
 
 alertsHotspot.addEventListener('click',()=>{
@@ -1459,8 +1674,108 @@ checkAlertsBtn.addEventListener('click',()=>{
     'تم تحديث فحص التنبيهات التجريبي / Demo alert check updated';
 });
 
+
+// Settings panel
+const settingsHotspot = document.getElementById('settingsHotspot');
+const settingsModal = document.getElementById('settingsModal');
+const settingsClose = document.getElementById('settingsClose');
+
+function syncSettings(){
+  document.getElementById('settingsBatteryLimit').textContent = batteryLimit.toFixed(1) + ' V';
+  document.getElementById('settingsTempLimit').textContent = Math.round(settingsState.tempLimit) + '°C';
+  document.getElementById('settingsAlertsState').textContent = settingsState.alertsEnabled ? 'ON' : 'OFF';
+  document.getElementById('settingsBrightnessValue').textContent = settingsState.brightness + '%';
+
+  // Keep the battery control on the main dashboard in sync.
+  showLimit();
+
+  // Apply display brightness to dashboard content only.
+  document.getElementById('bg').style.filter = `brightness(${settingsState.brightness}%)`;
+}
+
+settingsHotspot.addEventListener('click',()=>{
+  syncSettings();
+  settingsModal.classList.add('open');
+  settingsModal.setAttribute('aria-hidden','false');
+});
+
+settingsClose.addEventListener('click',()=>{
+  settingsModal.classList.remove('open');
+  settingsModal.setAttribute('aria-hidden','true');
+});
+
+settingsModal.addEventListener('click',(e)=>{
+  if(e.target === settingsModal){
+    settingsModal.classList.remove('open');
+    settingsModal.setAttribute('aria-hidden','true');
+  }
+});
+
+document.getElementById('settingsBatteryMinus').addEventListener('click',()=>{
+  batteryLimit = clamp(batteryLimit - 0.1, 9.0, 13.0);
+  syncSettings();
+  syncAlerts();
+});
+
+document.getElementById('settingsBatteryPlus').addEventListener('click',()=>{
+  batteryLimit = clamp(batteryLimit + 0.1, 9.0, 13.0);
+  syncSettings();
+  syncAlerts();
+});
+
+document.getElementById('settingsTempMinus').addEventListener('click',()=>{
+  settingsState.tempLimit = clamp(settingsState.tempLimit - 1, 95, 115);
+  syncSettings();
+});
+
+document.getElementById('settingsTempPlus').addEventListener('click',()=>{
+  settingsState.tempLimit = clamp(settingsState.tempLimit + 1, 95, 115);
+  syncSettings();
+});
+
+document.getElementById('settingsAlertsToggle').addEventListener('click',()=>{
+  settingsState.alertsEnabled = !settingsState.alertsEnabled;
+  syncSettings();
+  syncAlerts();
+});
+
+document.getElementById('settingsBrightnessMinus').addEventListener('click',()=>{
+  settingsState.brightness = clamp(settingsState.brightness - 10, 70, 120);
+  syncSettings();
+});
+
+document.getElementById('settingsBrightnessPlus').addEventListener('click',()=>{
+  settingsState.brightness = clamp(settingsState.brightness + 10, 70, 120);
+  syncSettings();
+});
+
+document.getElementById('settingsSaveBtn').addEventListener('click',()=>{
+  localStorage.setItem('alketbiSettings', JSON.stringify({
+    batteryLimit,
+    tempLimit: settingsState.tempLimit,
+    alertsEnabled: settingsState.alertsEnabled,
+    brightness: settingsState.brightness
+  }));
+  document.getElementById('settingsNote').textContent =
+    'تم حفظ الإعدادات على هذا الجهاز / Settings saved on this device';
+  syncAlerts();
+});
+
+// Restore saved settings on this device.
+try{
+  const savedSettings = JSON.parse(localStorage.getItem('alketbiSettings') || 'null');
+  if(savedSettings){
+    if(typeof savedSettings.batteryLimit === 'number') batteryLimit = clamp(savedSettings.batteryLimit,9,13);
+    if(typeof savedSettings.tempLimit === 'number') settingsState.tempLimit = clamp(savedSettings.tempLimit,95,115);
+    if(typeof savedSettings.alertsEnabled === 'boolean') settingsState.alertsEnabled = savedSettings.alertsEnabled;
+    if(typeof savedSettings.brightness === 'number') settingsState.brightness = clamp(savedSettings.brightness,70,120);
+  }
+}catch(e){}
+
 render();
 showLimit();
+syncSettings();
+syncAlerts();
 setInterval(tick,1200);
 
 </script>
