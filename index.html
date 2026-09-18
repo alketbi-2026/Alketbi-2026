@@ -470,6 +470,123 @@ button{font:inherit}
   }
 }
 
+
+/* Service Reminder clickable area */
+#serviceHotspot{
+  position:absolute;
+  z-index:40;
+  left:2.0%;
+  top:70.5%;
+  width:14.8%;
+  height:8.8%;
+  border:0;
+  background:transparent;
+  cursor:pointer;
+  touch-action:manipulation;
+  -webkit-tap-highlight-color:transparent;
+}
+
+/* Service Reminder modal */
+#serviceModal{
+  position:fixed;
+  z-index:10000;
+  inset:0;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  padding:20px;
+  background:rgba(1,8,14,.78);
+  backdrop-filter:blur(4px);
+}
+#serviceModal.open{display:flex}
+
+.service-card{
+  width:60%;
+  max-width:920px;
+  min-width:520px;
+  background:linear-gradient(180deg,rgba(7,26,40,.99),rgba(3,14,23,.99));
+  border:1px solid #1ca9ef;
+  border-radius:1.2vw;
+  box-shadow:0 0 30px rgba(0,153,255,.25), inset 0 0 25px rgba(0,100,170,.10);
+  color:#eef8ff;
+  padding:1.3vw 1.5vw 1.4vw;
+  direction:rtl;
+}
+.service-head{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:1vw;
+  padding-bottom:.9vw;
+  border-bottom:1px solid rgba(100,190,240,.25);
+}
+.service-title{font-size:1.6vw;font-weight:900}
+.service-sub{font-size:.9vw;color:#7fdcff;margin-top:.2vw}
+#serviceClose{
+  width:2.5vw;height:2.5vw;border-radius:50%;
+  border:1px solid #35baff;background:#061a28;color:#fff;
+  font-size:1.4vw;font-weight:900;
+}
+.service-grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:.8vw;
+  margin-top:1vw;
+}
+.service-box{
+  background:rgba(6,25,39,.88);
+  border:1px solid rgba(61,160,218,.28);
+  border-radius:.75vw;
+  padding:.9vw 1vw;
+  min-height:5.2vw;
+}
+.service-label{color:#8fdfff;font-size:.8vw;margin-bottom:.25vw}
+.service-value{
+  color:#fff;font-size:1.35vw;font-weight:900;
+  direction:ltr;unicode-bidi:isolate;
+}
+.service-status{color:#35f2a1;font-size:.75vw;margin-top:.3vw}
+.service-actions{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:.7vw;
+  margin-top:1vw;
+}
+.service-actions button{
+  border:1px solid #25b6ff;
+  border-radius:.65vw;
+  background:linear-gradient(180deg,#0b4b72,#07314e);
+  color:#fff;
+  padding:.65vw;
+  font-size:.92vw;
+  font-weight:900;
+}
+#serviceNote{
+  margin-top:.75vw;
+  color:#8edfff;
+  text-align:center;
+  font-size:.75vw;
+}
+
+@media (orientation:portrait){
+  #serviceModal{padding:18px}
+  .service-card{
+    width:92vw;max-width:none;min-width:0;max-height:82vh;overflow:auto;
+    border-radius:18px;padding:18px 16px 16px;
+  }
+  .service-title{font-size:24px}
+  .service-sub{font-size:13px}
+  #serviceClose{width:42px;height:42px;font-size:24px;flex:0 0 auto}
+  .service-grid{gap:10px;margin-top:14px}
+  .service-box{min-height:96px;padding:12px 14px;border-radius:12px}
+  .service-label{font-size:13px}
+  .service-value{font-size:21px}
+  .service-status{font-size:12px}
+  .service-actions{grid-template-columns:1fr;gap:9px;margin-top:14px}
+  .service-actions button{padding:12px;font-size:15px;border-radius:10px}
+  #serviceNote{font-size:12px;margin-top:10px}
+}
+
 </style>
 </head>
 <body>
@@ -703,6 +820,57 @@ button{font:inherit}
         </div>
       </div>
 
+      
+      <button id="serviceHotspot" aria-label="تذكير الصيانة"></button>
+
+      <div id="serviceModal" aria-hidden="true">
+        <div class="service-card">
+          <div class="service-head">
+            <div>
+              <div class="service-title">تذكير الصيانة / Service Reminder</div>
+              <div class="service-sub">Nissan Patrol 2014 — LIVE TEST</div>
+            </div>
+            <button id="serviceClose" aria-label="إغلاق">×</button>
+          </div>
+
+          <div class="service-grid">
+            <div class="service-box">
+              <div class="service-label">تغيير الزيت / Oil Change</div>
+              <div id="oilRemain" class="service-value">5000 km</div>
+              <div class="service-status">Remaining</div>
+            </div>
+
+            <div class="service-box">
+              <div class="service-label">صيانة الإطارات / Tire Service</div>
+              <div id="tireRemain" class="service-value">10000 km</div>
+              <div class="service-status">Remaining</div>
+            </div>
+
+            <div class="service-box">
+              <div class="service-label">الصيانة العامة / General Service</div>
+              <div id="generalRemain" class="service-value">8000 km</div>
+              <div class="service-status">Remaining</div>
+            </div>
+
+            <div class="service-box">
+              <div class="service-label">حالة الصيانة / Service Status</div>
+              <div id="serviceStatus" class="service-value">OK</div>
+              <div class="service-status">No service due</div>
+            </div>
+          </div>
+
+          <div class="service-actions">
+            <button id="resetOilBtn">إعادة ضبط الزيت / Reset Oil</button>
+            <button id="resetTireBtn">إعادة ضبط الإطارات / Reset Tires</button>
+            <button id="resetAllServiceBtn">إعادة ضبط الكل / Reset All</button>
+          </div>
+
+          <div id="serviceNote">
+            القيم الحالية تجريبية ويمكن تعديلها لاحقًا حسب جدول صيانة السيارة.
+          </div>
+        </div>
+      </div>
+
       <div id="toast" role="status" aria-live="polite"></div>
     </div>
   </div>
@@ -726,6 +894,12 @@ let tripState = {
   distanceKm: 12.4,
   seconds: 1104,
   avgConsumption: 16.8
+};
+
+let serviceState = {
+  oilKm: 5000,
+  tireKm: 10000,
+  generalKm: 8000
 };
 
 const $ = id => document.getElementById(id);
@@ -764,12 +938,18 @@ function tick(){
 
   // Demo trip progression: 1.2 seconds per simulation tick.
   tripState.seconds += 1.2;
-  tripState.distanceKm += state.speed * (1.2 / 3600);
+  const demoDeltaKm = state.speed * (1.2 / 3600);
+  tripState.distanceKm += demoDeltaKm;
+
+  serviceState.oilKm -= demoDeltaKm;
+  serviceState.tireKm -= demoDeltaKm;
+  serviceState.generalKm -= demoDeltaKm;
 
   render();
   syncVehicleInfo();
   syncDiagnostics();
   syncTripFuel();
+  syncServiceReminder();
 }
 
 function toast(message){
@@ -942,6 +1122,59 @@ resetTripBtn.addEventListener('click',()=>{
   syncTripFuel();
   document.getElementById('tripNote').textContent =
     'تمت إعادة ضبط الرحلة التجريبية / Demo trip reset';
+});
+
+
+// Service Reminder panel
+const serviceHotspot = document.getElementById('serviceHotspot');
+const serviceModal = document.getElementById('serviceModal');
+const serviceClose = document.getElementById('serviceClose');
+
+function syncServiceReminder(){
+  document.getElementById('oilRemain').textContent = Math.max(0, Math.round(serviceState.oilKm)) + ' km';
+  document.getElementById('tireRemain').textContent = Math.max(0, Math.round(serviceState.tireKm)) + ' km';
+  document.getElementById('generalRemain').textContent = Math.max(0, Math.round(serviceState.generalKm)) + ' km';
+
+  const due = serviceState.oilKm <= 0 || serviceState.tireKm <= 0 || serviceState.generalKm <= 0;
+  document.getElementById('serviceStatus').textContent = due ? 'DUE' : 'OK';
+}
+
+serviceHotspot.addEventListener('click',()=>{
+  syncServiceReminder();
+  serviceModal.classList.add('open');
+  serviceModal.setAttribute('aria-hidden','false');
+});
+
+serviceClose.addEventListener('click',()=>{
+  serviceModal.classList.remove('open');
+  serviceModal.setAttribute('aria-hidden','true');
+});
+
+serviceModal.addEventListener('click',(e)=>{
+  if(e.target === serviceModal){
+    serviceModal.classList.remove('open');
+    serviceModal.setAttribute('aria-hidden','true');
+  }
+});
+
+document.getElementById('resetOilBtn').addEventListener('click',()=>{
+  serviceState.oilKm = 5000;
+  syncServiceReminder();
+  document.getElementById('serviceNote').textContent = 'تمت إعادة ضبط تذكير الزيت إلى 5000 km';
+});
+
+document.getElementById('resetTireBtn').addEventListener('click',()=>{
+  serviceState.tireKm = 10000;
+  syncServiceReminder();
+  document.getElementById('serviceNote').textContent = 'تمت إعادة ضبط تذكير الإطارات إلى 10000 km';
+});
+
+document.getElementById('resetAllServiceBtn').addEventListener('click',()=>{
+  serviceState.oilKm = 5000;
+  serviceState.tireKm = 10000;
+  serviceState.generalKm = 8000;
+  syncServiceReminder();
+  document.getElementById('serviceNote').textContent = 'تمت إعادة ضبط جميع تذكيرات الصيانة';
 });
 
 render();
