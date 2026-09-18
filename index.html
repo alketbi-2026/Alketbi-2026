@@ -1739,15 +1739,15 @@ button{font:inherit}
 #vehicleStage{
   position:absolute;
   z-index:6;
-  left:33.2%;
-  top:30.8%;
-  width:38.2%;
-  height:34.8%;
+  left:36.0%;
+  top:32.7%;
+  width:32.8%;
+  height:29.5%;
   display:none;
   align-items:center;
   justify-content:center;
   overflow:hidden;
-  border-radius:1vw;
+  border-radius:.65vw;
   background:
     radial-gradient(circle at 50% 72%, rgba(20,105,160,.26), transparent 40%),
     linear-gradient(180deg,#061827 0%,#04131f 58%,#03101a 100%);
@@ -1765,8 +1765,8 @@ button{font:inherit}
 #vehicleArt{
   position:relative;
   z-index:2;
-  width:100%;
-  height:100%;
+  width:94%;
+  height:92%;
   display:flex;
   align-items:center;
   justify-content:center;
@@ -1866,6 +1866,146 @@ button{font:inherit}
   .toyota-model span{font-size:10px}
 }
 
+
+/* ===== New main layout: Outside Temperature + Map ===== */
+.brand-hotspots,
+#allVehiclesBtn,
+#nissanStaticMask,
+#vehicleStage,
+#selectedVehicleBadge{
+  display:none !important;
+}
+
+#outsideTempBar{
+  position:absolute;
+  z-index:25;
+  left:18.1%;
+  top:14.25%;
+  width:68.0%;
+  height:8.7%;
+  box-sizing:border-box;
+  display:grid;
+  grid-template-columns:1.2fr .8fr 1fr;
+  align-items:center;
+  gap:.6vw;
+  padding:.55vw 1vw;
+  border:1px solid rgba(47,176,238,.65);
+  border-radius:.75vw;
+  background:linear-gradient(180deg,rgba(6,28,45,.985),rgba(3,17,29,.99));
+  box-shadow:0 0 16px rgba(0,157,255,.18), inset 0 0 16px rgba(0,112,190,.08);
+  color:#fff;
+  direction:rtl;
+}
+.outside-temp-title{
+  font-size:1.05vw;
+  font-weight:900;
+  text-align:right;
+  line-height:1.15;
+}
+.outside-temp-title small{
+  display:block;
+  margin-top:.18vw;
+  font-size:.62vw;
+  color:#8fdfff;
+  font-weight:700;
+}
+#outsideTempValue{
+  text-align:center;
+  font-size:2.05vw;
+  font-weight:950;
+  color:#fff;
+  text-shadow:0 0 12px rgba(42,183,255,.65);
+  white-space:nowrap;
+}
+#outsideTempMeta{
+  text-align:left;
+  color:#78dcff;
+  font-size:.60vw;
+  line-height:1.35;
+}
+#outsideTempBtn{
+  all:unset;
+  position:absolute;
+  inset:0;
+  cursor:pointer;
+  border-radius:.75vw;
+}
+#outsideTempBar.loading #outsideTempValue{opacity:.6}
+
+#mainMapStage{
+  position:absolute;
+  z-index:24;
+  left:34.2%;
+  top:24.3%;
+  width:36.0%;
+  height:38.0%;
+  box-sizing:border-box;
+  overflow:hidden;
+  border:1px solid #1daef3;
+  border-radius:.7vw;
+  background:#061827;
+  box-shadow:0 0 20px rgba(0,153,255,.20);
+}
+#mainMapStage iframe{
+  width:100%;
+  height:100%;
+  border:0;
+  display:block;
+  background:#061827;
+}
+#mainMapHeader{
+  position:absolute;
+  z-index:3;
+  left:.55vw;
+  right:.55vw;
+  top:.5vw;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:.5vw;
+  pointer-events:none;
+}
+.main-map-badge{
+  padding:.28vw .55vw;
+  border:1px solid rgba(80,190,245,.55);
+  border-radius:.4vw;
+  background:rgba(3,18,30,.88);
+  color:#dff5ff;
+  font-size:.58vw;
+  font-weight:900;
+  backdrop-filter:blur(3px);
+}
+#mainMapLocateBtn{
+  pointer-events:auto;
+  border:1px solid #28b7fb;
+  border-radius:.4vw;
+  background:rgba(3,28,45,.92);
+  color:#fff;
+  padding:.30vw .62vw;
+  font-size:.56vw;
+  font-weight:900;
+}
+#mainMapStatus{
+  position:absolute;
+  z-index:3;
+  left:.55vw;
+  bottom:.5vw;
+  padding:.24vw .5vw;
+  border-radius:.38vw;
+  background:rgba(3,18,30,.88);
+  color:#8fe1ff;
+  font-size:.50vw;
+  font-weight:800;
+  pointer-events:none;
+}
+
+@media (orientation:portrait){
+  #outsideTempBar{
+    left:17.8%;
+    width:68.7%;
+  }
+}
+
 </style>
 </head>
 <body>
@@ -1958,6 +2098,34 @@ button{font:inherit}
         <div id="selectedVehicleName" class="selected-vehicle-name">Nissan Patrol 2014</div>
         <div id="selectedVehicleEngine" class="selected-vehicle-engine">5.6L V8</div>
         <div id="selectedVehicleDemoNote" class="selected-demo-note">LIVE TEST</div>
+      </div>
+
+
+      <div id="outsideTempBar">
+        <button id="outsideTempBtn" aria-label="تحديث درجة الحرارة الخارجية"></button>
+        <div class="outside-temp-title">
+          درجة الحرارة الخارجية
+          <small>Outside Temperature</small>
+        </div>
+        <div id="outsideTempValue">--°C</div>
+        <div id="outsideTempMeta">
+          اضغط للتحديث<br>
+          Tap to update
+        </div>
+      </div>
+
+      <div id="mainMapStage">
+        <div id="mainMapHeader">
+          <div class="main-map-badge">الخريطة / MAP</div>
+          <button id="mainMapLocateBtn">موقعي / My Location</button>
+        </div>
+        <iframe
+          id="mainMapFrame"
+          title="UAE Map"
+          loading="lazy"
+          src="https://www.google.com/maps?q=United%20Arab%20Emirates&z=7&output=embed">
+        </iframe>
+        <div id="mainMapStatus">UAE MAP • ONLINE</div>
       </div>
 
       <div class="control-hotspots">
@@ -3833,6 +4001,85 @@ dtcScanBtn.addEventListener('click',()=>{
   document.getElementById('dtcNote').textContent =
     'تم الفحص التجريبي: لا توجد رموز أعطال / Demo scan complete: no DTC codes found';
 });
+
+
+
+// Main dashboard: outside temperature + map
+const outsideTempBar = document.getElementById('outsideTempBar');
+const outsideTempBtn = document.getElementById('outsideTempBtn');
+const outsideTempValue = document.getElementById('outsideTempValue');
+const outsideTempMeta = document.getElementById('outsideTempMeta');
+const mainMapFrame = document.getElementById('mainMapFrame');
+const mainMapLocateBtn = document.getElementById('mainMapLocateBtn');
+const mainMapStatus = document.getElementById('mainMapStatus');
+
+async function loadWeatherForLocation(lat, lon){
+  outsideTempBar.classList.add('loading');
+  outsideTempMeta.innerHTML = 'جاري تحديث الطقس...<br>Updating weather...';
+
+  try{
+    const url =
+      'https://api.open-meteo.com/v1/forecast?latitude=' +
+      encodeURIComponent(lat) +
+      '&longitude=' + encodeURIComponent(lon) +
+      '&current=temperature_2m,apparent_temperature&timezone=auto';
+
+    const res = await fetch(url);
+    if(!res.ok) throw new Error('weather');
+    const data = await res.json();
+    const temp = data && data.current ? data.current.temperature_2m : null;
+    const feels = data && data.current ? data.current.apparent_temperature : null;
+
+    if(typeof temp === 'number'){
+      outsideTempValue.textContent = Math.round(temp) + '°C';
+      outsideTempMeta.innerHTML =
+        'المحسوسة ' + Math.round(feels ?? temp) + '°C<br>Live weather';
+    }else{
+      throw new Error('no-temp');
+    }
+  }catch(e){
+    outsideTempValue.textContent = '--°C';
+    outsideTempMeta.innerHTML = 'تعذر تحديث الطقس<br>Tap to retry';
+  }finally{
+    outsideTempBar.classList.remove('loading');
+  }
+}
+
+function requestLocationAndUpdate(){
+  if(!navigator.geolocation){
+    outsideTempMeta.innerHTML = 'الموقع غير مدعوم<br>Location unavailable';
+    return;
+  }
+
+  outsideTempBar.classList.add('loading');
+  outsideTempMeta.innerHTML = 'انتظار إذن الموقع...<br>Waiting for location...';
+
+  navigator.geolocation.getCurrentPosition(
+    (pos)=>{
+      const lat = pos.coords.latitude;
+      const lon = pos.coords.longitude;
+
+      loadWeatherForLocation(lat, lon);
+
+      mainMapFrame.src =
+        'https://www.google.com/maps?q=' +
+        encodeURIComponent(lat + ',' + lon) +
+        '&z=14&output=embed';
+
+      mainMapStatus.textContent = 'CURRENT LOCATION • ONLINE';
+    },
+    ()=>{
+      outsideTempBar.classList.remove('loading');
+      outsideTempValue.textContent = '--°C';
+      outsideTempMeta.innerHTML = 'اضغط للسماح بالموقع<br>Location permission needed';
+      mainMapStatus.textContent = 'UAE MAP • LOCATION OFF';
+    },
+    {enableHighAccuracy:false, timeout:10000, maximumAge:300000}
+  );
+}
+
+outsideTempBtn.addEventListener('click', requestLocationAndUpdate);
+mainMapLocateBtn.addEventListener('click', requestLocationAndUpdate);
 
 
 // Map panel
