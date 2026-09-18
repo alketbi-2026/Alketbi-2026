@@ -143,6 +143,7 @@ button{font:inherit}
   padding:.12vw;
 }
 .dtc{left:32.2%;top:82.2%;width:7.0%;height:13%;cursor:pointer}
+.mapHot{left:40.0%;top:82.2%;width:7.0%;height:13%;cursor:pointer}
 .remote{left:49.0%;top:82.2%;width:7.2%;height:13%}
 .lock{left:57.0%;top:82.2%;width:7.0%;height:13%}
 .unlock{left:64.3%;top:82.2%;width:7.0%;height:13%}
@@ -1218,6 +1219,121 @@ button{font:inherit}
   #dtcNote{font-size:12px;margin-top:10px}
 }
 
+
+/* Map modal */
+#mapModal{
+  position:fixed;
+  z-index:10006;
+  inset:0;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  padding:20px;
+  background:rgba(1,8,14,.80);
+  backdrop-filter:blur(4px);
+}
+#mapModal.open{display:flex}
+
+.map-card{
+  width:68%;
+  max-width:1050px;
+  min-width:580px;
+  background:linear-gradient(180deg,rgba(7,26,40,.99),rgba(3,14,23,.99));
+  border:1px solid #1ca9ef;
+  border-radius:1.2vw;
+  box-shadow:0 0 30px rgba(0,153,255,.25), inset 0 0 25px rgba(0,100,170,.10);
+  color:#eef8ff;
+  padding:1.2vw 1.3vw 1.3vw;
+  direction:rtl;
+}
+.map-head{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:1vw;
+  padding-bottom:.8vw;
+  border-bottom:1px solid rgba(100,190,240,.25);
+}
+.map-title{font-size:1.6vw;font-weight:900}
+.map-sub{font-size:.9vw;color:#7fdcff;margin-top:.2vw}
+#mapClose{
+  width:2.5vw;height:2.5vw;border-radius:50%;
+  border:1px solid #35baff;background:#061a28;color:#fff;
+  font-size:1.4vw;font-weight:900;
+}
+.map-frame-wrap{
+  margin-top:1vw;
+  border:1px solid rgba(61,160,218,.35);
+  border-radius:.8vw;
+  overflow:hidden;
+  background:#061827;
+  height:24vw;
+  min-height:260px;
+}
+#mapFrame{
+  width:100%;
+  height:100%;
+  border:0;
+  display:block;
+  background:#071827;
+}
+.map-info{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:.7vw;
+  margin-top:.8vw;
+}
+.map-info-box{
+  background:rgba(6,25,39,.88);
+  border:1px solid rgba(61,160,218,.28);
+  border-radius:.65vw;
+  padding:.7vw .85vw;
+}
+.map-label{color:#8fdfff;font-size:.75vw}
+.map-value{
+  color:#fff;font-size:1.08vw;font-weight:900;
+  margin-top:.2vw;direction:ltr;unicode-bidi:isolate;
+}
+.map-ok{color:#35f2a1;font-size:.7vw;margin-top:.2vw}
+.map-actions{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:.7vw;
+  margin-top:.9vw;
+}
+.map-actions button{
+  border:1px solid #25b6ff;
+  border-radius:.65vw;
+  background:linear-gradient(180deg,#0b4b72,#07314e);
+  color:#fff;
+  padding:.65vw;
+  font-size:.95vw;
+  font-weight:900;
+}
+#mapNote{
+  margin-top:.65vw;color:#8edfff;text-align:center;font-size:.72vw;
+}
+
+@media (orientation:portrait){
+  #mapModal{padding:16px}
+  .map-card{
+    width:92vw;max-width:none;min-width:0;max-height:84vh;overflow:auto;
+    border-radius:18px;padding:16px 14px 14px;
+  }
+  .map-title{font-size:24px}
+  .map-sub{font-size:13px}
+  #mapClose{width:42px;height:42px;font-size:24px;flex:0 0 auto}
+  .map-frame-wrap{height:34vh;min-height:270px;border-radius:12px}
+  .map-info{grid-template-columns:1fr;gap:9px;margin-top:10px}
+  .map-info-box{padding:11px 13px;border-radius:10px}
+  .map-label{font-size:13px}
+  .map-value{font-size:20px}
+  .map-ok{font-size:12px}
+  .map-actions{grid-template-columns:1fr;gap:9px;margin-top:12px}
+  .map-actions button{padding:12px;font-size:15px;border-radius:10px}
+  #mapNote{font-size:12px;margin-top:9px}
+}
+
 </style>
 </head>
 <body>
@@ -1307,6 +1423,7 @@ button{font:inherit}
           <span>Vehicle Health<br><small>صحة المركبة</small></span>
         </button>
         <button id="dtcBtn" class="hot dtc" aria-label="DTC Codes"></button>
+        <button id="mapBtn" class="hot mapHot" aria-label="Map"></button>
         <button id="remoteBtn" class="hot remote" aria-label="Remote Start"></button>
         <button id="lockBtn" class="hot lock" aria-label="Lock"></button>
         <button id="unlockBtn" class="hot unlock" aria-label="Unlock"></button>
@@ -1798,6 +1915,57 @@ button{font:inherit}
         </div>
       </div>
 
+      
+      <div id="mapModal" aria-hidden="true">
+        <div class="map-card">
+          <div class="map-head">
+            <div>
+              <div class="map-title">الخريطة / Map</div>
+              <div class="map-sub">Nissan Patrol 2014 — UAE MAP</div>
+            </div>
+            <button id="mapClose" aria-label="إغلاق">×</button>
+          </div>
+
+          <div class="map-frame-wrap">
+            <iframe
+              id="mapFrame"
+              title="UAE Map"
+              loading="lazy"
+              src="https://www.openstreetmap.org/export/embed.html?bbox=52.8%2C22.5%2C56.6%2C26.5&amp;layer=mapnik">
+            </iframe>
+          </div>
+
+          <div class="map-info">
+            <div class="map-info-box">
+              <div class="map-label">سرعة المركبة / Vehicle Speed</div>
+              <div id="mapSpeed" class="map-value">0 km/h</div>
+              <div class="map-ok">Live Test</div>
+            </div>
+
+            <div class="map-info-box">
+              <div class="map-label">سرعة الطريق / Road Limit</div>
+              <div class="map-value">120 km/h</div>
+              <div class="map-ok">Demo value</div>
+            </div>
+
+            <div class="map-info-box">
+              <div class="map-label">حالة الخريطة / Map Status</div>
+              <div class="map-value">ONLINE</div>
+              <div class="map-ok">OpenStreetMap</div>
+            </div>
+          </div>
+
+          <div class="map-actions">
+            <button id="openAppleMapsBtn">فتح Apple Maps / Open Maps</button>
+            <button id="refreshMapBtn">تحديث الخريطة / Refresh Map</button>
+          </div>
+
+          <div id="mapNote">
+            الخريطة تحتاج اتصال إنترنت. الموقع الدقيق غير مستخدم في هذه النسخة.
+          </div>
+        </div>
+      </div>
+
       <div id="toast" role="status" aria-live="polite"></div>
     </div>
   </div>
@@ -1888,6 +2056,7 @@ function tick(){
   syncLiveData();
   syncVehicleHealth();
   syncDtcCodes();
+  syncMapPanel();
 }
 
 function toast(message){
@@ -2525,6 +2694,49 @@ dtcScanBtn.addEventListener('click',()=>{
   document.getElementById('dtcScanState').textContent = 'SCANNED';
   document.getElementById('dtcNote').textContent =
     'تم الفحص التجريبي: لا توجد رموز أعطال / Demo scan complete: no DTC codes found';
+});
+
+
+// Map panel
+const mapModal = document.getElementById('mapModal');
+const mapClose = document.getElementById('mapClose');
+const refreshMapBtn = document.getElementById('refreshMapBtn');
+const openAppleMapsBtn = document.getElementById('openAppleMapsBtn');
+
+function syncMapPanel(){
+  document.getElementById('mapSpeed').textContent = Math.round(state.speed) + ' km/h';
+}
+
+document.getElementById('mapBtn').addEventListener('click',()=>{
+  syncMapPanel();
+  mapModal.classList.add('open');
+  mapModal.setAttribute('aria-hidden','false');
+});
+
+mapClose.addEventListener('click',()=>{
+  mapModal.classList.remove('open');
+  mapModal.setAttribute('aria-hidden','true');
+});
+
+mapModal.addEventListener('click',(e)=>{
+  if(e.target === mapModal){
+    mapModal.classList.remove('open');
+    mapModal.setAttribute('aria-hidden','true');
+  }
+});
+
+refreshMapBtn.addEventListener('click',()=>{
+  const frame = document.getElementById('mapFrame');
+  const src = frame.src;
+  frame.src = 'about:blank';
+  setTimeout(()=>{ frame.src = src; }, 80);
+  syncMapPanel();
+  document.getElementById('mapNote').textContent =
+    'تم تحديث الخريطة / Map refreshed';
+});
+
+openAppleMapsBtn.addEventListener('click',()=>{
+  window.open('https://maps.apple.com/', '_blank');
 });
 
 render();
