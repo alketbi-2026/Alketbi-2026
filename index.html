@@ -145,7 +145,7 @@ button{font:inherit}
 .dtc{left:32.2%;top:82.2%;width:7.0%;height:13%;cursor:pointer}
 .mapHot{left:40.0%;top:82.2%;width:7.0%;height:13%;cursor:pointer}
 .remote{left:49.0%;top:82.2%;width:7.2%;height:13%}
-.lock{left:57.0%;top:82.2%;width:7.0%;height:13%}
+.profileHot{left:57.0%;top:82.2%;width:7.0%;height:13%;cursor:pointer}
 .unlock{left:64.3%;top:82.2%;width:7.0%;height:13%}
 
 .battery-controls{
@@ -1334,6 +1334,101 @@ button{font:inherit}
   #mapNote{font-size:12px;margin-top:9px}
 }
 
+
+/* Profile modal */
+#profileModal{
+  position:fixed;
+  z-index:10007;
+  inset:0;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  padding:20px;
+  background:rgba(1,8,14,.80);
+  backdrop-filter:blur(4px);
+}
+#profileModal.open{display:flex}
+
+.profile-card{
+  width:62%;
+  max-width:960px;
+  min-width:540px;
+  background:linear-gradient(180deg,rgba(7,26,40,.99),rgba(3,14,23,.99));
+  border:1px solid #1ca9ef;
+  border-radius:1.2vw;
+  box-shadow:0 0 30px rgba(0,153,255,.25), inset 0 0 25px rgba(0,100,170,.10);
+  color:#eef8ff;
+  padding:1.3vw 1.5vw 1.4vw;
+  direction:rtl;
+}
+.profile-head{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:1vw;
+  padding-bottom:.9vw;
+  border-bottom:1px solid rgba(100,190,240,.25);
+}
+.profile-title{font-size:1.6vw;font-weight:900}
+.profile-sub{font-size:.9vw;color:#7fdcff;margin-top:.2vw}
+#profileClose{
+  width:2.5vw;height:2.5vw;border-radius:50%;
+  border:1px solid #35baff;background:#061a28;color:#fff;
+  font-size:1.4vw;font-weight:900;
+}
+.profile-grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:.8vw;
+  margin-top:1vw;
+}
+.profile-box{
+  background:rgba(6,25,39,.88);
+  border:1px solid rgba(61,160,218,.28);
+  border-radius:.75vw;
+  padding:.9vw 1vw;
+  min-height:5.1vw;
+}
+.profile-label{color:#8fdfff;font-size:.8vw;margin-bottom:.25vw}
+.profile-value{
+  color:#fff;font-size:1.2vw;font-weight:900;
+}
+.profile-state{
+  color:#35f2a1;font-size:.75vw;margin-top:.3vw;
+}
+#profileRefreshBtn{
+  margin-top:1vw;
+  width:100%;
+  border:1px solid #25b6ff;
+  border-radius:.65vw;
+  background:linear-gradient(180deg,#0b4b72,#07314e);
+  color:#fff;
+  padding:.65vw;
+  font-size:1vw;
+  font-weight:900;
+}
+#profileNote{
+  margin-top:.75vw;color:#8edfff;text-align:center;font-size:.75vw;
+}
+
+@media (orientation:portrait){
+  #profileModal{padding:18px}
+  .profile-card{
+    width:92vw;max-width:none;min-width:0;max-height:82vh;overflow:auto;
+    border-radius:18px;padding:18px 16px 16px;
+  }
+  .profile-title{font-size:24px}
+  .profile-sub{font-size:13px}
+  #profileClose{width:42px;height:42px;font-size:24px;flex:0 0 auto}
+  .profile-grid{grid-template-columns:1fr;gap:10px;margin-top:14px}
+  .profile-box{min-height:90px;padding:12px 14px;border-radius:12px}
+  .profile-label{font-size:13px}
+  .profile-value{font-size:20px}
+  .profile-state{font-size:12px}
+  #profileRefreshBtn{padding:12px;font-size:15px;border-radius:10px}
+  #profileNote{font-size:12px;margin-top:10px}
+}
+
 </style>
 </head>
 <body>
@@ -1425,7 +1520,7 @@ button{font:inherit}
         <button id="dtcBtn" class="hot dtc" aria-label="DTC Codes"></button>
         <button id="mapBtn" class="hot mapHot" aria-label="Map"></button>
         <button id="remoteBtn" class="hot remote" aria-label="Remote Start"></button>
-        <button id="lockBtn" class="hot lock" aria-label="Lock"></button>
+        <button id="profileBtn" class="hot profileHot" aria-label="Profile"></button>
         <button id="unlockBtn" class="hot unlock" aria-label="Unlock"></button>
       </div>
 
@@ -1967,6 +2062,60 @@ button{font:inherit}
         </div>
       </div>
 
+      
+      <div id="profileModal" aria-hidden="true">
+        <div class="profile-card">
+          <div class="profile-head">
+            <div>
+              <div class="profile-title">الملف الشخصي / Profile</div>
+              <div class="profile-sub">alketbi — Vehicle Profile</div>
+            </div>
+            <button id="profileClose" aria-label="إغلاق">×</button>
+          </div>
+
+          <div class="profile-grid">
+            <div class="profile-box">
+              <div class="profile-label">المركبة / Vehicle</div>
+              <div class="profile-value">Nissan Patrol 2014</div>
+              <div class="profile-state">Selected Vehicle</div>
+            </div>
+
+            <div class="profile-box">
+              <div class="profile-label">المحرك / Engine</div>
+              <div class="profile-value">5.6L V8</div>
+              <div class="profile-state">Vehicle profile</div>
+            </div>
+
+            <div class="profile-box">
+              <div class="profile-label">حد البطارية / Battery Alert</div>
+              <div id="profileBatteryLimit" class="profile-value">11.0 V</div>
+              <div class="profile-state">Saved setting</div>
+            </div>
+
+            <div class="profile-box">
+              <div class="profile-label">حد الحرارة / Temp Alert</div>
+              <div id="profileTempLimit" class="profile-value">105°C</div>
+              <div class="profile-state">Saved setting</div>
+            </div>
+
+            <div class="profile-box">
+              <div class="profile-label">التنبيهات / Alerts</div>
+              <div id="profileAlerts" class="profile-value">ON</div>
+              <div class="profile-state">Current setting</div>
+            </div>
+
+            <div class="profile-box">
+              <div class="profile-label">سطوع الواجهة / Brightness</div>
+              <div id="profileBrightness" class="profile-value">100%</div>
+              <div class="profile-state">Current setting</div>
+            </div>
+          </div>
+
+          <button id="profileRefreshBtn">تحديث الملف / Refresh Profile</button>
+          <div id="profileNote">يعرض هذا القسم بيانات المركبة والإعدادات المحفوظة على هذا الجهاز.</div>
+        </div>
+      </div>
+
       <div id="toast" role="status" aria-live="polite"></div>
     </div>
   </div>
@@ -2058,6 +2207,7 @@ function tick(){
   syncVehicleHealth();
   syncDtcCodes();
   syncMapPanel();
+  syncProfile();
 }
 
 function toast(message){
@@ -2097,7 +2247,6 @@ $('liveBtn').addEventListener('click',()=>{
 
 // These three remain demo-only. Do not connect them to vehicle security systems here.
 $('remoteBtn').addEventListener('click',()=>toast('Remote Start: DEMO ONLY'));
-$('lockBtn').addEventListener('click',()=>toast('Lock: DEMO ONLY'));
 $('unlockBtn').addEventListener('click',()=>toast('Unlock: DEMO ONLY'));
 
 // Battery alert threshold
@@ -2743,6 +2892,50 @@ openAppleMapsBtn.addEventListener('click',()=>{
 
 openGoogleMapsBtn.addEventListener('click',()=>{
   window.open('https://www.google.com/maps/search/?api=1&query=United%20Arab%20Emirates', '_blank');
+});
+
+
+// Profile panel
+const profileModal = document.getElementById('profileModal');
+const profileClose = document.getElementById('profileClose');
+const profileRefreshBtn = document.getElementById('profileRefreshBtn');
+
+function syncProfile(){
+  document.getElementById('profileBatteryLimit').textContent =
+    batteryLimit.toFixed(1) + ' V';
+
+  document.getElementById('profileTempLimit').textContent =
+    Math.round(settingsState.tempLimit) + '°C';
+
+  document.getElementById('profileAlerts').textContent =
+    settingsState.alertsEnabled ? 'ON' : 'OFF';
+
+  document.getElementById('profileBrightness').textContent =
+    settingsState.brightness + '%';
+}
+
+document.getElementById('profileBtn').addEventListener('click',()=>{
+  syncProfile();
+  profileModal.classList.add('open');
+  profileModal.setAttribute('aria-hidden','false');
+});
+
+profileClose.addEventListener('click',()=>{
+  profileModal.classList.remove('open');
+  profileModal.setAttribute('aria-hidden','true');
+});
+
+profileModal.addEventListener('click',(e)=>{
+  if(e.target === profileModal){
+    profileModal.classList.remove('open');
+    profileModal.setAttribute('aria-hidden','true');
+  }
+});
+
+profileRefreshBtn.addEventListener('click',()=>{
+  syncProfile();
+  document.getElementById('profileNote').textContent =
+    'تم تحديث بيانات الملف / Profile data refreshed';
 });
 
 render();
