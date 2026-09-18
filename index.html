@@ -155,6 +155,121 @@ button{font:inherit}
 
 
 
+
+/* Vehicle Info clickable area on the left menu */
+#vehicleInfoHotspot{
+  position:absolute;
+  z-index:20;
+  left:1.7%;
+  top:48.7%;
+  width:15.5%;
+  height:9.5%;
+  border:0;
+  background:transparent;
+  cursor:pointer;
+}
+
+/* Vehicle Info modal */
+#vehicleInfoModal{
+  position:absolute;
+  z-index:60;
+  inset:0;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  background:rgba(1,8,14,.68);
+  backdrop-filter:blur(3px);
+}
+#vehicleInfoModal.open{display:flex}
+
+.vehicle-info-card{
+  width:58%;
+  max-width:900px;
+  min-width:520px;
+  background:linear-gradient(180deg,rgba(7,26,40,.98),rgba(3,14,23,.98));
+  border:1px solid #1ca9ef;
+  border-radius:1.2vw;
+  box-shadow:0 0 30px rgba(0,153,255,.25), inset 0 0 25px rgba(0,100,170,.10);
+  color:#eef8ff;
+  padding:1.3vw 1.5vw 1.4vw;
+  direction:rtl;
+}
+.vehicle-info-head{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:1vw;
+  padding-bottom:.9vw;
+  border-bottom:1px solid rgba(100,190,240,.25);
+}
+.vehicle-info-title{
+  font-size:1.6vw;
+  font-weight:900;
+}
+.vehicle-info-sub{
+  font-size:.9vw;
+  color:#7fdcff;
+  margin-top:.2vw;
+}
+#vehicleInfoClose{
+  width:2.5vw;
+  height:2.5vw;
+  border-radius:50%;
+  border:1px solid #35baff;
+  background:#061a28;
+  color:#fff;
+  font-size:1.4vw;
+  font-weight:900;
+}
+.vehicle-info-grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:.8vw;
+  margin-top:1vw;
+}
+.info-box{
+  background:rgba(6,25,39,.88);
+  border:1px solid rgba(61,160,218,.28);
+  border-radius:.75vw;
+  padding:.8vw 1vw;
+  min-height:4.6vw;
+}
+.info-label{
+  color:#8fdfff;
+  font-size:.8vw;
+  margin-bottom:.25vw;
+}
+.info-value{
+  color:#fff;
+  font-size:1.25vw;
+  font-weight:900;
+  direction:ltr;
+  unicode-bidi:isolate;
+}
+.info-status{
+  color:#35f2a1;
+  font-size:.75vw;
+  margin-top:.25vw;
+}
+.vehicle-info-note{
+  margin-top:1vw;
+  font-size:.72vw;
+  color:#9ab8c9;
+  text-align:center;
+}
+
+/* Keep the modal usable on smaller screens */
+@media (max-width:900px){
+  .vehicle-info-card{width:86%;min-width:0}
+  .vehicle-info-title{font-size:2.2vw}
+  .vehicle-info-sub{font-size:1.3vw}
+  #vehicleInfoClose{width:4vw;height:4vw;font-size:2.2vw}
+  .info-label{font-size:1.15vw}
+  .info-value{font-size:1.8vw}
+  .info-status{font-size:1.05vw}
+  .vehicle-info-note{font-size:1vw}
+}
+
 </style>
 </head>
 <body>
@@ -251,6 +366,63 @@ button{font:inherit}
       </div>
 
       <div id="demoBadge">LIVE TEST</div>
+      
+      <button id="vehicleInfoHotspot" aria-label="معلومات المركبة"></button>
+
+      <div id="vehicleInfoModal" aria-hidden="true">
+        <div class="vehicle-info-card">
+          <div class="vehicle-info-head">
+            <div>
+              <div class="vehicle-info-title">معلومات المركبة / Vehicle Info</div>
+              <div class="vehicle-info-sub">Nissan Patrol 2014</div>
+            </div>
+            <button id="vehicleInfoClose" aria-label="إغلاق">×</button>
+          </div>
+
+          <div class="vehicle-info-grid">
+            <div class="info-box">
+              <div class="info-label">المركبة / Vehicle</div>
+              <div class="info-value">Nissan Patrol 2014</div>
+              <div class="info-status">Selected Vehicle</div>
+            </div>
+
+            <div class="info-box">
+              <div class="info-label">المحرك / Engine</div>
+              <div class="info-value">5.6L V8</div>
+              <div class="info-status">Demo profile</div>
+            </div>
+
+            <div class="info-box">
+              <div class="info-label">البطارية / Battery</div>
+              <div id="infoBattery" class="info-value">12.8 V</div>
+              <div class="info-status">Live Test</div>
+            </div>
+
+            <div class="info-box">
+              <div class="info-label">الدينمو / Alternator</div>
+              <div id="infoAlternator" class="info-value">14.2 V</div>
+              <div class="info-status">Charging</div>
+            </div>
+
+            <div class="info-box">
+              <div class="info-label">الوقود / Fuel</div>
+              <div id="infoFuel" class="info-value">58%</div>
+              <div class="info-status">Live Test</div>
+            </div>
+
+            <div class="info-box">
+              <div class="info-label">أعطال OBD-II / DTC</div>
+              <div class="info-value">0</div>
+              <div class="info-status">No Faults</div>
+            </div>
+          </div>
+
+          <div class="vehicle-info-note">
+            البيانات الحالية تجريبية (LIVE TEST) حتى يتم توصيل جهاز OBD المعتمد.
+          </div>
+        </div>
+      </div>
+
       <div id="toast" role="status" aria-live="polite"></div>
     </div>
   </div>
@@ -304,6 +476,7 @@ function tick(){
   state.alt = clamp(state.alt + (Math.random()-.5)*.28,13.7,14.7);
   state.fuel = clamp(state.fuel + Math.round((Math.random()-.5)*2),5,100);
   render();
+  syncVehicleInfo();
 }
 
 function toast(message){
@@ -357,6 +530,39 @@ $('minusBtn').addEventListener('click',()=>{
 $('plusBtn').addEventListener('click',()=>{
   batteryLimit=clamp(batteryLimit+.1,9.0,13.0);
   showLimit();
+});
+
+
+// Vehicle Info panel
+const vehicleInfoHotspot = document.getElementById('vehicleInfoHotspot');
+const vehicleInfoModal = document.getElementById('vehicleInfoModal');
+const vehicleInfoClose = document.getElementById('vehicleInfoClose');
+
+function syncVehicleInfo(){
+  const b = document.getElementById('infoBattery');
+  const a = document.getElementById('infoAlternator');
+  const f = document.getElementById('infoFuel');
+  if(b) b.textContent = state.batt.toFixed(1) + ' V';
+  if(a) a.textContent = state.alt.toFixed(1) + ' V';
+  if(f) f.textContent = Math.round(state.fuel) + '%';
+}
+
+vehicleInfoHotspot.addEventListener('click',()=>{
+  syncVehicleInfo();
+  vehicleInfoModal.classList.add('open');
+  vehicleInfoModal.setAttribute('aria-hidden','false');
+});
+
+vehicleInfoClose.addEventListener('click',()=>{
+  vehicleInfoModal.classList.remove('open');
+  vehicleInfoModal.setAttribute('aria-hidden','true');
+});
+
+vehicleInfoModal.addEventListener('click',(e)=>{
+  if(e.target === vehicleInfoModal){
+    vehicleInfoModal.classList.remove('open');
+    vehicleInfoModal.setAttribute('aria-hidden','true');
+  }
 });
 
 render();
