@@ -1297,7 +1297,7 @@ button{font:inherit}
 .map-ok{color:#35f2a1;font-size:.7vw;margin-top:.2vw}
 .map-actions{
   display:grid;
-  grid-template-columns:repeat(2,1fr);
+  grid-template-columns:repeat(3,1fr);
   gap:.7vw;
   margin-top:.9vw;
 }
@@ -1323,7 +1323,7 @@ button{font:inherit}
   .map-title{font-size:24px}
   .map-sub{font-size:13px}
   #mapClose{width:42px;height:42px;font-size:24px;flex:0 0 auto}
-  .map-frame-wrap{height:34vh;min-height:270px;border-radius:12px}
+  .map-frame-wrap{height:26vh;min-height:190px;border-radius:12px}
   .map-info{grid-template-columns:1fr;gap:9px;margin-top:10px}
   .map-info-box{padding:11px 13px;border-radius:10px}
   .map-label{font-size:13px}
@@ -1931,7 +1931,7 @@ button{font:inherit}
               id="mapFrame"
               title="UAE Map"
               loading="lazy"
-              src="https://www.openstreetmap.org/export/embed.html?bbox=52.8%2C22.5%2C56.6%2C26.5&amp;layer=mapnik">
+              src="https://www.google.com/maps?q=United%20Arab%20Emirates&z=7&output=embed">
             </iframe>
           </div>
 
@@ -1951,17 +1951,18 @@ button{font:inherit}
             <div class="map-info-box">
               <div class="map-label">حالة الخريطة / Map Status</div>
               <div class="map-value">ONLINE</div>
-              <div class="map-ok">OpenStreetMap</div>
+              <div class="map-ok">Google Maps</div>
             </div>
           </div>
 
           <div class="map-actions">
-            <button id="openAppleMapsBtn">فتح Apple Maps / Open Maps</button>
+            <button id="openAppleMapsBtn">فتح Apple Maps / Open Apple Maps</button>
+            <button id="openGoogleMapsBtn">فتح Google Maps / Open Google Maps</button>
             <button id="refreshMapBtn">تحديث الخريطة / Refresh Map</button>
           </div>
 
           <div id="mapNote">
-            الخريطة تحتاج اتصال إنترنت. الموقع الدقيق غير مستخدم في هذه النسخة.
+            إذا لم تظهر الخريطة داخل النافذة، استخدم زر Apple Maps أو Google Maps. الموقع الدقيق غير مستخدم في هذه النسخة.
           </div>
         </div>
       </div>
@@ -2702,6 +2703,7 @@ const mapModal = document.getElementById('mapModal');
 const mapClose = document.getElementById('mapClose');
 const refreshMapBtn = document.getElementById('refreshMapBtn');
 const openAppleMapsBtn = document.getElementById('openAppleMapsBtn');
+const openGoogleMapsBtn = document.getElementById('openGoogleMapsBtn');
 
 function syncMapPanel(){
   document.getElementById('mapSpeed').textContent = Math.round(state.speed) + ' km/h';
@@ -2736,7 +2738,11 @@ refreshMapBtn.addEventListener('click',()=>{
 });
 
 openAppleMapsBtn.addEventListener('click',()=>{
-  window.open('https://maps.apple.com/', '_blank');
+  window.open('https://maps.apple.com/?q=United%20Arab%20Emirates', '_blank');
+});
+
+openGoogleMapsBtn.addEventListener('click',()=>{
+  window.open('https://www.google.com/maps/search/?api=1&query=United%20Arab%20Emirates', '_blank');
 });
 
 render();
