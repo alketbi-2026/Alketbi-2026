@@ -587,6 +587,121 @@ button{font:inherit}
   #serviceNote{font-size:12px;margin-top:10px}
 }
 
+
+/* Alerts clickable area */
+#alertsHotspot{
+  position:absolute;
+  z-index:40;
+  left:2.0%;
+  top:79.2%;
+  width:14.8%;
+  height:8.8%;
+  border:0;
+  background:transparent;
+  cursor:pointer;
+  touch-action:manipulation;
+  -webkit-tap-highlight-color:transparent;
+}
+
+/* Alerts modal */
+#alertsModal{
+  position:fixed;
+  z-index:10001;
+  inset:0;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  padding:20px;
+  background:rgba(1,8,14,.78);
+  backdrop-filter:blur(4px);
+}
+#alertsModal.open{display:flex}
+
+.alerts-card{
+  width:60%;
+  max-width:920px;
+  min-width:520px;
+  background:linear-gradient(180deg,rgba(7,26,40,.99),rgba(3,14,23,.99));
+  border:1px solid #1ca9ef;
+  border-radius:1.2vw;
+  box-shadow:0 0 30px rgba(0,153,255,.25), inset 0 0 25px rgba(0,100,170,.10);
+  color:#eef8ff;
+  padding:1.3vw 1.5vw 1.4vw;
+  direction:rtl;
+}
+.alerts-head{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:1vw;
+  padding-bottom:.9vw;
+  border-bottom:1px solid rgba(100,190,240,.25);
+}
+.alerts-title{font-size:1.6vw;font-weight:900}
+.alerts-sub{font-size:.9vw;color:#7fdcff;margin-top:.2vw}
+#alertsClose{
+  width:2.5vw;height:2.5vw;border-radius:50%;
+  border:1px solid #35baff;background:#061a28;color:#fff;
+  font-size:1.4vw;font-weight:900;
+}
+.alerts-grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:.8vw;
+  margin-top:1vw;
+}
+.alert-box{
+  background:rgba(6,25,39,.88);
+  border:1px solid rgba(61,160,218,.28);
+  border-radius:.75vw;
+  padding:.9vw 1vw;
+  min-height:5.2vw;
+}
+.alert-label{color:#8fdfff;font-size:.8vw;margin-bottom:.25vw}
+.alert-value{
+  color:#fff;font-size:1.25vw;font-weight:900;
+  direction:ltr;unicode-bidi:isolate;
+}
+.alert-state{
+  margin-top:.3vw;
+  font-size:.75vw;
+  font-weight:800;
+}
+.alert-ok{color:#35f2a1}
+.alert-warn{color:#ffd35c}
+.alert-danger{color:#ff6f6f}
+
+#checkAlertsBtn{
+  margin-top:1vw;width:100%;
+  border:1px solid #25b6ff;border-radius:.65vw;
+  background:linear-gradient(180deg,#0b4b72,#07314e);
+  color:#fff;padding:.65vw;font-size:1vw;font-weight:900;
+}
+#alertsNote{
+  margin-top:.75vw;
+  color:#8edfff;
+  text-align:center;
+  font-size:.75vw;
+}
+
+@media (orientation:portrait){
+  #alertsModal{padding:18px}
+  .alerts-card{
+    width:92vw;max-width:none;min-width:0;max-height:82vh;overflow:auto;
+    border-radius:18px;padding:18px 16px 16px;
+  }
+  .alerts-title{font-size:24px}
+  .alerts-sub{font-size:13px}
+  #alertsClose{width:42px;height:42px;font-size:24px;flex:0 0 auto}
+  .alerts-grid{gap:10px;margin-top:14px}
+  .alert-box{min-height:96px;padding:12px 14px;border-radius:12px}
+  .alert-label{font-size:13px}
+  .alert-value{font-size:20px}
+  .alert-state{font-size:12px}
+  #checkAlertsBtn{padding:12px;font-size:15px;border-radius:10px}
+  #alertsNote{font-size:12px;margin-top:10px}
+}
+
 </style>
 </head>
 <body>
@@ -871,6 +986,62 @@ button{font:inherit}
         </div>
       </div>
 
+      
+      <button id="alertsHotspot" aria-label="التنبيهات"></button>
+
+      <div id="alertsModal" aria-hidden="true">
+        <div class="alerts-card">
+          <div class="alerts-head">
+            <div>
+              <div class="alerts-title">التنبيهات / Alerts</div>
+              <div class="alerts-sub">Nissan Patrol 2014 — LIVE TEST</div>
+            </div>
+            <button id="alertsClose" aria-label="إغلاق">×</button>
+          </div>
+
+          <div class="alerts-grid">
+            <div class="alert-box">
+              <div class="alert-label">البطارية / Battery</div>
+              <div id="alertBatteryValue" class="alert-value">12.8 V</div>
+              <div id="alertBatteryState" class="alert-state alert-ok">Normal</div>
+            </div>
+
+            <div class="alert-box">
+              <div class="alert-label">حرارة المحرك / Engine Temp</div>
+              <div id="alertTempValue" class="alert-value">88°C</div>
+              <div id="alertTempState" class="alert-state alert-ok">Normal</div>
+            </div>
+
+            <div class="alert-box">
+              <div class="alert-label">الدينمو / Alternator</div>
+              <div id="alertAltValue" class="alert-value">14.2 V</div>
+              <div id="alertAltState" class="alert-state alert-ok">Charging</div>
+            </div>
+
+            <div class="alert-box">
+              <div class="alert-label">الوقود / Fuel</div>
+              <div id="alertFuelValue" class="alert-value">58%</div>
+              <div id="alertFuelState" class="alert-state alert-ok">Normal</div>
+            </div>
+
+            <div class="alert-box">
+              <div class="alert-label">أعطال OBD-II / DTC</div>
+              <div id="alertDtcValue" class="alert-value">0</div>
+              <div id="alertDtcState" class="alert-state alert-ok">No Faults</div>
+            </div>
+
+            <div class="alert-box">
+              <div class="alert-label">حالة التنبيهات / Overall Status</div>
+              <div id="alertOverallValue" class="alert-value">OK</div>
+              <div id="alertOverallState" class="alert-state alert-ok">All systems normal</div>
+            </div>
+          </div>
+
+          <button id="checkAlertsBtn">فحص التنبيهات / Check Alerts</button>
+          <div id="alertsNote">القيم الحالية تجريبية حتى يتم توصيل جهاز OBD المعتمد.</div>
+        </div>
+      </div>
+
       <div id="toast" role="status" aria-live="polite"></div>
     </div>
   </div>
@@ -950,6 +1121,7 @@ function tick(){
   syncDiagnostics();
   syncTripFuel();
   syncServiceReminder();
+  syncAlerts();
 }
 
 function toast(message){
@@ -1175,6 +1347,116 @@ document.getElementById('resetAllServiceBtn').addEventListener('click',()=>{
   serviceState.generalKm = 8000;
   syncServiceReminder();
   document.getElementById('serviceNote').textContent = 'تمت إعادة ضبط جميع تذكيرات الصيانة';
+});
+
+
+// Alerts panel
+const alertsHotspot = document.getElementById('alertsHotspot');
+const alertsModal = document.getElementById('alertsModal');
+const alertsClose = document.getElementById('alertsClose');
+const checkAlertsBtn = document.getElementById('checkAlertsBtn');
+
+function setAlertState(id, text, level){
+  const el = document.getElementById(id);
+  el.textContent = text;
+  el.className = 'alert-state ' + (
+    level === 'danger' ? 'alert-danger' :
+    level === 'warn' ? 'alert-warn' : 'alert-ok'
+  );
+}
+
+function syncAlerts(){
+  const battery = state.batt;
+  const temp = state.temp;
+  const alt = state.alt;
+  const fuel = state.fuel;
+  const dtc = 0;
+
+  document.getElementById('alertBatteryValue').textContent = battery.toFixed(1) + ' V';
+  document.getElementById('alertTempValue').textContent = Math.round(temp) + '°C';
+  document.getElementById('alertAltValue').textContent = alt.toFixed(1) + ' V';
+  document.getElementById('alertFuelValue').textContent = Math.round(fuel) + '%';
+  document.getElementById('alertDtcValue').textContent = String(dtc);
+
+  let problems = 0;
+
+  if(battery < batteryLimit){
+    setAlertState('alertBatteryState','Low Battery','danger');
+    problems++;
+  }else if(battery < 12.0){
+    setAlertState('alertBatteryState','Watch','warn');
+    problems++;
+  }else{
+    setAlertState('alertBatteryState','Normal','ok');
+  }
+
+  if(temp >= 105){
+    setAlertState('alertTempState','High Temperature','danger');
+    problems++;
+  }else if(temp >= 100){
+    setAlertState('alertTempState','Watch','warn');
+    problems++;
+  }else{
+    setAlertState('alertTempState','Normal','ok');
+  }
+
+  if(alt < 13.2){
+    setAlertState('alertAltState','Low Charging','warn');
+    problems++;
+  }else if(alt > 15.0){
+    setAlertState('alertAltState','High Charging','danger');
+    problems++;
+  }else{
+    setAlertState('alertAltState','Charging','ok');
+  }
+
+  if(fuel <= 10){
+    setAlertState('alertFuelState','Very Low Fuel','danger');
+    problems++;
+  }else if(fuel <= 20){
+    setAlertState('alertFuelState','Low Fuel','warn');
+    problems++;
+  }else{
+    setAlertState('alertFuelState','Normal','ok');
+  }
+
+  if(dtc > 0){
+    setAlertState('alertDtcState','Faults Found','danger');
+    problems++;
+  }else{
+    setAlertState('alertDtcState','No Faults','ok');
+  }
+
+  document.getElementById('alertOverallValue').textContent = problems ? 'CHECK' : 'OK';
+  setAlertState(
+    'alertOverallState',
+    problems ? (problems + ' alert(s) need attention') : 'All systems normal',
+    problems ? 'warn' : 'ok'
+  );
+}
+
+alertsHotspot.addEventListener('click',()=>{
+  syncAlerts();
+  alertsModal.classList.add('open');
+  alertsModal.setAttribute('aria-hidden','false');
+});
+
+alertsClose.addEventListener('click',()=>{
+  alertsModal.classList.remove('open');
+  alertsModal.setAttribute('aria-hidden','true');
+});
+
+alertsModal.addEventListener('click',(e)=>{
+  if(e.target === alertsModal){
+    alertsModal.classList.remove('open');
+    alertsModal.setAttribute('aria-hidden','true');
+  }
+});
+
+checkAlertsBtn.addEventListener('click',()=>{
+  syncAlerts();
+  document.getElementById('alertsNote').textContent =
+    'تم تحديث فحص التنبيهات التجريبي / Demo alert check updated';
 });
 
 render();
