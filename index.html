@@ -2056,6 +2056,194 @@ button{font:inherit}
 #outsideTempBar{ z-index:25 !important; }
 #mainMapStage{ z-index:24 !important; }
 
+
+/* ===== Navigation-style central map ===== */
+#mainMapStage{
+  left:34.2%;
+  top:23.7%;
+  width:36.0%;
+  height:38.8%;
+  border:2px solid #1aaef6;
+  border-radius:.85vw;
+  box-shadow:0 0 24px rgba(0,153,255,.28), inset 0 0 18px rgba(0,0,0,.35);
+  background:#061827;
+}
+#mainMapStage iframe{
+  filter:saturate(1.08) contrast(1.05);
+}
+#mainMapHeader{
+  top:.55vw;
+  left:.55vw;
+  right:.55vw;
+}
+.main-map-badge{
+  background:rgba(3,16,28,.90);
+  border-color:rgba(76,192,247,.75);
+  color:#eefaff;
+}
+#mainMapLocateBtn{
+  background:rgba(3,22,37,.94);
+  border-color:#31baf9;
+}
+
+/* Navigation turn instruction card */
+#navTurnCard{
+  position:absolute;
+  z-index:5;
+  left:.7vw;
+  top:.8vw;
+  width:10.8vw;
+  min-width:150px;
+  padding:.55vw .65vw;
+  border:1px solid rgba(82,190,244,.78);
+  border-radius:.55vw;
+  background:linear-gradient(180deg,rgba(3,21,35,.96),rgba(2,14,24,.96));
+  color:#fff;
+  box-shadow:0 0 14px rgba(0,130,210,.22);
+  direction:rtl;
+  pointer-events:none;
+}
+#navTurnIcon{
+  float:right;
+  font-size:2.2vw;
+  line-height:1;
+  margin-left:.45vw;
+  color:#fff;
+}
+#navTurnDistance{
+  font-size:.95vw;
+  font-weight:950;
+}
+#navTurnText{
+  font-size:.72vw;
+  color:#d8f3ff;
+  margin-top:.12vw;
+}
+#navTurnTextEn{
+  font-size:.55vw;
+  color:#85dfff;
+}
+
+/* Compass bubble */
+#navCompass{
+  position:absolute;
+  z-index:5;
+  right:.75vw;
+  top:.8vw;
+  width:2.8vw;
+  height:2.8vw;
+  min-width:38px;
+  min-height:38px;
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:rgba(3,17,28,.92);
+  border:1px solid rgba(90,190,240,.68);
+  color:#fff;
+  font-weight:950;
+  font-size:.95vw;
+  box-shadow:0 0 12px rgba(0,0,0,.35);
+  pointer-events:none;
+}
+#navCompass::before{
+  content:"▲";
+  position:absolute;
+  top:.15vw;
+  color:#ff394d;
+  font-size:.72vw;
+}
+
+/* Fake zoom controls matching the reference style */
+#navZoomControls{
+  position:absolute;
+  z-index:5;
+  left:.7vw;
+  top:7.3vw;
+  display:flex;
+  flex-direction:column;
+  border:1px solid rgba(80,180,230,.72);
+  border-radius:.45vw;
+  overflow:hidden;
+  background:rgba(3,17,28,.90);
+}
+.navZoomBtn{
+  width:2.15vw;
+  height:2.05vw;
+  min-width:31px;
+  min-height:29px;
+  border:0;
+  border-bottom:1px solid rgba(80,180,230,.40);
+  background:transparent;
+  color:#fff;
+  font-size:1.25vw;
+  font-weight:900;
+}
+.navZoomBtn:last-child{border-bottom:0}
+
+/* Bottom trip strip */
+#navTripStrip{
+  position:absolute;
+  z-index:5;
+  left:.7vw;
+  right:.7vw;
+  bottom:.65vw;
+  min-height:3.2vw;
+  display:grid;
+  grid-template-columns:1.45fr .75fr;
+  gap:.55vw;
+  align-items:center;
+  pointer-events:none;
+}
+#navDestination{
+  padding:.45vw .65vw;
+  border:1px solid rgba(75,181,235,.75);
+  border-radius:.52vw;
+  background:rgba(3,17,28,.92);
+  color:#fff;
+  direction:rtl;
+  line-height:1.25;
+}
+#navDestination strong{
+  display:block;
+  font-size:.75vw;
+}
+#navDestination span{
+  color:#9bdfff;
+  font-size:.55vw;
+}
+#navEndTrip{
+  pointer-events:auto;
+  height:100%;
+  min-height:3vw;
+  border:1px solid rgba(255,89,102,.68);
+  border-radius:.52vw;
+  background:rgba(38,14,20,.90);
+  color:#fff;
+  font-weight:900;
+  font-size:.72vw;
+}
+#navEndTrip b{
+  color:#ff4d60;
+  font-size:1.05vw;
+  margin-left:.28vw;
+}
+
+#mainMapStatus{
+  left:auto;
+  right:.65vw;
+  bottom:4.25vw;
+  background:rgba(3,17,28,.90);
+}
+
+@media (max-width:900px){
+  #navTurnCard{min-width:125px}
+  #navTurnIcon{font-size:2.7vw}
+  #navTurnDistance{font-size:1.25vw}
+  #navTurnText{font-size:.9vw}
+  #navTurnTextEn{font-size:.7vw}
+}
+
 </style>
 </head>
 <body>
@@ -2167,18 +2355,44 @@ button{font:inherit}
         </div>
       </div>
 
+      
       <div id="mainMapStage">
-        <div id="mainMapHeader">
-          <div class="main-map-badge">الخريطة / MAP</div>
-          <button id="mainMapLocateBtn">موقعي / My Location</button>
-        </div>
         <iframe
           id="mainMapFrame"
-          title="UAE Map"
+          title="Navigation Map"
           loading="lazy"
-          src="https://www.google.com/maps?q=United%20Arab%20Emirates&z=7&output=embed">
+          src="https://www.google.com/maps?q=United%20Arab%20Emirates&z=8&t=k&output=embed">
         </iframe>
-        <div id="mainMapStatus">UAE MAP • ONLINE</div>
+
+        <div id="navTurnCard">
+          <div id="navTurnIcon">↱</div>
+          <div id="navTurnDistance">2.4 km</div>
+          <div id="navTurnText">اتجه يمين</div>
+          <div id="navTurnTextEn">Turn Right</div>
+        </div>
+
+        <div id="navCompass">N</div>
+
+        <div id="navZoomControls">
+          <button class="navZoomBtn" type="button">+</button>
+          <button class="navZoomBtn" type="button">−</button>
+          <button class="navZoomBtn" type="button">◎</button>
+        </div>
+
+        <div id="mainMapHeader">
+          <button id="mainMapLocateBtn">موقعي / My Location</button>
+          <div class="main-map-badge">NAV / الملاحة</div>
+        </div>
+
+        <div id="mainMapStatus">SATELLITE • ONLINE</div>
+
+        <div id="navTripStrip">
+          <div id="navDestination">
+            <strong>الوجهة / Destination</strong>
+            <span>12 km • 18 min</span>
+          </div>
+          <button id="navEndTrip" type="button"><b>✕</b> إنهاء الرحلة</button>
+        </div>
       </div>
 
       <div class="control-hotspots">
@@ -4117,7 +4331,7 @@ function requestLocationAndUpdate(){
       mainMapFrame.src =
         'https://www.google.com/maps?q=' +
         encodeURIComponent(lat + ',' + lon) +
-        '&z=14&output=embed';
+        '&z=15&t=k&output=embed';
 
       mainMapStatus.textContent = 'CURRENT LOCATION • ONLINE';
     },
@@ -4130,6 +4344,27 @@ function requestLocationAndUpdate(){
     {enableHighAccuracy:false, timeout:10000, maximumAge:300000}
   );
 }
+
+
+const navEndTrip = document.getElementById('navEndTrip');
+const navDestination = document.getElementById('navDestination');
+const navTurnCard = document.getElementById('navTurnCard');
+
+if(navEndTrip){
+  navEndTrip.addEventListener('click', ()=>{
+    navTurnCard.style.display = 'none';
+    navDestination.innerHTML = '<strong>لا توجد رحلة نشطة</strong><span>No active trip</span>';
+    navEndTrip.textContent = 'بدء رحلة / Start Trip';
+  });
+}
+
+document.querySelectorAll('.navZoomBtn').forEach(btn=>{
+  btn.addEventListener('click', ()=>{
+    const old = btn.style.transform;
+    btn.style.transform = 'scale(.92)';
+    setTimeout(()=>btn.style.transform = old, 120);
+  });
+});
 
 outsideTempBtn.addEventListener('click', requestLocationAndUpdate);
 mainMapLocateBtn.addEventListener('click', requestLocationAndUpdate);
