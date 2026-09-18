@@ -838,6 +838,120 @@ button{font:inherit}
   #settingsNote{font-size:12px;margin-top:10px}
 }
 
+
+/* Live Data clickable area */
+#liveDataHotspot{
+  position:absolute;
+  z-index:40;
+  left:2.0%;
+  top:33.3%;
+  width:14.8%;
+  height:8.8%;
+  border:0;
+  background:transparent;
+  cursor:pointer;
+  touch-action:manipulation;
+  -webkit-tap-highlight-color:transparent;
+}
+
+/* Live Data modal */
+#liveDataModal{
+  position:fixed;
+  z-index:10003;
+  inset:0;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  padding:20px;
+  background:rgba(1,8,14,.78);
+  backdrop-filter:blur(4px);
+}
+#liveDataModal.open{display:flex}
+
+.live-card{
+  width:62%;
+  max-width:960px;
+  min-width:540px;
+  background:linear-gradient(180deg,rgba(7,26,40,.99),rgba(3,14,23,.99));
+  border:1px solid #1ca9ef;
+  border-radius:1.2vw;
+  box-shadow:0 0 30px rgba(0,153,255,.25), inset 0 0 25px rgba(0,100,170,.10);
+  color:#eef8ff;
+  padding:1.3vw 1.5vw 1.4vw;
+  direction:rtl;
+}
+.live-head{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:1vw;
+  padding-bottom:.9vw;
+  border-bottom:1px solid rgba(100,190,240,.25);
+}
+.live-title{font-size:1.6vw;font-weight:900}
+.live-sub{font-size:.9vw;color:#7fdcff;margin-top:.2vw}
+#liveDataClose{
+  width:2.5vw;height:2.5vw;border-radius:50%;
+  border:1px solid #35baff;background:#061a28;color:#fff;
+  font-size:1.4vw;font-weight:900;
+}
+.live-grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:.8vw;
+  margin-top:1vw;
+}
+.live-box{
+  background:rgba(6,25,39,.88);
+  border:1px solid rgba(61,160,218,.28);
+  border-radius:.75vw;
+  padding:.9vw 1vw;
+  min-height:5.0vw;
+}
+.live-label{color:#8fdfff;font-size:.8vw;margin-bottom:.25vw}
+.live-value{
+  color:#fff;font-size:1.4vw;font-weight:900;
+  direction:ltr;unicode-bidi:isolate;
+}
+.live-state{color:#35f2a1;font-size:.75vw;margin-top:.3vw}
+.live-actions{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:.7vw;
+  margin-top:1vw;
+}
+.live-actions button{
+  border:1px solid #25b6ff;
+  border-radius:.65vw;
+  background:linear-gradient(180deg,#0b4b72,#07314e);
+  color:#fff;
+  padding:.65vw;
+  font-size:.95vw;
+  font-weight:900;
+}
+#liveDataNote{
+  margin-top:.75vw;color:#8edfff;text-align:center;font-size:.75vw;
+}
+
+@media (orientation:portrait){
+  #liveDataModal{padding:18px}
+  .live-card{
+    width:92vw;max-width:none;min-width:0;max-height:82vh;overflow:auto;
+    border-radius:18px;padding:18px 16px 16px;
+  }
+  .live-title{font-size:24px}
+  .live-sub{font-size:13px}
+  #liveDataClose{width:42px;height:42px;font-size:24px;flex:0 0 auto}
+  .live-grid{gap:10px;margin-top:14px}
+  .live-box{min-height:94px;padding:12px 14px;border-radius:12px}
+  .live-label{font-size:13px}
+  .live-value{font-size:21px}
+  .live-state{font-size:12px}
+  .live-actions{grid-template-columns:1fr;gap:9px;margin-top:14px}
+  .live-actions button{padding:12px;font-size:15px;border-radius:10px}
+  #liveDataNote{font-size:12px;margin-top:10px}
+}
+
 </style>
 </head>
 <body>
@@ -1243,6 +1357,66 @@ button{font:inherit}
         </div>
       </div>
 
+      
+      <button id="liveDataHotspot" aria-label="البيانات الحية"></button>
+
+      <div id="liveDataModal" aria-hidden="true">
+        <div class="live-card">
+          <div class="live-head">
+            <div>
+              <div class="live-title">البيانات الحية / Live Data</div>
+              <div class="live-sub">Nissan Patrol 2014 — LIVE TEST</div>
+            </div>
+            <button id="liveDataClose" aria-label="إغلاق">×</button>
+          </div>
+
+          <div class="live-grid">
+            <div class="live-box">
+              <div class="live-label">دورات المحرك / RPM</div>
+              <div id="liveRpm" class="live-value">750 RPM</div>
+              <div class="live-state">Engine speed</div>
+            </div>
+
+            <div class="live-box">
+              <div class="live-label">السرعة / Speed</div>
+              <div id="liveSpeed" class="live-value">0 km/h</div>
+              <div class="live-state">Vehicle speed</div>
+            </div>
+
+            <div class="live-box">
+              <div class="live-label">حرارة المحرك / Engine Temp</div>
+              <div id="liveTemp" class="live-value">88°C</div>
+              <div class="live-state">Live Test</div>
+            </div>
+
+            <div class="live-box">
+              <div class="live-label">البطارية / Battery</div>
+              <div id="liveBattery" class="live-value">12.8 V</div>
+              <div class="live-state">Live Test</div>
+            </div>
+
+            <div class="live-box">
+              <div class="live-label">الدينمو / Alternator</div>
+              <div id="liveAlternator" class="live-value">14.2 V</div>
+              <div class="live-state">Charging</div>
+            </div>
+
+            <div class="live-box">
+              <div class="live-label">الوقود / Fuel</div>
+              <div id="liveFuel" class="live-value">58%</div>
+              <div class="live-state">Live Test</div>
+            </div>
+          </div>
+
+          <div class="live-actions">
+            <button id="livePauseBtn">إيقاف مؤقت / Pause</button>
+            <button id="liveRefreshBtn">تحديث الآن / Refresh</button>
+          </div>
+
+          <div id="liveDataNote">البيانات الحالية تجريبية حتى يتم توصيل جهاز OBD المعتمد.</div>
+        </div>
+      </div>
+
       <div id="toast" role="status" aria-live="polite"></div>
     </div>
   </div>
@@ -1330,6 +1504,7 @@ function tick(){
   syncServiceReminder();
   syncAlerts();
   syncSettings();
+  syncLiveData();
 }
 
 function toast(message){
@@ -1772,10 +1947,61 @@ try{
   }
 }catch(e){}
 
+
+// Live Data panel
+const liveDataHotspot = document.getElementById('liveDataHotspot');
+const liveDataModal = document.getElementById('liveDataModal');
+const liveDataClose = document.getElementById('liveDataClose');
+const livePauseBtn = document.getElementById('livePauseBtn');
+const liveRefreshBtn = document.getElementById('liveRefreshBtn');
+
+function syncLiveData(){
+  document.getElementById('liveRpm').textContent = Math.round(state.rpm) + ' RPM';
+  document.getElementById('liveSpeed').textContent = Math.round(state.speed) + ' km/h';
+  document.getElementById('liveTemp').textContent = Math.round(state.temp) + '°C';
+  document.getElementById('liveBattery').textContent = state.batt.toFixed(1) + ' V';
+  document.getElementById('liveAlternator').textContent = state.alt.toFixed(1) + ' V';
+  document.getElementById('liveFuel').textContent = Math.round(state.fuel) + '%';
+  livePauseBtn.textContent = running ? 'إيقاف مؤقت / Pause' : 'تشغيل / Resume';
+}
+
+liveDataHotspot.addEventListener('click',()=>{
+  syncLiveData();
+  liveDataModal.classList.add('open');
+  liveDataModal.setAttribute('aria-hidden','false');
+});
+
+liveDataClose.addEventListener('click',()=>{
+  liveDataModal.classList.remove('open');
+  liveDataModal.setAttribute('aria-hidden','true');
+});
+
+liveDataModal.addEventListener('click',(e)=>{
+  if(e.target === liveDataModal){
+    liveDataModal.classList.remove('open');
+    liveDataModal.setAttribute('aria-hidden','true');
+  }
+});
+
+livePauseBtn.addEventListener('click',()=>{
+  running = !running;
+  syncLiveData();
+  document.getElementById('liveDataNote').textContent =
+    running ? 'تم تشغيل البيانات التجريبية / Live Test resumed'
+            : 'تم إيقاف البيانات مؤقتًا / Live Test paused';
+});
+
+liveRefreshBtn.addEventListener('click',()=>{
+  syncLiveData();
+  document.getElementById('liveDataNote').textContent =
+    'تم تحديث القيم الحالية / Current values refreshed';
+});
+
 render();
 showLimit();
 syncSettings();
 syncAlerts();
+syncLiveData();
 setInterval(tick,1200);
 
 </script>
