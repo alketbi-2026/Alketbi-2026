@@ -272,6 +272,54 @@ button{font:inherit}
   .vehicle-info-note{font-size:1vw}
 }
 
+
+#diagnosticsHotspot{
+  position:absolute;z-index:40;left:2.0%;top:42.2%;width:14.8%;height:8.8%;
+  border:0;background:transparent;cursor:pointer;touch-action:manipulation;
+  -webkit-tap-highlight-color:transparent;
+}
+#diagnosticsModal{
+  position:absolute;z-index:65;inset:0;display:none;align-items:center;justify-content:center;
+  background:rgba(1,8,14,.70);backdrop-filter:blur(3px);
+}
+#diagnosticsModal.open{display:flex}
+.diagnostics-card{
+  width:60%;max-width:920px;min-width:520px;
+  background:linear-gradient(180deg,rgba(7,26,40,.99),rgba(3,14,23,.99));
+  border:1px solid #1ca9ef;border-radius:1.2vw;
+  box-shadow:0 0 30px rgba(0,153,255,.25),inset 0 0 25px rgba(0,100,170,.10);
+  color:#eef8ff;padding:1.3vw 1.5vw 1.4vw;direction:rtl;
+}
+.diagnostics-head{display:flex;align-items:center;justify-content:space-between;gap:1vw;
+  padding-bottom:.9vw;border-bottom:1px solid rgba(100,190,240,.25)}
+.diagnostics-title{font-size:1.6vw;font-weight:900}
+.diagnostics-sub{font-size:.9vw;color:#7fdcff;margin-top:.2vw}
+#diagnosticsClose{
+  width:2.5vw;height:2.5vw;border-radius:50%;border:1px solid #35baff;
+  background:#061a28;color:#fff;font-size:1.4vw;font-weight:900;
+}
+.diagnostics-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:.8vw;margin-top:1vw}
+.diag-box{
+  background:rgba(6,25,39,.88);border:1px solid rgba(61,160,218,.28);
+  border-radius:.75vw;padding:.8vw 1vw;min-height:4.8vw;
+}
+.diag-label{color:#8fdfff;font-size:.8vw;margin-bottom:.25vw}
+.diag-value{color:#fff;font-size:1.25vw;font-weight:900;direction:ltr;unicode-bidi:isolate}
+.diag-ok{color:#35f2a1;font-size:.75vw;margin-top:.25vw}
+#scanDtcBtn{
+  margin-top:1vw;width:100%;border:1px solid #25b6ff;border-radius:.65vw;
+  background:linear-gradient(180deg,#0b4b72,#07314e);color:#fff;
+  padding:.65vw;font-size:1vw;font-weight:900;
+}
+#scanStatus{margin-top:.7vw;color:#8edfff;text-align:center;font-size:.75vw}
+@media (max-width:900px){
+  .diagnostics-card{width:88%;min-width:0}
+  .diagnostics-title{font-size:2.2vw}.diagnostics-sub{font-size:1.3vw}
+  #diagnosticsClose{width:4vw;height:4vw;font-size:2.2vw}
+  .diag-label{font-size:1.15vw}.diag-value{font-size:1.8vw}.diag-ok{font-size:1.05vw}
+  #scanDtcBtn{font-size:1.3vw}#scanStatus{font-size:1.05vw}
+}
+
 </style>
 </head>
 <body>
@@ -425,6 +473,30 @@ button{font:inherit}
         </div>
       </div>
 
+      
+      <button id="diagnosticsHotspot" aria-label="تشخيص الأعطال"></button>
+      <div id="diagnosticsModal" aria-hidden="true">
+        <div class="diagnostics-card">
+          <div class="diagnostics-head">
+            <div>
+              <div class="diagnostics-title">تشخيص الأعطال / Diagnostics</div>
+              <div class="diagnostics-sub">Nissan Patrol 2014 — LIVE TEST</div>
+            </div>
+            <button id="diagnosticsClose" aria-label="إغلاق">×</button>
+          </div>
+          <div class="diagnostics-grid">
+            <div class="diag-box"><div class="diag-label">أكواد الأعطال / DTC Codes</div><div id="diagDtc" class="diag-value">0</div><div class="diag-ok">No Faults</div></div>
+            <div class="diag-box"><div class="diag-label">حرارة المحرك / Engine Temp</div><div id="diagTemp" class="diag-value">88°C</div><div class="diag-ok">Normal</div></div>
+            <div class="diag-box"><div class="diag-label">البطارية / Battery</div><div id="diagBattery" class="diag-value">12.8 V</div><div class="diag-ok">Normal</div></div>
+            <div class="diag-box"><div class="diag-label">الدينمو / Alternator</div><div id="diagAlternator" class="diag-value">14.2 V</div><div class="diag-ok">Charging</div></div>
+            <div class="diag-box"><div class="diag-label">RPM</div><div id="diagRpm" class="diag-value">750</div><div class="diag-ok">Live Test</div></div>
+            <div class="diag-box"><div class="diag-label">الوقود / Fuel</div><div id="diagFuel" class="diag-value">58%</div><div class="diag-ok">Live Test</div></div>
+          </div>
+          <button id="scanDtcBtn">فحص الأعطال / Scan DTC</button>
+          <div id="scanStatus">البيانات الحالية تجريبية حتى يتم توصيل جهاز OBD المعتمد.</div>
+        </div>
+      </div>
+
       <div id="toast" role="status" aria-live="polite"></div>
     </div>
   </div>
@@ -479,6 +551,7 @@ function tick(){
   state.fuel = clamp(state.fuel + Math.round((Math.random()-.5)*2),5,100);
   render();
   syncVehicleInfo();
+  syncDiagnostics();
 }
 
 function toast(message){
@@ -565,6 +638,41 @@ vehicleInfoModal.addEventListener('click',(e)=>{
     vehicleInfoModal.classList.remove('open');
     vehicleInfoModal.setAttribute('aria-hidden','true');
   }
+});
+
+
+const diagnosticsHotspot = document.getElementById('diagnosticsHotspot');
+const diagnosticsModal = document.getElementById('diagnosticsModal');
+const diagnosticsClose = document.getElementById('diagnosticsClose');
+const scanDtcBtn = document.getElementById('scanDtcBtn');
+const scanStatus = document.getElementById('scanStatus');
+
+function syncDiagnostics(){
+  document.getElementById('diagTemp').textContent = Math.round(state.temp) + '°C';
+  document.getElementById('diagBattery').textContent = state.batt.toFixed(1) + ' V';
+  document.getElementById('diagAlternator').textContent = state.alt.toFixed(1) + ' V';
+  document.getElementById('diagRpm').textContent = Math.round(state.rpm);
+  document.getElementById('diagFuel').textContent = Math.round(state.fuel) + '%';
+}
+
+diagnosticsHotspot.addEventListener('click',()=>{
+  syncDiagnostics();
+  diagnosticsModal.classList.add('open');
+  diagnosticsModal.setAttribute('aria-hidden','false');
+});
+diagnosticsClose.addEventListener('click',()=>{
+  diagnosticsModal.classList.remove('open');
+  diagnosticsModal.setAttribute('aria-hidden','true');
+});
+diagnosticsModal.addEventListener('click',(e)=>{
+  if(e.target===diagnosticsModal){
+    diagnosticsModal.classList.remove('open');
+    diagnosticsModal.setAttribute('aria-hidden','true');
+  }
+});
+scanDtcBtn.addEventListener('click',()=>{
+  scanStatus.textContent='فحص تجريبي: لا توجد أعطال / Demo scan: No faults found';
+  document.getElementById('diagDtc').textContent='0';
 });
 
 render();
