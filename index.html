@@ -1739,18 +1739,18 @@ button{font:inherit}
 #vehicleStage{
   position:absolute;
   z-index:6;
-  left:36.8%;
-  top:33.9%;
-  width:31.5%;
-  height:34.0%;
+  left:33.2%;
+  top:30.8%;
+  width:38.2%;
+  height:34.8%;
   display:none;
   align-items:center;
   justify-content:center;
   overflow:hidden;
   border-radius:1vw;
   background:
-    radial-gradient(circle at 50% 78%, rgba(19,96,145,.24), transparent 38%),
-    linear-gradient(180deg,rgba(4,18,31,.995),rgba(2,13,23,.995));
+    radial-gradient(circle at 50% 72%, rgba(20,105,160,.26), transparent 40%),
+    linear-gradient(180deg,#061827 0%,#04131f 58%,#03101a 100%);
   box-shadow:inset 0 0 24px rgba(0,115,190,.18);
   pointer-events:none;
 }
@@ -1765,8 +1765,8 @@ button{font:inherit}
 #vehicleArt{
   position:relative;
   z-index:2;
-  width:95%;
-  height:92%;
+  width:100%;
+  height:100%;
   display:flex;
   align-items:center;
   justify-content:center;
@@ -2919,106 +2919,98 @@ function vehicleSvg(brand){
 
 function toyotaModelSvg(model){
   const specs = {
-    'Land Cruiser Prado': {type:'suv', label:'PRADO', body:'#d8dde1'},
-    'Fortuner': {type:'suv', label:'FORTUNER', body:'#bcc5cb'},
-    'Hilux': {type:'pickup', label:'HILUX', body:'#d7dce0'},
-    'Camry': {type:'sedan', label:'CAMRY', body:'#cfd6dc'},
-    'Corolla': {type:'sedan', label:'COROLLA', body:'#e3e7ea'},
-    'Yaris': {type:'hatch', label:'YARIS', body:'#d9dde1'},
-    'Crown': {type:'sedan', label:'CROWN', body:'#aeb7bf'},
-    'RAV4': {type:'crossover', label:'RAV4', body:'#cfd7dc'},
-    'Corolla Cross': {type:'crossover', label:'COROLLA CROSS', body:'#d6dde1'},
-    'Highlander': {type:'suv', label:'HIGHLANDER', body:'#bfc8cf'},
-    'Urban Cruiser': {type:'crossover', label:'URBAN CRUISER', body:'#d8dde1'},
-    'Raize': {type:'crossover', label:'RAIZE', body:'#c7d0d6'},
-    'Rush': {type:'suv', label:'RUSH', body:'#d6dce0'},
-    'Innova': {type:'mpv', label:'INNOVA', body:'#c8d0d5'},
-    'Sienna': {type:'mpv', label:'SIENNA', body:'#d9dee2'},
-    'Hiace': {type:'van', label:'HIACE', body:'#e2e5e8'},
-    'Coaster': {type:'bus', label:'COASTER', body:'#d9dfe3'},
-    'Tundra': {type:'pickup', label:'TUNDRA', body:'#aeb9c1'},
-    'Tacoma': {type:'pickup', label:'TACOMA', body:'#c7d0d6'},
-    'Sequoia': {type:'suv', label:'SEQUOIA', body:'#b7c0c7'},
-    'GR Supra': {type:'sport', label:'GR SUPRA', body:'#be2b32'},
-    'GR86': {type:'sport', label:'GR86', body:'#295b86'},
-    'Prius': {type:'hatch', label:'PRIUS', body:'#d6dde1'},
-    'bZ4X': {type:'crossover', label:'bZ4X', body:'#c4d0d8'},
-    'Alphard': {type:'mpv', label:'ALPHARD', body:'#e0e4e7'},
-    'Vellfire': {type:'mpv', label:'VELLFIRE', body:'#adb7bf'},
-    'Century': {type:'sedan', label:'CENTURY', body:'#161d22'}
+    'Land Cruiser Prado': {type:'suv', label:'LAND CRUISER PRADO'},
+    'Fortuner': {type:'suv2', label:'FORTUNER'},
+    'Hilux': {type:'pickup', label:'HILUX'},
+    'Camry': {type:'sedan', label:'CAMRY'},
+    'Corolla': {type:'compactSedan', label:'COROLLA'},
+    'Yaris': {type:'hatch', label:'YARIS'},
+    'Crown': {type:'luxSedan', label:'CROWN'},
+    'RAV4': {type:'crossover', label:'RAV4'},
+    'Corolla Cross': {type:'crossover2', label:'COROLLA CROSS'},
+    'Highlander': {type:'largeSuv', label:'HIGHLANDER'},
+    'Urban Cruiser': {type:'smallSuv', label:'URBAN CRUISER'},
+    'Raize': {type:'smallSuv2', label:'RAIZE'},
+    'Rush': {type:'suv2', label:'RUSH'},
+    'Innova': {type:'mpv', label:'INNOVA'},
+    'Sienna': {type:'minivan', label:'SIENNA'},
+    'Hiace': {type:'van', label:'HIACE'},
+    'Coaster': {type:'bus', label:'COASTER'},
+    'Tundra': {type:'bigPickup', label:'TUNDRA'},
+    'Tacoma': {type:'pickup', label:'TACOMA'},
+    'Sequoia': {type:'largeSuv', label:'SEQUOIA'},
+    'GR Supra': {type:'sport', label:'GR SUPRA'},
+    'GR86': {type:'sport2', label:'GR86'},
+    'Prius': {type:'fastback', label:'PRIUS'},
+    'bZ4X': {type:'evCrossover', label:'bZ4X'},
+    'Alphard': {type:'luxVan', label:'ALPHARD'},
+    'Vellfire': {type:'luxVan2', label:'VELLFIRE'},
+    'Century': {type:'luxSedan', label:'CENTURY'}
   };
-  const s = specs[model] || {type:'suv', label:model.toUpperCase(), body:'#d8dde1'};
+
+  const s = specs[model] || {type:'suv', label:model.toUpperCase()};
 
   const shapes = {
-    suv: {
-      body:'M74 109 Q82 92 105 87 L150 53 Q160 44 181 44 H365 Q390 44 405 60 L448 92 Q479 95 493 110 L514 135 Q520 144 516 166 L512 181 Q508 194 492 194 H71 Q58 194 54 180 L50 150 Q48 132 58 120 Z',
-      glass:'M150 91 L181 58 Q190 50 207 50 H356 Q373 50 388 63 L426 91 Z'
-    },
-    crossover: {
-      body:'M73 119 Q80 101 101 96 L159 65 Q173 57 193 57 H351 Q371 57 389 68 L445 99 Q475 104 489 117 L507 137 Q513 146 509 166 L505 178 Q501 190 487 190 H74 Q61 190 57 177 L53 151 Q51 136 60 126 Z',
-      glass:'M157 96 L187 69 Q198 63 214 63 H345 Q361 63 377 72 L422 98 Z'
-    },
-    sedan: {
-      body:'M61 130 Q70 113 94 108 L171 79 Q188 69 209 68 H337 Q360 68 379 81 L444 109 Q471 112 486 125 L502 140 Q508 149 504 168 L501 178 Q496 188 482 188 H72 Q59 188 55 176 L51 151 Q49 138 61 130 Z',
-      glass:'M167 108 L197 81 Q206 75 221 75 H333 Q348 75 363 84 L419 109 Z'
-    },
-    hatch: {
-      body:'M68 127 Q76 109 99 103 L167 76 Q181 66 201 66 H331 Q351 66 369 78 L427 106 Q459 111 476 126 L496 145 Q501 153 497 170 L494 180 Q489 189 476 189 H73 Q61 189 57 177 L53 151 Q51 137 68 127 Z',
-      glass:'M162 105 L191 78 Q202 72 216 72 H327 Q344 72 356 81 L403 106 Z'
-    },
-    pickup: {
-      body:'M57 122 Q63 106 84 101 L135 87 L167 58 Q177 49 193 49 H314 Q335 49 350 66 L373 90 H467 Q490 90 500 106 L516 132 Q520 141 516 162 L512 180 Q508 193 492 193 H67 Q55 193 52 181 L48 149 Q46 135 57 122 Z',
-      glass:'M154 88 L181 62 Q190 55 203 55 H303 Q320 55 333 70 L349 90 Z'
-    },
-    mpv: {
-      body:'M60 112 Q67 96 89 91 L143 55 Q154 45 175 45 H378 Q399 45 414 59 L458 91 Q482 96 495 111 L514 137 Q519 146 515 166 L511 182 Q506 194 491 194 H70 Q57 194 53 181 L49 149 Q47 131 60 112 Z',
-      glass:'M142 91 L174 59 Q184 52 199 52 H369 Q385 52 399 63 L438 91 Z'
-    },
-    van: {
-      body:'M58 98 Q65 80 86 74 L138 47 Q150 40 169 40 H407 Q429 40 444 58 L475 91 Q494 96 505 113 L518 138 Q521 148 517 167 L513 183 Q508 195 491 195 H69 Q56 195 52 182 L48 145 Q46 119 58 98 Z',
-      glass:'M136 87 L166 52 Q176 46 190 46 H395 Q411 46 424 59 L451 88 Z'
-    },
-    bus: {
-      body:'M48 81 Q52 61 72 53 L106 40 H432 Q458 40 473 58 L504 96 Q517 111 518 138 L516 176 Q514 194 494 194 H67 Q50 194 48 176 Z',
-      glass:'M92 58 H423 Q437 58 448 71 L470 98 H84 Z'
-    },
-    sport: {
-      body:'M65 139 Q72 121 96 116 L176 89 Q197 78 221 77 H334 Q355 77 376 90 L438 116 Q466 119 482 132 L499 146 Q504 154 501 169 L498 178 Q493 188 480 188 H73 Q60 188 56 177 L52 154 Q50 145 65 139 Z',
-      glass:'M171 115 L204 91 Q215 84 229 84 H329 Q344 84 360 93 L410 116 Z'
-    }
+    suv:        {body:'M85 150 L98 106 L155 78 L188 48 H368 L416 91 L480 104 L505 142 L500 178 H72 L68 158 Z', glass:'M164 91 L197 58 H352 L395 92 Z'},
+    suv2:       {body:'M88 153 L105 111 L160 83 L195 57 H350 L398 95 L474 108 L502 145 L496 178 H76 L72 160 Z', glass:'M168 96 L202 66 H339 L383 96 Z'},
+    largeSuv:   {body:'M74 148 L88 98 L150 68 L182 43 H378 L428 87 L494 101 L520 140 L514 181 H58 L55 155 Z', glass:'M156 86 L190 52 H365 L410 88 Z'},
+    smallSuv:   {body:'M103 154 L117 118 L168 92 L201 69 H346 L390 102 L462 116 L491 147 L487 178 H90 L86 161 Z', glass:'M174 104 L207 78 H336 L374 104 Z'},
+    smallSuv2:  {body:'M112 157 L126 121 L174 96 L205 75 H341 L382 106 L452 120 L483 149 L478 178 H99 L94 163 Z', glass:'M181 108 L211 84 H331 L365 108 Z'},
+    crossover:  {body:'M92 158 L110 125 L172 96 L207 70 H348 L396 107 L466 120 L494 150 L489 178 H81 L77 164 Z', glass:'M179 108 L214 79 H337 L378 109 Z'},
+    crossover2: {body:'M98 158 L115 127 L173 101 L207 76 H344 L390 111 L459 122 L487 151 L482 178 H87 L82 165 Z', glass:'M180 112 L214 85 H333 L371 112 Z'},
+    evCrossover:{body:'M96 158 L113 124 L173 96 L205 69 H350 L397 105 L466 117 L495 149 L490 178 H83 L78 164 Z', glass:'M179 107 L213 78 H339 L380 108 Z'},
+    sedan:      {body:'M76 162 L96 135 L173 111 L221 82 H337 L390 112 L465 128 L494 153 L489 178 H67 L63 168 Z', glass:'M181 117 L226 91 H330 L372 117 Z'},
+    compactSedan:{body:'M89 164 L107 139 L175 118 L217 92 H331 L376 119 L451 132 L482 154 L477 178 H79 L74 169 Z', glass:'M184 122 L224 100 H325 L360 122 Z'},
+    luxSedan:   {body:'M68 162 L91 132 L169 107 L219 76 H347 L403 109 L476 126 L505 152 L499 178 H58 L54 168 Z', glass:'M178 113 L226 85 H338 L386 114 Z'},
+    hatch:      {body:'M105 164 L119 133 L175 111 L205 82 H327 L374 115 L444 133 L474 155 L469 178 H94 L89 169 Z', glass:'M181 117 L211 91 H319 L357 117 Z'},
+    fastback:   {body:'M87 163 L107 135 L176 113 L219 79 H336 L400 117 L465 131 L493 153 L488 178 H77 L72 169 Z', glass:'M182 119 L225 88 H329 L381 119 Z'},
+    pickup:     {body:'M67 163 L79 124 L139 105 L174 71 H297 L341 107 H487 L508 139 L502 178 H56 L53 169 Z', glass:'M147 108 L180 80 H286 L322 108 Z'},
+    bigPickup:  {body:'M55 163 L68 116 L131 97 L169 60 H303 L350 101 H500 L522 137 L516 179 H43 L40 169 Z', glass:'M140 101 L176 69 H291 L331 101 Z'},
+    mpv:        {body:'M85 157 L99 112 L151 82 L184 50 H389 L431 94 L486 109 L508 145 L503 179 H73 L69 163 Z', glass:'M158 94 L191 59 H376 L414 95 Z'},
+    minivan:    {body:'M77 158 L91 103 L145 73 L179 43 H400 L443 91 L493 108 L516 145 L511 180 H65 L61 164 Z', glass:'M151 89 L187 53 H386 L425 91 Z'},
+    luxVan:     {body:'M70 157 L82 94 L137 62 L171 38 H412 L457 87 L503 106 L523 144 L518 181 H58 L54 163 Z', glass:'M144 84 L179 48 H397 L439 87 Z'},
+    luxVan2:    {body:'M68 157 L80 91 L134 59 L168 36 H414 L460 86 L507 105 L526 144 L521 181 H56 L52 163 Z', glass:'M141 82 L177 46 H399 L442 86 Z'},
+    van:        {body:'M66 159 L78 86 L120 55 L151 34 H429 L475 82 L509 110 L523 146 L518 181 H54 L50 164 Z', glass:'M128 80 L159 43 H411 L456 83 Z'},
+    bus:        {body:'M44 160 L50 66 L84 43 H446 L493 82 L518 117 L522 179 H36 L34 164 Z', glass:'M70 74 H435 L473 105 H66 Z'},
+    sport:      {body:'M72 165 L98 144 L183 122 L228 96 H339 L414 128 L475 140 L501 158 L496 178 H63 L59 170 Z', glass:'M190 126 L234 104 H332 L389 127 Z'},
+    sport2:     {body:'M85 165 L109 145 L185 124 L227 101 H334 L400 130 L461 142 L490 158 L485 178 H76 L72 170 Z', glass:'M192 128 L233 108 H327 L378 128 Z'}
   };
+
   const sh = shapes[s.type] || shapes.suv;
+  const bodyColor = (s.type==='sport') ? '#bd2e33' :
+                    (s.type==='sport2') ? '#2e6090' :
+                    (s.type==='luxSedan') ? '#20272d' :
+                    (s.type==='bigPickup') ? '#9aa5ad' :
+                    '#dbe1e5';
 
   return `
   <svg viewBox="0 0 560 250" role="img" aria-label="Toyota ${model}">
     <defs>
-      <linearGradient id="toyBody" x1="0" y1="0" x2="0" y2="1">
-        <stop offset="0" stop-color="${s.body}"/>
-        <stop offset="1" stop-color="#7d8992"/>
+      <linearGradient id="toyBody-${s.type}" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="${bodyColor}"/>
+        <stop offset="1" stop-color="#7f8b94"/>
       </linearGradient>
-      <linearGradient id="toyGlass" x1="0" y1="0" x2="0" y2="1">
-        <stop offset="0" stop-color="#88b8d0"/>
-        <stop offset="1" stop-color="#263f4f"/>
+      <linearGradient id="toyGlass-${s.type}" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="#8ec3db"/>
+        <stop offset="1" stop-color="#243a48"/>
       </linearGradient>
     </defs>
-    <ellipse cx="284" cy="205" rx="220" ry="19" fill="rgba(0,0,0,.46)"/>
-    <path d="${sh.body}" fill="url(#toyBody)" stroke="#8fa1ad" stroke-width="3"/>
-    <path d="${sh.glass}" fill="url(#toyGlass)" stroke="#6c8493" stroke-width="2"/>
-    <path d="M220 60 V105 M309 58 V105 M377 67 L360 107" stroke="#c2d2da" stroke-width="2.4" opacity=".9"/>
-    <rect x="394" y="112" width="62" height="42" rx="9" fill="#172733" stroke="#a8ccdc" stroke-width="2"/>
-    <rect x="405" y="121" width="40" height="5" rx="2.5" fill="#e3eef3"/>
-    <rect x="405" y="132" width="40" height="5" rx="2.5" fill="#e3eef3"/>
-    <rect x="405" y="143" width="40" height="5" rx="2.5" fill="#e3eef3"/>
-    <circle cx="145" cy="187" r="34" fill="#121b22" stroke="#354852" stroke-width="7"/>
-    <circle cx="145" cy="187" r="17" fill="#aab4ba" stroke="#e1e9ec" stroke-width="4"/>
-    <circle cx="431" cy="187" r="34" fill="#121b22" stroke="#354852" stroke-width="7"/>
-    <circle cx="431" cy="187" r="17" fill="#aab4ba" stroke="#e1e9ec" stroke-width="4"/>
-    <rect x="205" y="154" width="154" height="26" rx="7" fill="rgba(3,18,30,.88)" stroke="#66bce2" stroke-width="1.5"/>
+    <ellipse cx="282" cy="205" rx="230" ry="18" fill="rgba(0,0,0,.48)"/>
+    <path d="${sh.body}" fill="url(#toyBody-${s.type})" stroke="#9bacb6" stroke-width="3"/>
+    <path d="${sh.glass}" fill="url(#toyGlass-${s.type})" stroke="#7793a2" stroke-width="2"/>
+    <path d="M225 75 V124 M315 74 V124" stroke="#d5e1e6" stroke-width="2.4" opacity=".8"/>
+    <rect x="405" y="124" width="55" height="34" rx="8" fill="#192a35" stroke="#a9d1e2" stroke-width="2"/>
+    <rect x="414" y="132" width="37" height="4" rx="2" fill="#eaf4f8"/>
+    <rect x="414" y="141" width="37" height="4" rx="2" fill="#eaf4f8"/>
+    <circle cx="146" cy="188" r="34" fill="#111920" stroke="#344852" stroke-width="7"/>
+    <circle cx="146" cy="188" r="17" fill="#aeb7bc" stroke="#e6ecef" stroke-width="4"/>
+    <circle cx="430" cy="188" r="34" fill="#111920" stroke="#344852" stroke-width="7"/>
+    <circle cx="430" cy="188" r="17" fill="#aeb7bc" stroke="#e6ecef" stroke-width="4"/>
+    <rect x="190" y="154" width="184" height="27" rx="7" fill="rgba(3,18,30,.90)" stroke="#65bce3" stroke-width="1.5"/>
     <text x="282" y="172" text-anchor="middle" font-size="14" fill="#fff" font-weight="900">${s.label}</text>
-    <text x="282" y="225" text-anchor="middle" font-size="13" fill="#78d9ff" font-weight="800">Toyota ${model}</text>
+    <text x="282" y="228" text-anchor="middle" font-size="14" fill="#76dcff" font-weight="800">Toyota ${model}</text>
   </svg>`;
 }
-
 function updateVehicleArt(){
   const stage = document.getElementById('vehicleStage');
   const art = document.getElementById('vehicleArt');
