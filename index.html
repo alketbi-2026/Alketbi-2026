@@ -121,6 +121,7 @@ button{font:inherit}
 /* Invisible bottom controls. Real vehicle-control buttons remain DEMO ONLY. */
 .hot{position:absolute;z-index:8;border:0;background:transparent}
 .live{left:16.6%;top:82.2%;width:7.0%;height:13%}
+.health{left:24.4%;top:82.2%;width:7.2%;height:13%}
 .remote{left:49.0%;top:82.2%;width:7.2%;height:13%}
 .lock{left:57.0%;top:82.2%;width:7.0%;height:13%}
 .unlock{left:64.3%;top:82.2%;width:7.0%;height:13%}
@@ -952,6 +953,117 @@ button{font:inherit}
   #liveDataNote{font-size:12px;margin-top:10px}
 }
 
+
+/* Vehicle Health modal */
+#vehicleHealthModal{
+  position:fixed;
+  z-index:10004;
+  inset:0;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  padding:20px;
+  background:rgba(1,8,14,.78);
+  backdrop-filter:blur(4px);
+}
+#vehicleHealthModal.open{display:flex}
+
+.health-card{
+  width:62%;
+  max-width:960px;
+  min-width:540px;
+  background:linear-gradient(180deg,rgba(7,26,40,.99),rgba(3,14,23,.99));
+  border:1px solid #1ca9ef;
+  border-radius:1.2vw;
+  box-shadow:0 0 30px rgba(0,153,255,.25), inset 0 0 25px rgba(0,100,170,.10);
+  color:#eef8ff;
+  padding:1.3vw 1.5vw 1.4vw;
+  direction:rtl;
+}
+.health-head{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:1vw;
+  padding-bottom:.9vw;
+  border-bottom:1px solid rgba(100,190,240,.25);
+}
+.health-title{font-size:1.6vw;font-weight:900}
+.health-sub{font-size:.9vw;color:#7fdcff;margin-top:.2vw}
+#vehicleHealthClose{
+  width:2.5vw;height:2.5vw;border-radius:50%;
+  border:1px solid #35baff;background:#061a28;color:#fff;
+  font-size:1.4vw;font-weight:900;
+}
+.health-overall{
+  margin-top:1vw;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  background:rgba(6,25,39,.92);
+  border:1px solid rgba(61,160,218,.32);
+  border-radius:.8vw;
+  padding:.9vw 1vw;
+}
+.health-overall-label{color:#8fdfff;font-size:.85vw}
+.health-overall-value{font-size:1.45vw;font-weight:900;color:#35f2a1}
+.health-grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:.8vw;
+  margin-top:.8vw;
+}
+.health-box{
+  background:rgba(6,25,39,.88);
+  border:1px solid rgba(61,160,218,.28);
+  border-radius:.75vw;
+  padding:.9vw 1vw;
+  min-height:5vw;
+}
+.health-label{color:#8fdfff;font-size:.8vw;margin-bottom:.25vw}
+.health-value{
+  color:#fff;font-size:1.25vw;font-weight:900;
+  direction:ltr;unicode-bidi:isolate;
+}
+.health-state{
+  margin-top:.3vw;
+  font-size:.75vw;
+  font-weight:800;
+}
+.health-ok{color:#35f2a1}
+.health-warn{color:#ffd35c}
+.health-danger{color:#ff6f6f}
+#healthRefreshBtn{
+  margin-top:1vw;width:100%;
+  border:1px solid #25b6ff;border-radius:.65vw;
+  background:linear-gradient(180deg,#0b4b72,#07314e);
+  color:#fff;padding:.65vw;font-size:1vw;font-weight:900;
+}
+#healthNote{
+  margin-top:.75vw;color:#8edfff;text-align:center;font-size:.75vw;
+}
+
+@media (orientation:portrait){
+  #vehicleHealthModal{padding:18px}
+  .health-card{
+    width:92vw;max-width:none;min-width:0;max-height:82vh;overflow:auto;
+    border-radius:18px;padding:18px 16px 16px;
+  }
+  .health-title{font-size:24px}
+  .health-sub{font-size:13px}
+  #vehicleHealthClose{width:42px;height:42px;font-size:24px;flex:0 0 auto}
+  .health-overall{padding:12px 14px;border-radius:12px}
+  .health-overall-label{font-size:13px}
+  .health-overall-value{font-size:22px}
+  .health-grid{gap:10px;margin-top:10px}
+  .health-box{min-height:94px;padding:12px 14px;border-radius:12px}
+  .health-label{font-size:13px}
+  .health-value{font-size:20px}
+  .health-state{font-size:12px}
+  #healthRefreshBtn{padding:12px;font-size:15px;border-radius:10px}
+  #healthNote{font-size:12px;margin-top:10px}
+}
+
 </style>
 </head>
 <body>
@@ -1036,6 +1148,7 @@ button{font:inherit}
 
       <div class="control-hotspots">
         <button id="liveBtn" class="hot live" aria-label="Live Data"></button>
+        <button id="healthBtn" class="hot health" aria-label="Vehicle Health"></button>
         <button id="remoteBtn" class="hot remote" aria-label="Remote Start"></button>
         <button id="lockBtn" class="hot lock" aria-label="Lock"></button>
         <button id="unlockBtn" class="hot unlock" aria-label="Unlock"></button>
@@ -1417,6 +1530,67 @@ button{font:inherit}
         </div>
       </div>
 
+      
+      <div id="vehicleHealthModal" aria-hidden="true">
+        <div class="health-card">
+          <div class="health-head">
+            <div>
+              <div class="health-title">صحة المركبة / Vehicle Health</div>
+              <div class="health-sub">Nissan Patrol 2014 — LIVE TEST</div>
+            </div>
+            <button id="vehicleHealthClose" aria-label="إغلاق">×</button>
+          </div>
+
+          <div class="health-overall">
+            <div>
+              <div class="health-overall-label">الحالة العامة / Overall Health</div>
+            </div>
+            <div id="healthOverall" class="health-overall-value">GOOD</div>
+          </div>
+
+          <div class="health-grid">
+            <div class="health-box">
+              <div class="health-label">المحرك / Engine</div>
+              <div id="healthEngineValue" class="health-value">88°C</div>
+              <div id="healthEngineState" class="health-state health-ok">Normal</div>
+            </div>
+
+            <div class="health-box">
+              <div class="health-label">البطارية / Battery</div>
+              <div id="healthBatteryValue" class="health-value">12.8 V</div>
+              <div id="healthBatteryState" class="health-state health-ok">Normal</div>
+            </div>
+
+            <div class="health-box">
+              <div class="health-label">الدينمو / Alternator</div>
+              <div id="healthAltValue" class="health-value">14.2 V</div>
+              <div id="healthAltState" class="health-state health-ok">Charging</div>
+            </div>
+
+            <div class="health-box">
+              <div class="health-label">الوقود / Fuel</div>
+              <div id="healthFuelValue" class="health-value">58%</div>
+              <div id="healthFuelState" class="health-state health-ok">Normal</div>
+            </div>
+
+            <div class="health-box">
+              <div class="health-label">أعطال OBD-II / DTC</div>
+              <div id="healthDtcValue" class="health-value">0</div>
+              <div id="healthDtcState" class="health-state health-ok">No Faults</div>
+            </div>
+
+            <div class="health-box">
+              <div class="health-label">السرعة / Speed</div>
+              <div id="healthSpeedValue" class="health-value">0 km/h</div>
+              <div class="health-state health-ok">Live Test</div>
+            </div>
+          </div>
+
+          <button id="healthRefreshBtn">تحديث صحة المركبة / Refresh Health</button>
+          <div id="healthNote">النتائج الحالية تجريبية وليست فحصًا ميكانيكيًا حقيقيًا حتى يتم توصيل جهاز OBD المعتمد.</div>
+        </div>
+      </div>
+
       <div id="toast" role="status" aria-live="polite"></div>
     </div>
   </div>
@@ -1505,6 +1679,7 @@ function tick(){
   syncAlerts();
   syncSettings();
   syncLiveData();
+  syncVehicleHealth();
 }
 
 function toast(message){
@@ -1997,11 +2172,118 @@ liveRefreshBtn.addEventListener('click',()=>{
     'تم تحديث القيم الحالية / Current values refreshed';
 });
 
+
+// Vehicle Health panel
+const vehicleHealthModal = document.getElementById('vehicleHealthModal');
+const vehicleHealthClose = document.getElementById('vehicleHealthClose');
+const healthRefreshBtn = document.getElementById('healthRefreshBtn');
+
+function setHealthState(id, text, level){
+  const el = document.getElementById(id);
+  el.textContent = text;
+  el.className = 'health-state ' + (
+    level === 'danger' ? 'health-danger' :
+    level === 'warn' ? 'health-warn' : 'health-ok'
+  );
+}
+
+function syncVehicleHealth(){
+  const temp = state.temp;
+  const batt = state.batt;
+  const alt = state.alt;
+  const fuel = state.fuel;
+  const dtc = 0;
+
+  document.getElementById('healthEngineValue').textContent = Math.round(temp) + '°C';
+  document.getElementById('healthBatteryValue').textContent = batt.toFixed(1) + ' V';
+  document.getElementById('healthAltValue').textContent = alt.toFixed(1) + ' V';
+  document.getElementById('healthFuelValue').textContent = Math.round(fuel) + '%';
+  document.getElementById('healthDtcValue').textContent = String(dtc);
+  document.getElementById('healthSpeedValue').textContent = Math.round(state.speed) + ' km/h';
+
+  let issues = 0;
+
+  if(temp >= settingsState.tempLimit){
+    setHealthState('healthEngineState','High Temperature','danger'); issues++;
+  }else if(temp >= settingsState.tempLimit - 5){
+    setHealthState('healthEngineState','Watch','warn'); issues++;
+  }else{
+    setHealthState('healthEngineState','Normal','ok');
+  }
+
+  if(batt < batteryLimit){
+    setHealthState('healthBatteryState','Low Battery','danger'); issues++;
+  }else if(batt < 12.0){
+    setHealthState('healthBatteryState','Watch','warn'); issues++;
+  }else{
+    setHealthState('healthBatteryState','Normal','ok');
+  }
+
+  if(alt < 13.2){
+    setHealthState('healthAltState','Low Charging','warn'); issues++;
+  }else if(alt > 15.0){
+    setHealthState('healthAltState','High Charging','danger'); issues++;
+  }else{
+    setHealthState('healthAltState','Charging','ok');
+  }
+
+  if(fuel <= 10){
+    setHealthState('healthFuelState','Very Low Fuel','danger'); issues++;
+  }else if(fuel <= 20){
+    setHealthState('healthFuelState','Low Fuel','warn'); issues++;
+  }else{
+    setHealthState('healthFuelState','Normal','ok');
+  }
+
+  if(dtc > 0){
+    setHealthState('healthDtcState','Faults Found','danger'); issues++;
+  }else{
+    setHealthState('healthDtcState','No Faults','ok');
+  }
+
+  const overall = document.getElementById('healthOverall');
+  if(issues === 0){
+    overall.textContent = 'GOOD';
+    overall.style.color = '#35f2a1';
+  }else if(issues <= 2){
+    overall.textContent = 'CHECK';
+    overall.style.color = '#ffd35c';
+  }else{
+    overall.textContent = 'ATTENTION';
+    overall.style.color = '#ff6f6f';
+  }
+}
+
+document.getElementById('healthBtn').addEventListener('click',()=>{
+  syncVehicleHealth();
+  vehicleHealthModal.classList.add('open');
+  vehicleHealthModal.setAttribute('aria-hidden','false');
+});
+
+vehicleHealthClose.addEventListener('click',()=>{
+  vehicleHealthModal.classList.remove('open');
+  vehicleHealthModal.setAttribute('aria-hidden','true');
+});
+
+vehicleHealthModal.addEventListener('click',(e)=>{
+  if(e.target === vehicleHealthModal){
+    vehicleHealthModal.classList.remove('open');
+    vehicleHealthModal.setAttribute('aria-hidden','true');
+  }
+});
+
+healthRefreshBtn.addEventListener('click',()=>{
+  syncVehicleHealth();
+  document.getElementById('healthNote').textContent =
+    'تم تحديث ملخص صحة المركبة التجريبي / Demo vehicle health refreshed';
+});
+
 render();
 showLimit();
 syncSettings();
 syncAlerts();
 syncLiveData();
+syncVehicleHealth();
 setInterval(tick,1200);
 
 </script>
