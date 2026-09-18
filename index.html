@@ -142,6 +142,7 @@ button{font:inherit}
   box-shadow:inset 0 0 0 1px rgba(60,150,210,.22);
   padding:.12vw;
 }
+.dtc{left:32.2%;top:82.2%;width:7.0%;height:13%;cursor:pointer}
 .remote{left:49.0%;top:82.2%;width:7.2%;height:13%}
 .lock{left:57.0%;top:82.2%;width:7.0%;height:13%}
 .unlock{left:64.3%;top:82.2%;width:7.0%;height:13%}
@@ -1099,6 +1100,124 @@ button{font:inherit}
   .healthIcon{font-size:1.7vw}
 }
 
+
+/* DTC Codes modal */
+#dtcModal{
+  position:fixed;
+  z-index:10005;
+  inset:0;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  padding:20px;
+  background:rgba(1,8,14,.78);
+  backdrop-filter:blur(4px);
+}
+#dtcModal.open{display:flex}
+
+.dtc-card{
+  width:62%;
+  max-width:960px;
+  min-width:540px;
+  background:linear-gradient(180deg,rgba(7,26,40,.99),rgba(3,14,23,.99));
+  border:1px solid #1ca9ef;
+  border-radius:1.2vw;
+  box-shadow:0 0 30px rgba(0,153,255,.25), inset 0 0 25px rgba(0,100,170,.10);
+  color:#eef8ff;
+  padding:1.3vw 1.5vw 1.4vw;
+  direction:rtl;
+}
+.dtc-head{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:1vw;
+  padding-bottom:.9vw;
+  border-bottom:1px solid rgba(100,190,240,.25);
+}
+.dtc-title{font-size:1.6vw;font-weight:900}
+.dtc-sub{font-size:.9vw;color:#7fdcff;margin-top:.2vw}
+#dtcClose{
+  width:2.5vw;height:2.5vw;border-radius:50%;
+  border:1px solid #35baff;background:#061a28;color:#fff;
+  font-size:1.4vw;font-weight:900;
+}
+.dtc-summary{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:.8vw;
+  margin-top:1vw;
+}
+.dtc-summary-box,
+.dtc-result{
+  background:rgba(6,25,39,.88);
+  border:1px solid rgba(61,160,218,.28);
+  border-radius:.75vw;
+  padding:.9vw 1vw;
+}
+.dtc-label{color:#8fdfff;font-size:.8vw;margin-bottom:.25vw}
+.dtc-value{
+  color:#fff;font-size:1.25vw;font-weight:900;
+  direction:ltr;unicode-bidi:isolate;
+}
+.dtc-ok{color:#35f2a1;font-size:.75vw;margin-top:.3vw;font-weight:800}
+.dtc-result{margin-top:.8vw}
+.dtc-empty{
+  padding:1vw 0;
+  text-align:center;
+  color:#35f2a1;
+  font-size:1.05vw;
+  font-weight:900;
+}
+.dtc-help{
+  margin-top:.45vw;
+  text-align:center;
+  color:#8edfff;
+  font-size:.75vw;
+  line-height:1.4;
+}
+.dtc-actions{
+  display:grid;
+  grid-template-columns:1fr;
+  gap:.7vw;
+  margin-top:1vw;
+}
+.dtc-actions button{
+  border:1px solid #25b6ff;
+  border-radius:.65vw;
+  background:linear-gradient(180deg,#0b4b72,#07314e);
+  color:#fff;
+  padding:.65vw;
+  font-size:1vw;
+  font-weight:900;
+}
+#dtcNote{
+  margin-top:.75vw;
+  color:#8edfff;
+  text-align:center;
+  font-size:.75vw;
+}
+
+@media (orientation:portrait){
+  #dtcModal{padding:18px}
+  .dtc-card{
+    width:92vw;max-width:none;min-width:0;max-height:82vh;overflow:auto;
+    border-radius:18px;padding:18px 16px 16px;
+  }
+  .dtc-title{font-size:24px}
+  .dtc-sub{font-size:13px}
+  #dtcClose{width:42px;height:42px;font-size:24px;flex:0 0 auto}
+  .dtc-summary{grid-template-columns:1fr;gap:10px;margin-top:14px}
+  .dtc-summary-box,.dtc-result{padding:12px 14px;border-radius:12px}
+  .dtc-label{font-size:13px}
+  .dtc-value{font-size:20px}
+  .dtc-ok{font-size:12px}
+  .dtc-empty{font-size:18px;padding:16px 0}
+  .dtc-help{font-size:12px}
+  .dtc-actions button{padding:12px;font-size:15px;border-radius:10px}
+  #dtcNote{font-size:12px;margin-top:10px}
+}
+
 </style>
 </head>
 <body>
@@ -1187,6 +1306,7 @@ button{font:inherit}
           <span class="healthIcon" aria-hidden="true">♡</span>
           <span>Vehicle Health<br><small>صحة المركبة</small></span>
         </button>
+        <button id="dtcBtn" class="hot dtc" aria-label="DTC Codes"></button>
         <button id="remoteBtn" class="hot remote" aria-label="Remote Start"></button>
         <button id="lockBtn" class="hot lock" aria-label="Lock"></button>
         <button id="unlockBtn" class="hot unlock" aria-label="Unlock"></button>
@@ -1629,6 +1749,55 @@ button{font:inherit}
         </div>
       </div>
 
+      
+      <div id="dtcModal" aria-hidden="true">
+        <div class="dtc-card">
+          <div class="dtc-head">
+            <div>
+              <div class="dtc-title">رموز الأعطال / DTC Codes</div>
+              <div class="dtc-sub">Nissan Patrol 2014 — LIVE TEST</div>
+            </div>
+            <button id="dtcClose" aria-label="إغلاق">×</button>
+          </div>
+
+          <div class="dtc-summary">
+            <div class="dtc-summary-box">
+              <div class="dtc-label">عدد الأكواد / Code Count</div>
+              <div id="dtcCount" class="dtc-value">0</div>
+              <div class="dtc-ok">No Faults</div>
+            </div>
+
+            <div class="dtc-summary-box">
+              <div class="dtc-label">لمبة المحرك / Check Engine</div>
+              <div id="dtcMil" class="dtc-value">OFF</div>
+              <div class="dtc-ok">Normal</div>
+            </div>
+
+            <div class="dtc-summary-box">
+              <div class="dtc-label">حالة الفحص / Scan Status</div>
+              <div id="dtcScanState" class="dtc-value">READY</div>
+              <div class="dtc-ok">Live Test</div>
+            </div>
+          </div>
+
+          <div class="dtc-result">
+            <div class="dtc-label">الأكواد المكتشفة / Detected Codes</div>
+            <div id="dtcList" class="dtc-empty">لا توجد رموز أعطال / No DTC codes found</div>
+            <div class="dtc-help">
+              عند توصيل جهاز OBD المعتمد ستظهر هنا الأكواد الحقيقية مثل P0xxx مع وصف كل عطل.
+            </div>
+          </div>
+
+          <div class="dtc-actions">
+            <button id="dtcScanBtn">فحص رموز الأعطال / Scan DTC Codes</button>
+          </div>
+
+          <div id="dtcNote">
+            الفحص الحالي تجريبي ولا يقرأ أو يمسح أعطال السيارة الحقيقية.
+          </div>
+        </div>
+      </div>
+
       <div id="toast" role="status" aria-live="polite"></div>
     </div>
   </div>
@@ -1718,6 +1887,7 @@ function tick(){
   syncSettings();
   syncLiveData();
   syncVehicleHealth();
+  syncDtcCodes();
 }
 
 function toast(message){
@@ -2314,6 +2484,47 @@ healthRefreshBtn.addEventListener('click',()=>{
   syncVehicleHealth();
   document.getElementById('healthNote').textContent =
     'تم تحديث ملخص صحة المركبة التجريبي / Demo vehicle health refreshed';
+});
+
+
+// DTC Codes panel
+const dtcModal = document.getElementById('dtcModal');
+const dtcClose = document.getElementById('dtcClose');
+const dtcScanBtn = document.getElementById('dtcScanBtn');
+
+function syncDtcCodes(){
+  const demoCodes = [];
+  document.getElementById('dtcCount').textContent = String(demoCodes.length);
+  document.getElementById('dtcMil').textContent = demoCodes.length ? 'ON' : 'OFF';
+  document.getElementById('dtcScanState').textContent = 'READY';
+  document.getElementById('dtcList').textContent =
+    demoCodes.length ? demoCodes.join(', ') : 'لا توجد رموز أعطال / No DTC codes found';
+}
+
+document.getElementById('dtcBtn').addEventListener('click',()=>{
+  syncDtcCodes();
+  dtcModal.classList.add('open');
+  dtcModal.setAttribute('aria-hidden','false');
+});
+
+dtcClose.addEventListener('click',()=>{
+  dtcModal.classList.remove('open');
+  dtcModal.setAttribute('aria-hidden','true');
+});
+
+dtcModal.addEventListener('click',(e)=>{
+  if(e.target === dtcModal){
+    dtcModal.classList.remove('open');
+    dtcModal.setAttribute('aria-hidden','true');
+  }
+});
+
+dtcScanBtn.addEventListener('click',()=>{
+  document.getElementById('dtcScanState').textContent = 'SCANNED';
+  syncDtcCodes();
+  document.getElementById('dtcScanState').textContent = 'SCANNED';
+  document.getElementById('dtcNote').textContent =
+    'تم الفحص التجريبي: لا توجد رموز أعطال / Demo scan complete: no DTC codes found';
 });
 
 render();
