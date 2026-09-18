@@ -320,6 +320,99 @@ button{font:inherit}
   #scanDtcBtn{font-size:1.3vw}#scanStatus{font-size:1.05vw}
 }
 
+
+/* Trip & Fuel clickable area */
+#tripFuelHotspot{
+  position:absolute;
+  z-index:40;
+  left:2.0%;
+  top:61.5%;
+  width:14.8%;
+  height:8.8%;
+  border:0;
+  background:transparent;
+  cursor:pointer;
+  touch-action:manipulation;
+  -webkit-tap-highlight-color:transparent;
+}
+
+/* Trip & Fuel modal */
+#tripFuelModal{
+  position:absolute;
+  z-index:66;
+  inset:0;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  background:rgba(1,8,14,.70);
+  backdrop-filter:blur(3px);
+}
+#tripFuelModal.open{display:flex}
+
+.trip-card{
+  width:60%;
+  max-width:920px;
+  min-width:520px;
+  background:linear-gradient(180deg,rgba(7,26,40,.99),rgba(3,14,23,.99));
+  border:1px solid #1ca9ef;
+  border-radius:1.2vw;
+  box-shadow:0 0 30px rgba(0,153,255,.25), inset 0 0 25px rgba(0,100,170,.10);
+  color:#eef8ff;
+  padding:1.3vw 1.5vw 1.4vw;
+  direction:rtl;
+}
+.trip-head{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:1vw;
+  padding-bottom:.9vw;
+  border-bottom:1px solid rgba(100,190,240,.25);
+}
+.trip-title{font-size:1.6vw;font-weight:900}
+.trip-sub{font-size:.9vw;color:#7fdcff;margin-top:.2vw}
+#tripClose{
+  width:2.5vw;height:2.5vw;border-radius:50%;
+  border:1px solid #35baff;background:#061a28;color:#fff;
+  font-size:1.4vw;font-weight:900;
+}
+.trip-grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:.8vw;
+  margin-top:1vw;
+}
+.trip-box{
+  background:rgba(6,25,39,.88);
+  border:1px solid rgba(61,160,218,.28);
+  border-radius:.75vw;
+  padding:.8vw 1vw;
+  min-height:4.8vw;
+}
+.trip-label{color:#8fdfff;font-size:.8vw;margin-bottom:.25vw}
+.trip-value{
+  color:#fff;font-size:1.25vw;font-weight:900;
+  direction:ltr;unicode-bidi:isolate;
+}
+.trip-status{color:#35f2a1;font-size:.75vw;margin-top:.25vw}
+#resetTripBtn{
+  margin-top:1vw;width:100%;
+  border:1px solid #25b6ff;border-radius:.65vw;
+  background:linear-gradient(180deg,#0b4b72,#07314e);
+  color:#fff;padding:.65vw;font-size:1vw;font-weight:900;
+}
+#tripNote{
+  margin-top:.7vw;color:#8edfff;text-align:center;font-size:.75vw;
+}
+@media (max-width:900px){
+  .trip-card{width:88%;min-width:0}
+  .trip-title{font-size:2.2vw}.trip-sub{font-size:1.3vw}
+  #tripClose{width:4vw;height:4vw;font-size:2.2vw}
+  .trip-label{font-size:1.15vw}.trip-value{font-size:1.8vw}
+  .trip-status{font-size:1.05vw}
+  #resetTripBtn{font-size:1.3vw}#tripNote{font-size:1.05vw}
+}
+
 </style>
 </head>
 <body>
@@ -497,6 +590,62 @@ button{font:inherit}
         </div>
       </div>
 
+      
+      <button id="tripFuelHotspot" aria-label="الرحلات والوقود"></button>
+
+      <div id="tripFuelModal" aria-hidden="true">
+        <div class="trip-card">
+          <div class="trip-head">
+            <div>
+              <div class="trip-title">الرحلات والوقود / Trip & Fuel</div>
+              <div class="trip-sub">Nissan Patrol 2014 — LIVE TEST</div>
+            </div>
+            <button id="tripClose" aria-label="إغلاق">×</button>
+          </div>
+
+          <div class="trip-grid">
+            <div class="trip-box">
+              <div class="trip-label">مسافة الرحلة / Trip Distance</div>
+              <div id="tripDistance" class="trip-value">12.4 km</div>
+              <div class="trip-status">Demo trip</div>
+            </div>
+
+            <div class="trip-box">
+              <div class="trip-label">مدة الرحلة / Trip Time</div>
+              <div id="tripTime" class="trip-value">00:18:24</div>
+              <div class="trip-status">Live Test</div>
+            </div>
+
+            <div class="trip-box">
+              <div class="trip-label">استهلاك الوقود / Avg. Consumption</div>
+              <div id="tripConsumption" class="trip-value">16.8 L/100 km</div>
+              <div class="trip-status">Demo estimate</div>
+            </div>
+
+            <div class="trip-box">
+              <div class="trip-label">المدى المتبقي / Remaining Range</div>
+              <div id="tripRange" class="trip-value">620 km</div>
+              <div class="trip-status">Estimated</div>
+            </div>
+
+            <div class="trip-box">
+              <div class="trip-label">مستوى الوقود / Fuel Level</div>
+              <div id="tripFuelLevel" class="trip-value">58%</div>
+              <div class="trip-status">Live Test</div>
+            </div>
+
+            <div class="trip-box">
+              <div class="trip-label">السرعة الحالية / Current Speed</div>
+              <div id="tripSpeed" class="trip-value">0 km/h</div>
+              <div class="trip-status">Live Test</div>
+            </div>
+          </div>
+
+          <button id="resetTripBtn">إعادة ضبط الرحلة / Reset Trip</button>
+          <div id="tripNote">البيانات الحالية تجريبية حتى يتم توصيل جهاز OBD المعتمد.</div>
+        </div>
+      </div>
+
       <div id="toast" role="status" aria-live="polite"></div>
     </div>
   </div>
@@ -514,6 +663,12 @@ let state = {
   batt: 12.8,
   alt: 14.2,
   fuel: 58
+};
+
+let tripState = {
+  distanceKm: 12.4,
+  seconds: 1104,
+  avgConsumption: 16.8
 };
 
 const $ = id => document.getElementById(id);
@@ -549,9 +704,15 @@ function tick(){
   state.batt = clamp(state.batt + (Math.random()-.5)*.25,12.2,13.0);
   state.alt = clamp(state.alt + (Math.random()-.5)*.28,13.7,14.7);
   state.fuel = clamp(state.fuel + Math.round((Math.random()-.5)*2),5,100);
+
+  // Demo trip progression: 1.2 seconds per simulation tick.
+  tripState.seconds += 1.2;
+  tripState.distanceKm += state.speed * (1.2 / 3600);
+
   render();
   syncVehicleInfo();
   syncDiagnostics();
+  syncTripFuel();
 }
 
 function toast(message){
@@ -673,6 +834,57 @@ diagnosticsModal.addEventListener('click',(e)=>{
 scanDtcBtn.addEventListener('click',()=>{
   scanStatus.textContent='فحص تجريبي: لا توجد أعطال / Demo scan: No faults found';
   document.getElementById('diagDtc').textContent='0';
+});
+
+
+// Trip & Fuel panel
+const tripFuelHotspot = document.getElementById('tripFuelHotspot');
+const tripFuelModal = document.getElementById('tripFuelModal');
+const tripClose = document.getElementById('tripClose');
+const resetTripBtn = document.getElementById('resetTripBtn');
+
+function formatTripTime(totalSeconds){
+  totalSeconds = Math.max(0, Math.floor(totalSeconds));
+  const h = String(Math.floor(totalSeconds / 3600)).padStart(2,'0');
+  const m = String(Math.floor((totalSeconds % 3600) / 60)).padStart(2,'0');
+  const s = String(totalSeconds % 60).padStart(2,'0');
+  return `${h}:${m}:${s}`;
+}
+
+function syncTripFuel(){
+  const rangeKm = Math.max(0, Math.round(state.fuel * 10.7));
+  document.getElementById('tripDistance').textContent = tripState.distanceKm.toFixed(1) + ' km';
+  document.getElementById('tripTime').textContent = formatTripTime(tripState.seconds);
+  document.getElementById('tripConsumption').textContent = tripState.avgConsumption.toFixed(1) + ' L/100 km';
+  document.getElementById('tripRange').textContent = rangeKm + ' km';
+  document.getElementById('tripFuelLevel').textContent = Math.round(state.fuel) + '%';
+  document.getElementById('tripSpeed').textContent = Math.round(state.speed) + ' km/h';
+}
+
+tripFuelHotspot.addEventListener('click',()=>{
+  syncTripFuel();
+  tripFuelModal.classList.add('open');
+  tripFuelModal.setAttribute('aria-hidden','false');
+});
+
+tripClose.addEventListener('click',()=>{
+  tripFuelModal.classList.remove('open');
+  tripFuelModal.setAttribute('aria-hidden','true');
+});
+
+tripFuelModal.addEventListener('click',(e)=>{
+  if(e.target === tripFuelModal){
+    tripFuelModal.classList.remove('open');
+    tripFuelModal.setAttribute('aria-hidden','true');
+  }
+});
+
+resetTripBtn.addEventListener('click',()=>{
+  tripState.distanceKm = 0;
+  tripState.seconds = 0;
+  syncTripFuel();
+  document.getElementById('tripNote').textContent =
+    'تمت إعادة ضبط الرحلة التجريبية / Demo trip reset';
 });
 
 render();
