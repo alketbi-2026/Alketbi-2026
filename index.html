@@ -2006,6 +2006,33 @@ button{font:inherit}
   }
 }
 
+
+/* Final cleanup: hide the old baked-in "Select Vehicle" title */
+#oldVehicleTitleMask{
+  position:absolute;
+  z-index:23;
+  left:17.0%;
+  top:11.7%;
+  width:23.5%;
+  height:3.2%;
+  background:linear-gradient(180deg,rgba(4,21,35,.99),rgba(3,16,27,.99));
+  border-radius:.25vw;
+  pointer-events:none;
+}
+
+/* Slightly cleaner temperature bar alignment */
+#outsideTempBar{
+  top:13.35%;
+  height:9.25%;
+  padding:.62vw 1.05vw;
+}
+
+/* Slightly cleaner map alignment */
+#mainMapStage{
+  top:23.9%;
+  height:38.3%;
+}
+
 </style>
 </head>
 <body>
@@ -2100,6 +2127,8 @@ button{font:inherit}
         <div id="selectedVehicleDemoNote" class="selected-demo-note">LIVE TEST</div>
       </div>
 
+
+      <div id="oldVehicleTitleMask" aria-hidden="true"></div>
 
       <div id="outsideTempBar">
         <button id="outsideTempBtn" aria-label="تحديث درجة الحرارة الخارجية"></button>
