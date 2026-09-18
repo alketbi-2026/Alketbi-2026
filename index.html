@@ -28,8 +28,8 @@ button{font:inherit}
 }
 
 /* ---------- Large gauges ----------
-   Opaque interiors cover the gauges that are painted into dashboard.jpg,
-   so only ONE moving gauge is visible. */
+   The old painted gauges are covered by opaque live panels.
+   These SVG paths are the ONLY moving indicators, so there is no shaded wedge. */
 .large-live{
   position:absolute;z-index:5;
   background:radial-gradient(circle at 50% 42%,#0b293c 0%,#061a28 52%,#03131d 100%);
@@ -41,25 +41,25 @@ button{font:inherit}
 .speed-live{left:64.6%;top:32.3%;width:18.2%;height:19.9%}
 
 .large-arc{
-  position:absolute;left:8%;top:10%;width:84%;height:66%;
-  border-radius:50% 50% 0 0/100% 100% 0 0;
-  overflow:hidden;
+  position:absolute;left:7%;top:9%;width:86%;height:64%;
 }
-.large-arc::before,.large-arc span{
-  content:"";position:absolute;inset:0;border-radius:50%;
-  border:1.05vw solid #173a5c;border-bottom-color:transparent;
-  transform:rotate(0deg);
+.large-arc svg,.mini-arc svg{
+  width:100%;height:100%;display:block;overflow:visible;
 }
-.large-arc span{
-  border-color:#25e8aa;border-bottom-color:transparent;
-  clip-path:polygon(0 0,50% 0,50% 100%,0 100%);
-  transition:transform .7s ease;
-  filter:drop-shadow(0 0 5px #25e8aa);
+.arc-track,.arc-fill{
+  fill:none;
+  stroke-linecap:round;
 }
-.speed-live .large-arc span{
-  border-color:#3bcaff;border-bottom-color:transparent;
-  filter:drop-shadow(0 0 5px #3bcaff);
+.large-arc .arc-track{stroke:#173a5c;stroke-width:14}
+.large-arc .arc-fill{
+  stroke-width:14;
+  stroke-dasharray:100;
+  stroke-dashoffset:100;
+  transition:stroke-dashoffset .7s ease;
 }
+.rpm-live .arc-fill{stroke:#25e8aa;filter:drop-shadow(0 0 5px #25e8aa)}
+.speed-live .arc-fill{stroke:#3bcaff;filter:drop-shadow(0 0 5px #3bcaff)}
+
 .large-value{
   position:absolute;left:12%;right:12%;top:47%;
   text-align:center;color:#fff;font-weight:900;font-size:4.1vw;line-height:1;
@@ -85,22 +85,20 @@ button{font:inherit}
 .fuel-live{left:48.55%;top:59.2%;width:10.1%}
 
 .mini-arc{
-  position:absolute;left:14%;top:7%;width:72%;height:64%;
-  border-radius:50% 50% 0 0/100% 100% 0 0;overflow:hidden;
+  position:absolute;left:12%;top:4%;width:76%;height:62%;
 }
-.mini-arc::before,.mini-arc span{
-  content:"";position:absolute;inset:0;border-radius:50%;
-  border:.68vw solid #183b5e;border-bottom-color:transparent;
+.mini-arc .arc-track{stroke:#183b5e;stroke-width:13}
+.mini-arc .arc-fill{
+  stroke-width:13;
+  stroke-dasharray:100;
+  stroke-dashoffset:100;
+  transition:stroke-dashoffset .7s ease;
 }
-.mini-arc span{
-  border-color:#24e9a6;border-bottom-color:transparent;
-  clip-path:polygon(0 0,50% 0,50% 100%,0 100%);
-  transition:transform .7s ease;
-  filter:drop-shadow(0 0 4px #24e9a6);
+.temp-live .arc-fill,.batt-live .arc-fill,.alt-live .arc-fill{
+  stroke:#24e9a6;filter:drop-shadow(0 0 4px #24e9a6);
 }
-.fuel-arc span{
-  border-color:#42c9ff;border-bottom-color:transparent;
-  filter:drop-shadow(0 0 4px #42c9ff);
+.fuel-live .arc-fill{
+  stroke:#42c9ff;filter:drop-shadow(0 0 4px #42c9ff);
 }
 .mini-value{
   position:absolute;left:7%;right:7%;top:62%;
@@ -164,35 +162,65 @@ button{font:inherit}
 
       <!-- Large clean live gauges: these opaque panels hide the old painted gauges -->
       <section class="large-live rpm-live" aria-label="RPM">
-        <div class="large-arc"><span id="rpmArc"></span></div>
+        <div class="large-arc">
+          <svg viewBox="0 0 180 100" aria-hidden="true">
+            <path class="arc-track" pathLength="100" d="M10 90 A80 80 0 0 1 170 90"/>
+            <path id="rpmArc" class="arc-fill" pathLength="100" d="M10 90 A80 80 0 0 1 170 90"/>
+          </svg>
+        </div>
         <div id="rpmValue" class="large-value">1650</div>
         <div class="large-unit">RPM</div>
       </section>
 
       <section class="large-live speed-live" aria-label="Speed">
-        <div class="large-arc"><span id="speedArc"></span></div>
+        <div class="large-arc">
+          <svg viewBox="0 0 180 100" aria-hidden="true">
+            <path class="arc-track" pathLength="100" d="M10 90 A80 80 0 0 1 170 90"/>
+            <path id="speedArc" class="arc-fill" pathLength="100" d="M10 90 A80 80 0 0 1 170 90"/>
+          </svg>
+        </div>
         <div id="speedValue" class="large-value">72</div>
         <div class="large-unit">km/h</div>
       </section>
 
       <!-- Small clean live gauges -->
       <section class="small-live temp-live">
-        <div class="mini-arc"><span id="tempArc"></span></div>
+        <div class="mini-arc">
+          <svg viewBox="0 0 180 100" aria-hidden="true">
+            <path class="arc-track" pathLength="100" d="M10 90 A80 80 0 0 1 170 90"/>
+            <path id="tempArc" class="arc-fill" pathLength="100" d="M10 90 A80 80 0 0 1 170 90"/>
+          </svg>
+        </div>
         <div id="tempValue" class="mini-value">87°C</div>
       </section>
 
       <section class="small-live batt-live">
-        <div class="mini-arc"><span id="battArc"></span></div>
+        <div class="mini-arc">
+          <svg viewBox="0 0 180 100" aria-hidden="true">
+            <path class="arc-track" pathLength="100" d="M10 90 A80 80 0 0 1 170 90"/>
+            <path id="battArc" class="arc-fill" pathLength="100" d="M10 90 A80 80 0 0 1 170 90"/>
+          </svg>
+        </div>
         <div id="battValue" class="mini-value">12.7 V</div>
       </section>
 
       <section class="small-live alt-live">
-        <div class="mini-arc"><span id="altArc"></span></div>
+        <div class="mini-arc">
+          <svg viewBox="0 0 180 100" aria-hidden="true">
+            <path class="arc-track" pathLength="100" d="M10 90 A80 80 0 0 1 170 90"/>
+            <path id="altArc" class="arc-fill" pathLength="100" d="M10 90 A80 80 0 0 1 170 90"/>
+          </svg>
+        </div>
         <div id="altValue" class="mini-value">14.2 V</div>
       </section>
 
       <section class="small-live fuel-live">
-        <div class="mini-arc fuel-arc"><span id="fuelArc"></span></div>
+        <div class="mini-arc fuel-arc">
+          <svg viewBox="0 0 180 100" aria-hidden="true">
+            <path class="arc-track" pathLength="100" d="M10 90 A80 80 0 0 1 170 90"/>
+            <path id="fuelArc" class="arc-fill" pathLength="100" d="M10 90 A80 80 0 0 1 170 90"/>
+          </svg>
+        </div>
         <div id="fuelValue" class="mini-value">64%</div>
       </section>
 
@@ -245,10 +273,8 @@ const $ = id => document.getElementById(id);
 function clamp(v,min,max){ return Math.max(min,Math.min(max,v)); }
 
 function setArc(id,fraction){
-  // Rotates the visible half-ring. 0..1 gives a clear moving effect.
   fraction = clamp(fraction,0,1);
-  const deg = -88 + fraction * 176;
-  $(id).style.transform = `rotate(${deg}deg)`;
+  $(id).style.strokeDashoffset = (100 * (1 - fraction)).toFixed(1);
 }
 
 function render(){
