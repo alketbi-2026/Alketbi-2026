@@ -121,7 +121,25 @@ button{font:inherit}
 /* Invisible bottom controls. Real vehicle-control buttons remain DEMO ONLY. */
 .hot{position:absolute;z-index:8;border:0;background:transparent}
 .live{left:16.6%;top:82.2%;width:7.0%;height:13%}
-.health{left:24.4%;top:82.2%;width:7.2%;height:13%}
+.health{
+  left:24.4%;
+  top:83.0%;
+  width:8.2%;
+  height:10.5%;
+  border:1px solid #19b8ff !important;
+  border-radius:.55vw;
+  background:linear-gradient(180deg,rgba(9,83,126,.96),rgba(4,39,63,.98)) !important;
+  color:#fff;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  font-size:.66vw;
+  line-height:1.15;
+  font-weight:900;
+  box-shadow:0 0 12px rgba(0,174,255,.45);
+  padding:.2vw;
+}
 .remote{left:49.0%;top:82.2%;width:7.2%;height:13%}
 .lock{left:57.0%;top:82.2%;width:7.0%;height:13%}
 .unlock{left:64.3%;top:82.2%;width:7.0%;height:13%}
@@ -1064,6 +1082,11 @@ button{font:inherit}
   #healthNote{font-size:12px;margin-top:10px}
 }
 
+.health small{font-size:.58vw;color:#bdeaff;font-weight:800}
+@media (orientation:portrait){
+  .health{font-size:.72vw}
+  .health small{font-size:.62vw}
+}
 </style>
 </head>
 <body>
@@ -1148,7 +1171,9 @@ button{font:inherit}
 
       <div class="control-hotspots">
         <button id="liveBtn" class="hot live" aria-label="Live Data"></button>
-        <button id="healthBtn" class="hot health" aria-label="Vehicle Health"></button>
+        <button id="healthBtn" class="hot health" aria-label="Vehicle Health">
+          <span>Vehicle Health<br><small>صحة المركبة</small></span>
+        </button>
         <button id="remoteBtn" class="hot remote" aria-label="Remote Start"></button>
         <button id="lockBtn" class="hot lock" aria-label="Lock"></button>
         <button id="unlockBtn" class="hot unlock" aria-label="Unlock"></button>
