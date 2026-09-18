@@ -338,14 +338,15 @@ button{font:inherit}
 
 /* Trip & Fuel modal */
 #tripFuelModal{
-  position:absolute;
-  z-index:66;
+  position:fixed;
+  z-index:9999;
   inset:0;
   display:none;
   align-items:center;
   justify-content:center;
-  background:rgba(1,8,14,.70);
-  backdrop-filter:blur(3px);
+  padding:20px;
+  background:rgba(1,8,14,.78);
+  backdrop-filter:blur(4px);
 }
 #tripFuelModal.open{display:flex}
 
@@ -411,6 +412,62 @@ button{font:inherit}
   .trip-label{font-size:1.15vw}.trip-value{font-size:1.8vw}
   .trip-status{font-size:1.05vw}
   #resetTripBtn{font-size:1.3vw}#tripNote{font-size:1.05vw}
+}
+
+
+@media (orientation:portrait){
+  #tripFuelModal{
+    align-items:center;
+    justify-content:center;
+    padding:18px;
+  }
+
+  .trip-card{
+    width:92vw;
+    max-width:none;
+    min-width:0;
+    max-height:82vh;
+    overflow:auto;
+    border-radius:18px;
+    padding:18px 16px 16px;
+  }
+
+  .trip-title{font-size:24px}
+  .trip-sub{font-size:13px}
+
+  #tripClose{
+    width:42px;
+    height:42px;
+    font-size:24px;
+    flex:0 0 auto;
+  }
+
+  .trip-grid{
+    gap:10px;
+    margin-top:14px;
+  }
+
+  .trip-box{
+    min-height:92px;
+    padding:12px 14px;
+    border-radius:12px;
+  }
+
+  .trip-label{font-size:13px}
+  .trip-value{font-size:20px}
+  .trip-status{font-size:12px}
+
+  #resetTripBtn{
+    margin-top:14px;
+    padding:12px;
+    border-radius:10px;
+    font-size:16px;
+  }
+
+  #tripNote{
+    margin-top:10px;
+    font-size:12px;
+  }
 }
 
 </style>
