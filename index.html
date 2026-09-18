@@ -54,16 +54,16 @@ html,body{margin:0;width:100%;height:100%;background:#02070c;overflow:hidden;fon
 </div>
 
 <script>
-let r=1750, s=70, temp=92, batt=12.6, alt=14.2, fuel=60;
+let r=1750, s=70, temp=91, batt=12.5, alt=14.1, fuel=61;
 
 setInterval(()=>{
   r=Math.max(700,Math.min(4200,r+Math.round((Math.random()-.5)*90)));
   s=Math.max(0,Math.min(140,s+Math.round((Math.random()-.5)*3)));
 
-  temp=Math.max(86,Math.min(98,temp+(Math.random()-.5)*0.6));
-  batt=Math.max(12.2,Math.min(12.9,batt+(Math.random()-.5)*0.08));
-  alt=Math.max(13.8,Math.min(14.6,alt+(Math.random()-.5)*0.08));
-  fuel=Math.max(5,Math.min(100,fuel-(Math.random()*0.03)));
+  temp=Math.max(86,Math.min(98,temp+(Math.random()-.5)*2.4));
+  batt=Math.max(12.2,Math.min(12.9,batt+(Math.random()-.5)*0.35));
+  alt=Math.max(13.8,Math.min(14.6,alt+(Math.random()-.5)*0.35));
+  fuel=Math.max(5,Math.min(100,fuel+Math.round((Math.random()-.5)*3)));
 
   document.getElementById('rpm').textContent=Math.round(r);
   document.getElementById('speed').textContent=Math.round(s);
