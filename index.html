@@ -1778,6 +1778,94 @@ button{font:inherit}
   filter:drop-shadow(0 10px 12px rgba(0,0,0,.55));
 }
 
+
+/* Toyota model selector */
+#toyotaModal{
+  position:fixed;
+  z-index:10040;
+  inset:0;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  padding:18px;
+  background:rgba(1,8,14,.88);
+  backdrop-filter:blur(5px);
+}
+#toyotaModal.open{display:flex}
+.toyota-card{
+  width:72%;
+  max-width:1120px;
+  min-width:640px;
+  max-height:84vh;
+  overflow:auto;
+  background:
+    linear-gradient(180deg,rgba(7,26,40,.995),rgba(3,14,23,.995));
+  border:1px solid #1ca9ef;
+  border-radius:18px;
+  box-shadow:0 0 34px rgba(0,153,255,.28);
+  color:#eef8ff;
+  padding:18px;
+  direction:rtl;
+}
+.toyota-head{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:14px;
+  padding-bottom:12px;
+  border-bottom:1px solid rgba(100,190,240,.25);
+}
+.toyota-title{font-size:27px;font-weight:900}
+.toyota-sub{font-size:13px;color:#7fdcff;margin-top:4px}
+#toyotaClose{
+  width:42px;height:42px;border-radius:50%;
+  border:1px solid #35baff;background:#061a28;color:#fff;
+  font-size:24px;font-weight:900;flex:0 0 auto;
+}
+.toyota-grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:10px;
+  margin-top:14px;
+}
+.toyota-model{
+  border:1px solid rgba(61,160,218,.36);
+  border-radius:12px;
+  background:linear-gradient(180deg,rgba(7,31,49,.96),rgba(4,20,33,.98));
+  color:#fff;
+  padding:13px 12px;
+  min-height:72px;
+  text-align:right;
+  box-shadow:inset 0 0 12px rgba(0,110,185,.06);
+}
+.toyota-model strong{display:block;font-size:15px}
+.toyota-model span{display:block;color:#8fdfff;font-size:11px;margin-top:5px}
+.toyota-model.active{
+  border-color:#20baff;
+  box-shadow:0 0 16px rgba(0,174,255,.38), inset 0 0 16px rgba(0,145,255,.16);
+  background:linear-gradient(180deg,rgba(8,75,118,.98),rgba(5,38,62,.99));
+}
+#toyotaNote{
+  margin-top:12px;
+  padding:10px 12px;
+  border:1px solid rgba(61,160,218,.20);
+  border-radius:10px;
+  color:#9edfff;
+  text-align:center;
+  font-size:12px;
+  line-height:1.5;
+}
+@media (orientation:portrait){
+  #toyotaModal{padding:14px}
+  .toyota-card{width:93vw;min-width:0;max-height:82vh;padding:15px}
+  .toyota-title{font-size:22px}
+  .toyota-sub{font-size:12px}
+  .toyota-grid{grid-template-columns:repeat(2,1fr);gap:9px}
+  .toyota-model{min-height:68px;padding:10px}
+  .toyota-model strong{font-size:14px}
+  .toyota-model span{font-size:10px}
+}
+
 </style>
 </head>
 <body>
@@ -2580,6 +2668,60 @@ button{font:inherit}
         </div>
       </div>
 
+      
+      <div id="toyotaModal" aria-hidden="true">
+        <div class="toyota-card">
+          <div class="toyota-head">
+            <div>
+              <div class="toyota-title">Toyota / تويوتا</div>
+              <div class="toyota-sub">اختر الموديل / Select Model</div>
+            </div>
+            <button id="toyotaClose" aria-label="إغلاق">×</button>
+          </div>
+
+          <div class="toyota-grid">
+            <button class="toyota-model active" data-model="Land Cruiser 2014" data-engine="5.7L V8"><strong>Land Cruiser</strong><span>لاند كروزر</span></button>
+            <button class="toyota-model" data-model="Land Cruiser Prado" data-engine="Select year / اختر السنة"><strong>Land Cruiser Prado</strong><span>برادو</span></button>
+            <button class="toyota-model" data-model="Fortuner" data-engine="Select year / اختر السنة"><strong>Fortuner</strong><span>فورتشنر</span></button>
+            <button class="toyota-model" data-model="Hilux" data-engine="Select year / اختر السنة"><strong>Hilux</strong><span>هايلكس</span></button>
+
+            <button class="toyota-model" data-model="Camry" data-engine="Select year / اختر السنة"><strong>Camry</strong><span>كامري</span></button>
+            <button class="toyota-model" data-model="Corolla" data-engine="Select year / اختر السنة"><strong>Corolla</strong><span>كورولا</span></button>
+            <button class="toyota-model" data-model="Yaris" data-engine="Select year / اختر السنة"><strong>Yaris</strong><span>يارس</span></button>
+            <button class="toyota-model" data-model="Crown" data-engine="Select year / اختر السنة"><strong>Crown</strong><span>كراون</span></button>
+
+            <button class="toyota-model" data-model="RAV4" data-engine="Select year / اختر السنة"><strong>RAV4</strong><span>راف فور</span></button>
+            <button class="toyota-model" data-model="Corolla Cross" data-engine="Select year / اختر السنة"><strong>Corolla Cross</strong><span>كورولا كروس</span></button>
+            <button class="toyota-model" data-model="Highlander" data-engine="Select year / اختر السنة"><strong>Highlander</strong><span>هايلاندر</span></button>
+            <button class="toyota-model" data-model="Urban Cruiser" data-engine="Select year / اختر السنة"><strong>Urban Cruiser</strong><span>أوربان كروزر</span></button>
+
+            <button class="toyota-model" data-model="Raize" data-engine="Select year / اختر السنة"><strong>Raize</strong><span>رايز</span></button>
+            <button class="toyota-model" data-model="Rush" data-engine="Select year / اختر السنة"><strong>Rush</strong><span>راش</span></button>
+            <button class="toyota-model" data-model="Innova" data-engine="Select year / اختر السنة"><strong>Innova</strong><span>إنوفا</span></button>
+            <button class="toyota-model" data-model="Sienna" data-engine="Select year / اختر السنة"><strong>Sienna</strong><span>سيينا</span></button>
+
+            <button class="toyota-model" data-model="Hiace" data-engine="Select year / اختر السنة"><strong>Hiace</strong><span>هايس</span></button>
+            <button class="toyota-model" data-model="Coaster" data-engine="Select year / اختر السنة"><strong>Coaster</strong><span>كوستر</span></button>
+            <button class="toyota-model" data-model="Tundra" data-engine="Select year / اختر السنة"><strong>Tundra</strong><span>تندرا</span></button>
+            <button class="toyota-model" data-model="Tacoma" data-engine="Select year / اختر السنة"><strong>Tacoma</strong><span>تاكوما</span></button>
+
+            <button class="toyota-model" data-model="Sequoia" data-engine="Select year / اختر السنة"><strong>Sequoia</strong><span>سيكويا</span></button>
+            <button class="toyota-model" data-model="GR Supra" data-engine="Select year / اختر السنة"><strong>GR Supra</strong><span>سوبرا</span></button>
+            <button class="toyota-model" data-model="GR86" data-engine="Select year / اختر السنة"><strong>GR86</strong><span>جي آر 86</span></button>
+            <button class="toyota-model" data-model="Prius" data-engine="Select year / اختر السنة"><strong>Prius</strong><span>بريوس</span></button>
+
+            <button class="toyota-model" data-model="bZ4X" data-engine="Electric / كهربائي"><strong>bZ4X</strong><span>كهربائي</span></button>
+            <button class="toyota-model" data-model="Alphard" data-engine="Select year / اختر السنة"><strong>Alphard</strong><span>ألفارد</span></button>
+            <button class="toyota-model" data-model="Vellfire" data-engine="Select year / اختر السنة"><strong>Vellfire</strong><span>فيلفاير</span></button>
+            <button class="toyota-model" data-model="Century" data-engine="Select year / اختر السنة"><strong>Century</strong><span>سنشري</span></button>
+          </div>
+
+          <div id="toyotaNote">
+            عند الضغط على Toyota تظهر موديلات تويوتا هنا. اختر الموديل، وبعدها يمكننا إضافة سنة الصنع والصورة الخاصة بكل موديل.
+          </div>
+        </div>
+      </div>
+
       <div id="toast" role="status" aria-live="polite"></div>
     </div>
   </div>
@@ -2787,7 +2929,7 @@ function updateVehicleArt(){
 
   stage.style.display = 'flex';
 
-  if(selectedVehicle.brand === 'Toyota'){
+  if(selectedVehicle.brand === 'Toyota' && selectedVehicle.model === 'Toyota Land Cruiser 2014'){
     art.innerHTML = `
       <img
         src="./toyota-land-cruiser-2014.png"
@@ -2889,8 +3031,21 @@ function selectVehicle(brand){
   toast(selectedVehicle.model);
 }
 
+const toyotaModal = document.getElementById('toyotaModal');
+
+function openToyotaModels(){
+  toyotaModal.classList.add('open');
+  toyotaModal.setAttribute('aria-hidden','false');
+}
+
 document.querySelectorAll('.brand-hotspots button').forEach(btn=>{
-  btn.addEventListener('click',()=>selectVehicle(btn.dataset.brand));
+  btn.addEventListener('click',()=>{
+    if(btn.dataset.brand === 'Toyota'){
+      openToyotaModels();
+      return;
+    }
+    selectVehicle(btn.dataset.brand);
+  });
 });
 
 const vehicleSelectModal = document.getElementById('vehicleSelectModal');
@@ -2914,9 +3069,64 @@ vehicleSelectModal.addEventListener('click',(e)=>{
 
 document.querySelectorAll('.vehicle-option').forEach(btn=>{
   btn.addEventListener('click',()=>{
-    selectVehicle(btn.dataset.selectBrand);
     vehicleSelectModal.classList.remove('open');
     vehicleSelectModal.setAttribute('aria-hidden','true');
+
+    if(btn.dataset.selectBrand === 'Toyota'){
+      openToyotaModels();
+      return;
+    }
+
+    selectVehicle(btn.dataset.selectBrand);
+  });
+});
+
+
+document.getElementById('toyotaClose').addEventListener('click',()=>{
+  toyotaModal.classList.remove('open');
+  toyotaModal.setAttribute('aria-hidden','true');
+});
+
+toyotaModal.addEventListener('click',(e)=>{
+  if(e.target === toyotaModal){
+    toyotaModal.classList.remove('open');
+    toyotaModal.setAttribute('aria-hidden','true');
+  }
+});
+
+document.querySelectorAll('.toyota-model').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    document.querySelectorAll('.toyota-model').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+
+    selectedVehicle = {
+      brand:'Toyota',
+      model:'Toyota ' + btn.dataset.model,
+      engine:btn.dataset.engine
+    };
+
+    state.rpm = 750;
+    state.speed = 0;
+    state.temp = 88;
+    state.batt = 12.8;
+    state.alt = 14.2;
+    state.fuel = 58;
+
+    updateVehicleText();
+    render();
+    syncVehicleInfo();
+    syncDiagnostics();
+    syncTripFuel();
+    syncAlerts();
+    syncLiveData();
+    syncVehicleHealth();
+    syncDtcCodes();
+    syncMapPanel();
+    syncProfile();
+
+    toyotaModal.classList.remove('open');
+    toyotaModal.setAttribute('aria-hidden','true');
+    toast(selectedVehicle.model);
   });
 });
 
@@ -3668,7 +3878,8 @@ function closeAllPanels(){
     'mapModal',
     'profileModal',
     'supportModal',
-    'vehicleSelectModal'
+    'vehicleSelectModal',
+    'toyotaModal'
   ].forEach((id)=>{
     const el = document.getElementById(id);
     if(el){
