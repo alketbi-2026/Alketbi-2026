@@ -1420,13 +1420,22 @@ button{font:inherit}
   .profile-title{font-size:24px}
   .profile-sub{font-size:13px}
   #profileClose{width:42px;height:42px;font-size:24px;flex:0 0 auto}
-  .profile-grid{grid-template-columns:1fr;gap:10px;margin-top:14px}
-  .profile-box{min-height:90px;padding:12px 14px;border-radius:12px}
-  .profile-label{font-size:13px}
-  .profile-value{font-size:20px}
-  .profile-state{font-size:12px}
-  #profileRefreshBtn{padding:12px;font-size:15px;border-radius:10px}
-  #profileNote{font-size:12px;margin-top:10px}
+  .profile-grid{grid-template-columns:repeat(2,1fr);gap:9px;margin-top:12px}
+  .profile-box{min-height:72px;padding:9px 11px;border-radius:11px}
+  .profile-label{font-size:12px}
+  .profile-value{font-size:18px}
+  .profile-state{font-size:11px}
+  #profileRefreshBtn{padding:10px;font-size:14px;border-radius:10px;margin-top:11px}
+  #profileNote{font-size:11px;margin-top:8px}
+}
+
+
+#profileBatteryLimit,
+#profileTempLimit,
+#profileBrightness{
+  direction:ltr;
+  unicode-bidi:isolate;
+  display:inline-block;
 }
 
 </style>
