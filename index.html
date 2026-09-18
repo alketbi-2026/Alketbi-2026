@@ -31,6 +31,29 @@ html,body{margin:0;width:100%;height:100%;background:#02070c;overflow:hidden;fon
 #alternator{left:40.3%;top:63.0%;width:6.9%}
 #fuel{left:50.8%;top:63.0%;width:6.6%}
 
+
+.gaugeArc{
+  position:absolute;z-index:4;width:8.4%;height:7.4%;
+  pointer-events:none;
+}
+.gaugeArc svg{width:100%;height:100%;overflow:visible}
+.gaugeArc .track{
+  fill:none;stroke:rgba(40,90,130,.18);stroke-width:8;stroke-linecap:round;
+}
+.gaugeArc .fill{
+  fill:none;stroke-width:8;stroke-linecap:round;
+  stroke-dasharray:126;stroke-dashoffset:40;
+  transition:stroke-dashoffset .8s ease;
+  filter:drop-shadow(0 0 5px currentColor);
+}
+#arcTemp{left:20.35%;top:55.2%}
+#arcBatt{left:29.85%;top:55.2%}
+#arcAlt{left:40.35%;top:55.2%}
+#arcFuel{left:50.9%;top:55.2%}
+#arcTemp .fill,#arcAlt .fill{stroke:#20f0a0;color:#20f0a0}
+#arcBatt .fill{stroke:#3fe1ff;color:#3fe1ff}
+#arcFuel .fill{stroke:#43bfff;color:#43bfff}
+
 .badge{position:absolute;right:1.4%;top:1.4%;z-index:4;padding:.35vw .65vw;border:1px solid #1da7ff;border-radius:.55vw;background:rgba(4,16,26,.78);color:#7fd0ff;font-size:.75vw;font-weight:800}
 </style>
 </head>
@@ -49,12 +72,44 @@ html,body{margin:0;width:100%;height:100%;background:#02070c;overflow:hidden;fon
     <div id="alternator" class="gaugeLive">14.2 V</div>
     <div id="fuel" class="gaugeLive">60%</div>
 
+
+    <div id="arcTemp" class="gaugeArc">
+      <svg viewBox="0 0 100 55" aria-hidden="true">
+        <path class="track" d="M10 50 A40 40 0 0 1 90 50"/>
+        <path id="tempFill" class="fill" d="M10 50 A40 40 0 0 1 90 50"/>
+      </svg>
+    </div>
+    <div id="arcBatt" class="gaugeArc">
+      <svg viewBox="0 0 100 55" aria-hidden="true">
+        <path class="track" d="M10 50 A40 40 0 0 1 90 50"/>
+        <path id="battFill" class="fill" d="M10 50 A40 40 0 0 1 90 50"/>
+      </svg>
+    </div>
+    <div id="arcAlt" class="gaugeArc">
+      <svg viewBox="0 0 100 55" aria-hidden="true">
+        <path class="track" d="M10 50 A40 40 0 0 1 90 50"/>
+        <path id="altFill" class="fill" d="M10 50 A40 40 0 0 1 90 50"/>
+      </svg>
+    </div>
+    <div id="arcFuel" class="gaugeArc">
+      <svg viewBox="0 0 100 55" aria-hidden="true">
+        <path class="track" d="M10 50 A40 40 0 0 1 90 50"/>
+        <path id="fuelFill" class="fill" d="M10 50 A40 40 0 0 1 90 50"/>
+      </svg>
+    </div>
+
     <div class="badge">LIVE TEST</div>
   </div>
 </div>
 
 <script>
 let r=1750, s=70, temp=91, batt=12.5, alt=14.1, fuel=61;
+
+
+function setArc(id, fraction){
+  fraction=Math.max(0,Math.min(1,fraction));
+  document.getElementById(id).style.strokeDashoffset=(126*(1-fraction)).toFixed(1);
+}
 
 setInterval(()=>{
   r=Math.max(700,Math.min(4200,r+Math.round((Math.random()-.5)*90)));
