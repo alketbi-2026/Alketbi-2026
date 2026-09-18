@@ -2033,6 +2033,29 @@ button{font:inherit}
   height:38.3%;
 }
 
+
+/* Hide the entire old vehicle-selection row baked into the background image */
+#oldVehicleRowMask{
+  position:absolute;
+  z-index:22;
+  left:16.4%;
+  top:10.9%;
+  width:70.4%;
+  height:13.4%;
+  background:
+    linear-gradient(180deg,
+      rgba(5,24,39,1) 0%,
+      rgba(4,19,31,1) 55%,
+      rgba(3,15,25,1) 100%);
+  border-radius:.7vw;
+  box-shadow:inset 0 0 20px rgba(0,120,190,.06);
+  pointer-events:none;
+}
+
+/* Keep temperature and map above the mask */
+#outsideTempBar{ z-index:25 !important; }
+#mainMapStage{ z-index:24 !important; }
+
 </style>
 </head>
 <body>
@@ -2128,6 +2151,7 @@ button{font:inherit}
       </div>
 
 
+      <div id="oldVehicleRowMask" aria-hidden="true"></div>
       <div id="oldVehicleTitleMask" aria-hidden="true"></div>
 
       <div id="outsideTempBar">
