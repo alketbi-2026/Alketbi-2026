@@ -2284,7 +2284,9 @@ button{font:inherit}
             <path id="speedArc" class="arc-fill" pathLength="100" d="M10 90 A80 80 0 0 1 170 90"/>
           </svg>
         </div>
-        <div id="speedValue" class="large-value">72</div>
+        <div id="speedValue" class="large-value">—</div>
+        <button id="gpsSpeedStart" type="button" style="display:block;margin:.05vw auto 0;padding:.12vw .42vw;border:1px solid #28b7fb;border-radius:.35vw;background:#071e30;color:#e4f7ff;font-size:.62vw;cursor:pointer;position:relative;z-index:30" onclick="startGpsSpeed()">تشغيل سرعة GPS</button>
+        <div id="gpsSpeedStatus" style="text-align:center;font-size:.48vw;color:#9cddff;position:relative;z-index:30">السرعة غير مفعّلة</div>
         <div class="large-unit">km/h</div>
       </section>
 
@@ -3218,16 +3220,55 @@ function setArc(id,fraction){
   $(id).style.strokeDashoffset = (100 * (1 - fraction)).toFixed(1);
 }
 
+// GPS speed is independent of the simulated engine/vehicle readings.
+let gpsSpeedActive = false;
+let gpsSpeedKmh = null;
+let gpsWatchId = null;
+let gpsLastFixAt = 0;
+function gpsSpeedStatus(message){
+  const el = document.getElementById('gpsSpeedStatus');
+  if(el) el.textContent = message;
+}
+function startGpsSpeed(){
+  if(gpsWatchId !== null) return;
+  if(!navigator.geolocation){gpsSpeedStatus('GPS غير مدعوم');return;}
+  gpsSpeedActive = true;
+  gpsSpeedStatus('جارٍ انتظار GPS…');
+  gpsWatchId = navigator.geolocation.watchPosition(pos=>{
+    gpsLastFixAt = Date.now();
+    const v = pos.coords.speed;
+    if(typeof v === 'number' && Number.isFinite(v) && v >= 0){
+      gpsSpeedKmh = Math.min(v * 3.6, 350);
+      gpsSpeedStatus('سرعة GPS • دقة الموقع ±' + Math.round(pos.coords.accuracy || 0) + ' م');
+    }else{
+      gpsSpeedKmh = null;
+      gpsSpeedStatus('GPS متصل • السرعة غير متاحة');
+    }
+    render();
+  }, err=>{
+    gpsSpeedKmh = null;
+    gpsSpeedStatus(err.code === 1 ? 'يرجى السماح بالموقع لتفعيل السرعة' : 'تعذر تحديد السرعة • حاول في مكان مفتوح');
+    render();
+  }, {enableHighAccuracy:true, maximumAge:0, timeout:15000});
+}
+setInterval(()=>{
+  if(gpsSpeedActive && gpsLastFixAt && Date.now()-gpsLastFixAt > 15000){
+    gpsSpeedKmh = null;
+    gpsSpeedStatus('انتظار إشارة GPS جديدة…');
+    render();
+  }
+}, 3000);
+
 function render(){
   $('rpmValue').textContent = Math.round(state.rpm);
-  $('speedValue').textContent = Math.round(state.speed);
+  $('speedValue').textContent = gpsSpeedActive && gpsSpeedKmh !== null ? Math.round(gpsSpeedKmh) : '—';
   $('tempValue').textContent = Math.round(state.temp) + '°C';
   $('battValue').textContent = state.batt.toFixed(1) + ' V';
   $('altValue').textContent = state.alt.toFixed(1) + ' V';
   $('fuelValue').textContent = Math.round(state.fuel) + '%';
 
   setArc('rpmArc', state.rpm / 7000);
-  setArc('speedArc', state.speed / 240);
+  setArc('speedArc', gpsSpeedActive && gpsSpeedKmh !== null ? gpsSpeedKmh / 240 : 0);
   setArc('tempArc', (state.temp - 50) / 80);
   setArc('battArc', (state.batt - 10) / 5);
   setArc('altArc', (state.alt - 10) / 6);
@@ -3237,7 +3278,7 @@ function render(){
 function tick(){
   if(!running) return;
   state.rpm = clamp(state.rpm + Math.round((Math.random()-.5)*120),650,4200);
-  state.speed = clamp(state.speed + Math.round((Math.random()-.5)*5),0,140);
+  state.speed = gpsSpeedActive && gpsSpeedKmh !== null ? gpsSpeedKmh : 0;
   state.temp = clamp(state.temp + (Math.random()-.5)*2.3,82,98);
   state.batt = clamp(state.batt + (Math.random()-.5)*.25,12.2,13.0);
   state.alt = clamp(state.alt + (Math.random()-.5)*.28,13.7,14.7);
