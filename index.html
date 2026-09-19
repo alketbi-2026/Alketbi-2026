@@ -2258,6 +2258,13 @@ button{font:inherit}
   #navTurnTextEn{font-size:.7vw}
 }
 
+
+/* Road-limit placeholder: no speed-limit data provider is connected. */
+#roadLimitPanel{position:absolute;z-index:26;left:83.6%;top:26.0%;width:14.0%;height:26.8%;border:1px solid rgba(46,177,247,.45);border-radius:.7vw;background:linear-gradient(180deg,#09243a,#041626);color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.6vw;text-align:center;box-shadow:inset 0 0 14px rgba(20,132,219,.17);pointer-events:none}
+#roadLimitPanel .road-title{font-size:1.13vw;font-weight:800;line-height:1.15}
+#roadLimitPanel .road-unknown{border:.22vw solid #ff5959;border-radius:50%;width:5.8vw;height:5.8vw;display:flex;align-items:center;justify-content:center;background:#fff;color:#19212b;font-size:1.05vw;font-weight:900;line-height:1.1}
+#roadLimitPanel .road-note{font-size:.72vw;color:#b6d8e9;line-height:1.25;padding:0 .3vw}
+
 </style>
 </head>
 <body>
@@ -2941,8 +2948,8 @@ button{font:inherit}
 
             <div class="map-info-box">
               <div class="map-label">سرعة الطريق / Road Limit</div>
-              <div class="map-value">120 km/h</div>
-              <div class="map-ok">Demo value</div>
+              <div class="map-value">غير متاح</div>
+              <div class="map-ok">بانتظار ربط بيانات حدود السرعة</div>
             </div>
 
             <div class="map-info-box">
@@ -4600,5 +4607,6 @@ syncVehicleHealth();
 setInterval(tick,1200);
 
 </script>
+<div id="roadLimitPanel" aria-label="سرعة الطريق غير متاحة حتى ربط مصدر بيانات موثوق"><div class="road-title">Street Speed<br>سرعة الشارع</div><div class="road-unknown">غير<br>متاح</div><div class="road-note">بانتظار ربط بيانات حدود السرعة<br>اتبع لوحات الطريق</div></div>
 </body>
 </html>
