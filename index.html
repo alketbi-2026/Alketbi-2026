@@ -2057,6 +2057,20 @@ button{font:inherit}
 #mainMapStage{ z-index:24 !important; }
 
 
+/* Cover old vehicle name, car art and captions baked into the dashboard background.
+   The map stays at its current compact size above this opaque cover. */
+#oldVehicleCenterMask{
+  position:absolute;
+  z-index:23;
+  left:36.0%;
+  top:24.3%;
+  width:28.6%;
+  height:34.0%;
+  background:linear-gradient(180deg,#041523 0%,#061b2a 55%,#041522 100%);
+  border-radius:.55vw;
+  pointer-events:none;
+}
+
 /* ===== Navigation-style central map ===== */
 #mainMapStage{
   left:38.4%;
@@ -2356,6 +2370,7 @@ button{font:inherit}
       </div>
 
       
+      <div id="oldVehicleCenterMask" aria-hidden="true"></div>
       <div id="mainMapStage">
         <iframe
           id="mainMapFrame"
